@@ -66,4 +66,5 @@ REQUISITOS:
         *git status                                              ||Esto te muestra los archivos que has modificado
         *git add [nombre del archivo que quieres agregar] ó [.]  ||El punto indica que quiere que todo se agregue a los cambios
         *git commit -m "alguna descripcion"                      ||Entre comillas va una explicacion corta de lo que agregaste
-        *git push origin [tu rama]                               ||Subir cambios
+        *git push origin [tu rama]                               ||Subir cambios.
+        
