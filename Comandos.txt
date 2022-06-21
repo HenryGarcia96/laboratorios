@@ -51,7 +51,7 @@ REQUISITOS:
 
 6. Posdata, el demo de la plantilla quizás no te corra bien (creo que por algo interno o se debe crear 
     un servidor local, así que puedes checar, la demo en línea).
-        https://www.nobleui.com/laravel/template/demo1/
+                https://www.nobleui.com/laravel/template/demo1/
 
 
 7. Para trabajar crearás tu propia rama de desarrollo. Lo siguiente sería asi:
