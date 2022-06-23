@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Caja;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +17,7 @@ class CajaController extends Controller
     public function index()
     {
         // Trae las cajas que haya aperturado el usuario
-        $cajas = Auth::user()->cajas();
+        $cajas = User::where('id', Auth::user()->id)->first()->caja()->get();
 
         echo view('caja.index', ['cajas' => $cajas]);
     }
@@ -39,11 +40,32 @@ class CajaController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $monto = $request->except('_token');
-        $caja = Caja::create(['apertura'=> $monto['monto']]);
+        $monto = request()->validate([
+            'monto'                    => 'required',
+        ],[
+            'monto.required'             => 'Ingresa la cantidad correcta para aperturar caja',
+        ]);
+
+
+        // Esto trae al usuario
+        $usuario = User::where('id', Auth::user()->id)->first();
+        // Trae la clinica en la que esta registrado el usuario
+        $laboratorio = User::where('id', Auth::user()->id)->first()->labs()->first();
+        // Trae la sucursal actual
+        $sucursal = User::where('id', Auth::user()->id)->first()->sucs()->first();
+
+        $caja = Caja::create([
+                                'apertura'  => $monto['monto'],
+                                'estatus'   => 'abierta',
+                            ]);
+                            
+        $lastcaja = Caja::latest('id')->first();
+
+        $lastcaja->laboratorios()->attach($laboratorio->id, 
+                                        ['sucursal_id'=>$sucursal->id, 
+                                        'usuario_id'=>$usuario->id]);
         
-        return redirect()->route('caja.index');
+        return redirect()->route('dashboard');
     }
 
     /**

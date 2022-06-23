@@ -48,8 +48,8 @@
                                         {{ __('Olvidaste tu contraseña?') }}
                                     </a>
                                 @endif
-                                <a href="{{ route('register') }}" class="d-block mt-3 text-muted">¿No estás registrado? Registrese aquí</a>
                             </form>
+                            <a href="{{ route('registro.index') }}" class="d-block mt-3 text-muted">¿No estás registrado? Registrese aquí</a>
                         </div>
                     </div>
                 </div>

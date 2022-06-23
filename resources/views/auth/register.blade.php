@@ -14,9 +14,9 @@
                     <div class="col-md-8 ps-md-0">
                         <div class="auth-form-wrapper px-4 py-5">
                             <a href="#" class="noble-ui-logo d-block mb-2">Stev<span>Lab</span></a>
-                            <h5 class="text-muted fw-normal mb-4">Cree una cuenta gratis</h5>
+                            <h5 class="text-muted fw-normal mb-4">Cree una cuenta gratis (Paso 1)</h5>
                                         
-                            <form class="forms-sample"  method="POST" action="{{ route('register') }}">
+                            <form class="forms-sample"  method="POST" action="{{ route('registro.store') }}">
                             @csrf
                                
                                 <div class="mb-3">

@@ -16,7 +16,14 @@ class Laboratories extends Migration
         Schema::create('laboratories', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('rfc');
+            $table->string('razon_social');
+            $table->string('ciudad');
+            $table->string('estado');
+            $table->string('pais');
+            $table->string('cp');
+            $table->string('email')->nullable();
+            $table->string('telefono');
+            $table->string('rfc')->nullable();
             $table->timestamps();
         });
     }

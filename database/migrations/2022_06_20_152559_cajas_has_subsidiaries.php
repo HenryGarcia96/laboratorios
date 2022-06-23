@@ -18,13 +18,13 @@ class CajasHasSubsidiaries extends Migration
 
             $table->unsignedBigInteger('caja_id');
             $table->unsignedBigInteger('usuario_id')->nullable();
-            $table->unsignedBigInteger('laboratorio_id');
+            $table->unsignedBigInteger('laboratory_id');
             $table->unsignedBigInteger('sucursal_id');
             $table->timestamps();
 
             $table->foreign('caja_id')->references('id')->on('cajas')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('usuario_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('laboratorio_id')->references('id')->on('laboratories')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('laboratory_id')->references('id')->on('laboratories')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('sucursal_id')->references('id')->on('laboratories')->onDelete('restrict')->onUpdate('cascade');
         });
     }

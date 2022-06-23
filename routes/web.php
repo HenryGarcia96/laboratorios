@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,25 +15,25 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
- 
-// Route::get('books',['as'=>'books.index','uses'=>'BOOKController@index']);
- 
-// Route::post('books/create',['as'=>'books.store','uses'=>'BOOKController@store']);
- 
-// Route::get('books/edit/{id}',['as'=>'books.edit','uses'=>'BOOKController@edit']);
- 
-// Route::patch('books/{id}',['as'=>'books.update','uses'=>'BOOKController@update']);
- 
-// Route::delete('books/{id}',['as'=>'books.destroy','uses'=>'BOOKController@destroy']);
- 
-// Route::get('books/{id}',['as'=>'books.view','uses'=>'BOOKController@view']);
-
-
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
 Route::get('/', [IndexController::class, 'index']);
+
+Route::name('registro.')->prefix('registro')->group(function(){
+    Route::get('/index', [RegisterController::class, 'index'])->name('index');
+    Route::post('/store', [RegisterController::class, 'store'])->name('store');
+    Route::get('/regSucursal', [RegisterController::class, 'regSucursal'])->name('regSucursal');
+    Route::post('/regSucursal', [RegisterController::class, 'storeSucursal'])->name('regSucursal');
+    
+});
+
+// Get de los estados y ciudades
+Route::post('/getStates', [RegisterController::class, 'getStates'])->name('getStates');
+Route::post('/getCity', [RegisterController::class, 'getCities'])->name('getCity');
+
 
 Route::middleware([
     'auth:sanctum',
@@ -44,6 +45,9 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
+
     Route::resource('caja', CajaController::class);
+
+
 });
 
