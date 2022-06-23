@@ -65,7 +65,7 @@ class CajaController extends Controller
                                         ['sucursal_id'=>$sucursal->id, 
                                         'usuario_id'=>$usuario->id]);
         
-        return redirect()->route('dashboard');
+        return redirect()->route('caja.index');
     }
 
     /**
