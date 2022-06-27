@@ -90,9 +90,10 @@ class User extends Authenticatable
     public function sucs(){
         return $this->belongsToMany(Subsidiary::class, 'users_has_laboratories', 'usuario_id', 'sucursal_id');
     }
-    // Para que me traiga las  relaciones de caja con usuario
-    // Trae las cajas abiertas por el usuario
+    // Trae las cajas abiertas por el usuario en Vista Cajas
     public function caja(){
         return $this->belongsToMany(Caja::class, 'cajas_has_subsidiaries', 'usuario_id');
     }
+
+    // Para que me traiga las  relaciones de caja con usuario
 }

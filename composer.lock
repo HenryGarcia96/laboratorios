@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "17bc1dc2a4fc8e0dd59b4f4670953008",
+    "content-hash": "da9031e1d177f6843e5ad9cfb12088d5",
     "packages": [
         {
             "name": "amendozaaguiar/laraveles-spanish-for-jetstream",

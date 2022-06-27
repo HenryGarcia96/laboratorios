@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Caja;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,10 +17,43 @@ class CajaController extends Controller
      */
     public function index()
     {
-        // Trae las cajas que haya aperturado el usuario
+        //Verificar sucursal
+        $active = User::where('id', Auth::user()->id)->first()->sucs()->where('estatus', 'activa')->first();
+        // Lista de sucursales que tiene el usuario
+        $sucursales = User::where('id', Auth::user()->id)->first()->sucs()->orderBy('id', 'asc')->get();
+        // Verificar y contar caja del usuario
+        $caja = User::where('id', Auth::user()->id)->first()->caja()->where('estatus', 'abierta')->first();
+        // Trae las cajas que haya aperturado y cerrado el usuario
         $cajas = User::where('id', Auth::user()->id)->first()->caja()->get();
+        if(isset($caja)){
 
-        echo view('caja.index', ['cajas' => $cajas]);
+            // Verifica tiempo de caja
+            $fecha_inicial = $caja->created_at;
+            $fecha_final = $fecha_inicial->diffInDays(Carbon::now());
+
+            // Notifico si paso de 24 horas
+            if($fecha_final == 0){
+                
+                session()->flash('status', 'Caja activa, recuerde que se cierra cada 24 horas, o cuando usted cierre manualmente la caja.');
+            
+            }elseif($fecha_final > 0 ){
+                
+                $new_caja = Caja::where('id', $caja->id)->update(['estatus' => 'cerrada']);
+                session()->flash('status', 'Caja cerrada automáticamente...');
+
+            }
+
+        }else{
+
+            session()->flash('status','Debes aperturar caja antes de empezar a trabajar.' );
+
+        }
+
+        echo view('caja.index', [
+                            'active'=>$active,
+                            'sucursales' => $sucursales, 
+                            'cajas' => $cajas, 
+                        ]);
     }
 
     /**

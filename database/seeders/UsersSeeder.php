@@ -18,7 +18,7 @@ class UsersSeeder extends Seeder
     public function run()
     {
          //Crea usuario
-         User::create([
+        User::create([
             'name' => "Pixel Art",
             'email' => "admin@gmail.com",
             'password' => bcrypt('contraseña')
@@ -39,7 +39,7 @@ class UsersSeeder extends Seeder
 
         // Crea sucursal
         Subsidiary::create([
-            'sucursal'=>'docbook - MATRIZ',
+            'sucursal'=>'docbook - Matriz',
         ]);
 
         //Crea relación entre sucursales y laboratorios 
@@ -55,9 +55,30 @@ class UsersSeeder extends Seeder
                 'usuario_id'        =>'1',
                 'laboratorio_id'    =>'1',
                 'sucursal_id'       =>'1',
+                'estatus'           =>'activa'
 
             ]);
         
-        // Other's Seeders
+        // Otra sucursal para el mismo usuario
+        // Crea sucursal
+        Subsidiary::create([
+            'sucursal'=>'docbook - Centro',
+        ]);
+
+        //Crea relación entre sucursales y laboratorios 
+        DB::table('subsidiaries_has_laboratories')
+            ->insert([
+                'laboratorio_id'    => '1',
+                'sucursal_id'       => '2',
+            ]);
+
+        // Crea relación entre usuarios, sucursales y el laboratorio.
+        DB::table('users_has_laboratories')
+            ->insert([
+                'usuario_id'        =>'1',
+                'laboratorio_id'    =>'1',
+                'sucursal_id'       =>'2',
+                'estatus'           =>'inactiva'
+            ]);
     }
 }

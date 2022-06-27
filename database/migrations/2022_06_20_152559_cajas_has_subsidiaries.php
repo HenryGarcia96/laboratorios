@@ -25,7 +25,7 @@ class CajasHasSubsidiaries extends Migration
             $table->foreign('caja_id')->references('id')->on('cajas')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('usuario_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('laboratory_id')->references('id')->on('laboratories')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('sucursal_id')->references('id')->on('laboratories')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('sucursal_id')->references('id')->on('subsidiaries')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

@@ -1,3 +1,6 @@
+@push('plugin-styles')
+  <link href="{{ asset('assets/plugins/@mdi/css/materialdesignicons.min.css') }}" rel="stylesheet" />
+@endpush
 <nav class="sidebar">
   <div class="sidebar-header">
     <a href="{{route('dashboard')}}" class="sidebar-brand">
@@ -11,7 +14,7 @@
   </div>
   <div class="sidebar-body">
     <ul class="nav">
-      <li class="nav-item nav-category">Main</li>
+      <li class="nav-item nav-category">Menú</li>
       {{-- <li class="nav-item {{ active_class(['/dashboard']) }}"> --}}
       <li class="nav-item ">
         <a href="{{ route('dashboard') }}" class="nav-link">
@@ -25,7 +28,52 @@
           <span class="link-title">Caja</span>
         </a>
       </li>
-      
+      {{-- <li class="nav-item {{ active_class(['advanced-ui/*']) }}"> --}}
+      <li class="nav-item">
+        {{-- <a class="nav-link" data-bs-toggle="collapse" href="#advanced-ui" role="button" aria-expanded="{{ is_active_route(['advanced-ui/*']) }}" aria-controls="advanced-ui"> --}}
+        <a class="nav-link" data-bs-toggle="collapse" href="#advanced-ui" role="button" aria-expanded="" aria-controls="advanced-ui">
+          <i class="link-icon" data-feather="book-open"></i>
+          <span class="link-title">Catálogo</span>
+          <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        {{-- <div class="collapse {{ show_class(['advanced-ui/*']) }}" id="advanced-ui"> --}}
+        <div class="collapse " id="advanced-ui">
+          <ul class="nav sub-menu">
+            <li class="nav-item">
+              {{-- <a href="{{ url('/advanced-ui/cropper') }}" class="nav-link {{ active_class(['advanced-ui/cropper']) }}">Cropper</a> --}}
+              <a href="{{route('catalogo.estudios')}}" class="nav-link">Estudios</a>
+            </li>
+            <li class="nav-item">
+              {{-- <a href="{{ url('/advanced-ui/sortablejs') }}" class="nav-link {{ active_class(['advanced-ui/sortablejs']) }}">SortableJs</a> --}}
+              <a href="#" disabled class="nav-link ">Analitos</a>
+            </li>
+            <li class="nav-item">
+              {{-- <a href="{{ url('/advanced-ui/sweet-alert') }}" class="nav-link {{ active_class(['advanced-ui/sweet-alert']) }}">Sweet Alert</a> --}}
+              <a href="#" disabled class="nav-link">Perfiles</a>
+            </li>
+            <li class="nav-item">
+              {{-- <a href="{{ url('/advanced-ui/owl-carousel') }}" class="nav-link {{ active_class(['advanced-ui/owl-carousel']) }}">Owl Carousel</a> --}}
+              <a href="{{route('catalogo.areas')}}" class="nav-link ">Áreas</a>
+            </li>
+            <li class="nav-item">
+              {{-- <a href="{{ url('/advanced-ui/sortablejs') }}" class="nav-link {{ active_class(['advanced-ui/sortablejs']) }}">SortableJs</a> --}}
+              <a href="{{route('catalogo.metodos')}}" class="nav-link ">Métodos</a>
+            </li>
+            <li class="nav-item">
+              {{-- <a href="{{ url('/advanced-ui/sweet-alert') }}" class="nav-link {{ active_class(['advanced-ui/sweet-alert']) }}">Sweet Alert</a> --}}
+              <a href="{{route('catalogo.recipientes')}}" class="nav-link">Recipientes</a>
+            </li>
+            <li class="nav-item">
+              {{-- <a href="{{ url('/advanced-ui/sweet-alert') }}" class="nav-link {{ active_class(['advanced-ui/sweet-alert']) }}">Sweet Alert</a> --}}
+              <a href="{{route('catalogo.muestras')}}" class="nav-link">Muestras</a>
+            </li>
+            <li class="nav-item">
+              {{-- <a href="{{ url('/advanced-ui/sweet-alert') }}" class="nav-link {{ active_class(['advanced-ui/sweet-alert']) }}">Sweet Alert</a> --}}
+              <a href="{{route('catalogo.equipos')}}" class="nav-link">Equipos</a>
+            </li>
+          </ul>
+        </div>
+      </li>
     </ul>
   </div>
 </nav>

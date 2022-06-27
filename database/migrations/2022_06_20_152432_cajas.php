@@ -29,6 +29,7 @@ class Cajas extends Migration
             $table->string('estatus')->nullable();
             
             $table->timestamps();
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
             
         });
     }

@@ -218,7 +218,7 @@ class RegisterController extends Controller
         $matriz->subsidiary()->save($subsidiaria);
 
         // Crea relación entre usuarios + laboratorios + sucursales
-        $identidad->laboratorio()->attach($matriz->id, ['sucursal_id' => $subsidiaria->id, 'usuario_id'=> $identidad->id ]);
+        $identidad->laboratorio()->attach($matriz->id, ['sucursal_id' => $subsidiaria->id, 'usuario_id'=> $identidad->id, 'estatus'=>'activa' ]);
 
         return redirect()->route('dashboard');
     }

@@ -19,6 +19,7 @@ class UsersHasLaboratories extends Migration
             $table->unsignedBigInteger('usuario_id');
             $table->unsignedBigInteger('laboratorio_id');
             $table->unsignedBigInteger('sucursal_id')->nullable();
+            $table->string('estatus')->nullable();
             
             $table->timestamps();
             $table->foreign('usuario_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');

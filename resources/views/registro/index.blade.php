@@ -1,5 +1,6 @@
 @extends('layout.master2')
 
+
 @section('content')
 <div class="page-content d-flex align-items-center justify-content-center">
     <div class="row w-100 mx-0 auth-page">
@@ -92,7 +93,7 @@
                     <div class="col-sm-6">
                       <div class="mb-3">
                         <label class="form-label">Télefono</label>
-                        <input type="number" name="telefono" class="form-control {{ $errors->has('telefono') ? 'is-invalid' : '' }}" autocomplete="off" placeholder="Número telefonico">
+                        <input type="number" maxlength="10" name="telefono" class="form-control {{ $errors->has('telefono') ? 'is-invalid' : '' }}" autocomplete="off" placeholder="Número telefonico">
                         <x-jet-input-error for="telefono"></x-jet-input-error>
 
                       </div>
@@ -114,7 +115,8 @@
 @push('custom-scripts')
     <script src="{{ asset('public/assets/js/axios.min.js') }}"></script>
 
+
     {{-- Registro --}}
-    <script src="{{ asset('public/stevlab/functions.js')}}"></script>
+    <script src="{{ asset('public/stevlab/registro/functions.js')}}"></script>
     {{-- End registro --}}
 @endpush

@@ -31,7 +31,7 @@ class Laboratory extends Model
     }
 
     public function usuarios(){
-        return $this->belongsToMany(User::class, 'cajas_has_subsidiaries')->withPivot('caja_id', 'usuario_id');
+        return $this->belongsToMany(User::class, 'cajas_has_subsidiaries')->withPivot('caja_id', 'sucursal_id');
     }
 
     // users_has_laboratories
@@ -52,4 +52,19 @@ class Laboratory extends Model
     public function users(){
         return $this->belongsToMany(User::class, 'users_has_laboratories',  'laboratorio_id','usuario_id',);
     }
+
+    // Areas (de los estudios)
+    public function areas(){
+        return $this->belongsToMany(Area::class, 'areas_has_laboratories');
+    }
+
+    // Muestras de los estudios
+    public function muestras(){
+        return $this->belongsToMany(Muestra::class, 'muestras_has_laboratories');
+    }
+
+    //Recipientes de los estudios
+    public function recipientes(){
+        return $this->belongsToMany(Recipiente::class, 'recipientes_has_laboratories');
+    } 
 }

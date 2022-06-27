@@ -1,4 +1,4 @@
-@extends('layout.master')
+@extends('layout.master3')
 @section('content')
 
 <div class="col-12 grid-margin">

@@ -17,7 +17,7 @@ License: For each use you must have a valid license purchased only from above li
 	<meta name="author" content="NobleUI">
 	<meta name="keywords" content="nobleui, bootstrap, bootstrap 5, bootstrap5, admin, dashboard, template, responsive, css, sass, html, laravel, theme, front-end, ui kit, web">
 
-  <title>Login - Stevlab Laboratorio</title>
+  <title>StevLab</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,6 +32,7 @@ License: For each use you must have a valid license purchased only from above li
 
   <!-- plugin css -->
   <link href="{{ asset('public/assets/fonts/feather-font/css/iconfont.css') }}" rel="stylesheet" />
+  <link href="{{ asset('public/assets/plugins/flag-icon-css/css/flag-icon.min.css') }}" rel="stylesheet" />
   <link href="{{ asset('public/assets/plugins/perfect-scrollbar/perfect-scrollbar.css') }}" rel="stylesheet" />
   <!-- end plugin css -->
 
@@ -43,25 +44,31 @@ License: For each use you must have a valid license purchased only from above li
 
   @stack('style')
 </head>
-<body data-base-url="{{url('/')}}">
+<body class="sidebar-dark" data-base-url="{{url('/')}}">
 
   <script src="{{ asset('public/assets/js/spinner.js') }}"></script>
 
   <div class="main-wrapper" id="app">
-    <div class="page-wrapper full-page">
-      @yield('content')
+    @include('layout.sidebar')
+    <div class="page-wrapper">
+      {{-- @include('layout.header') --}}
+      <div class="page-content">
+        @yield('content')
+      </div>
+      @include('layout.footer')
     </div>
   </div>
 
     <!-- base js -->
     <script src="{{ asset('public/js/app.js') }}"></script>
     <script src="{{ asset('public/assets/plugins/feather-icons/feather.min.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <!-- end base js -->
 
     <!-- plugin js -->
     @stack('plugin-scripts')
     <!-- end plugin js -->
-    
+
     <!-- common js -->
     <script src="{{ asset('public/assets/js/template.js') }}"></script>
     <!-- end common js -->
