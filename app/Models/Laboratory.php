@@ -53,11 +53,48 @@ class Laboratory extends Model
         return $this->belongsToMany(User::class, 'users_has_laboratories',  'laboratorio_id','usuario_id',);
     }
 
+    // Areas
+    // Estudios
+    public function estudios(){
+        return $this->belongsToMany(Estudio::class, 'estudios_has_laboratories');
+    }
+
+    // estudios_has_laboratories  
+    // No he implementado estas  funciones en sus respectivos modelos, 
+    // revisar o implementar pronto
+    public function estdy(){
+        return $this->belongsToMany(Estudio::class, 'estudios_has_laboratories')->withPivot('sucursal_id', 'area_id', 'muestra_id', 'recipiente_id', 'metodo_id');
+    }
+
+    public function sucursl(){
+        return $this->belongsToMany(Subsidiary::class, 'estudios_has_laboratories')->withPivot('estudio_id', 'area_id', 'muestra_id', 'recipiente_id', 'metodo_id' );
+    }
+
+    public function area(){
+        return $this->belongsToMany(Area::class, 'estudios_has_laboratories')->withPivot('sucursal_id', 'estudio_id', 'muestra_id', 'recipiente_id', 'metodo_id');
+    }
+
+    public function muestr(){
+        return $this->belongsToMany(Muestra::class, 'estudios_has_laboratories')->withPivot('sucursal_id', 'estudio_id', 'area_id', 'recipiente_id', 'metodo_id');
+    }
+
+    public function recipnte(){
+        return $this->belongsToMany(Recipiente::class, 'estudios_has_laboratories')->withPivot('sucursal_id', 'estudio_id', 'area_id', 'muestra_id', 'metodo_id');
+    }
+
+    public function mtodo(){
+        return $this->belongsToMany(Metodo::class, 'estudios_has_laboratories')->withPivot('sucursal_id', 'estudio_id', 'area_id', 'muestra_id', 'recipiente');
+    }
+
+
     // Areas (de los estudios)
     public function areas(){
         return $this->belongsToMany(Area::class, 'areas_has_laboratories');
     }
-
+    // Analitos 
+    public function analitos(){
+        return $this->belongsToMany(Analito::class, 'analitos_has_laboratories');
+    }
     // Muestras de los estudios
     public function muestras(){
         return $this->belongsToMany(Muestra::class, 'muestras_has_laboratories');
@@ -67,4 +104,21 @@ class Laboratory extends Model
     public function recipientes(){
         return $this->belongsToMany(Recipiente::class, 'recipientes_has_laboratories');
     } 
+
+    // Metodos de los estudios
+    public function metodos(){
+        return $this->belongsToMany(Metodo::class, 'metodos_has_laboratories');
+    }
+
+    // Tecnicas de los estudios
+    public function tecnicas(){
+        return $this->belongsToMany(Tecnica::class, 'tecnicas_has_laboratories');
+    }
+
+    // Equipos de los estudios
+    public function equipos(){
+        return $this->belongsToMany(Equipo::class, 'equipos_has_laboratories');
+    }
+
+    
 }
