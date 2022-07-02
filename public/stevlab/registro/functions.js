@@ -4,19 +4,19 @@ function getStates(){
     let pais = $('#pais').val();
 
     const respone = axios.post('/getStates',{
-        pais: pais,
-      })
-      .then(res => {
-        let dato = res.data;
-        dato.forEach(function(index, value){
-            // console.log(index);
-            estados = `<option value="${index.state_name}">${index.state_name}</option>`;  
-            $('#estado').append(estados);
-        });
-      })
-      .catch((err) =>{
-        console.log(err);
+      pais: pais,
+    })
+    .then(res => {
+      let dato = res.data;
+      dato.forEach(function(index, value){
+          // console.log(index);
+          estados = `<option value="${index.state_name}">${index.state_name}</option>`;  
+          $('#estado').append(estados);
       });
+    })
+    .catch((err) =>{
+      console.log(err);
+    });
 }
 
 function getCity(){

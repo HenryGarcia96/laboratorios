@@ -14,7 +14,7 @@
 </nav>
 
 <div class="row">
-    <div class="d-none d-md-block col-md-6 grid-margin stretch-card">
+    <div class="d-md-block col-md-6 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 

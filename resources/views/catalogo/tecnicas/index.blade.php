@@ -20,9 +20,9 @@
         <div class="card">
             <div class="card-body">
                 
-                <h6 class="card-title">Métodos</h6>
+                <h6 class="card-title">Técnicas</h6>
                 
-                <form class="forms-sample" action="{{route('catalogo.store-metodo')}}" method="POST">
+                <form class="forms-sample" action="{{route('catalogo.store-tecnica')}}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="descripcion" class="form-label">Descripción</label>
@@ -44,9 +44,9 @@
     <div class="col-md-12 col-lg-6 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Tabla de metodos</h4>
+                <h4 class="card-title">Tabla de técnicas</h4>
                 <div class="table-responsive">
-                    <table id="dataTableMetodos" class="table">
+                    <table id="dataTableTecnicas" class="table">
                         <thead>
                             <tr>
                                 <th>Descripcion</th>
@@ -54,10 +54,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($metodos as $metodo)
+                            @forelse ($tecnicas as $tecnica)
                                 <tr>
-                                    <td>{{$metodo->descripcion}}</td>
-                                    <td>{{$metodo->observaciones}}</td>
+                                    <td>{{$tecnica->descripcion}}</td>
+                                    <td>{{$tecnica->observaciones}}</td>
                                 </tr>
                             @empty
                                 <tr>
@@ -82,6 +82,6 @@
 @endpush
 
 @push('custom-scripts')
-<script src="{{ asset('public/stevlab/catalogo/metodos/data-table.js') }}"></script>
+<script src="{{ asset('public/stevlab/catalogo/tecnicas/data-table.js') }}"></script>
 
 @endpush

@@ -13,4 +13,8 @@ class Metodo extends Model
     ];
     
     use HasFactory;
+
+    public function laboratorios(){
+        return $this->belongsToMany(Metodo::class, 'metodos_has_laboratories');
+    }
 }
