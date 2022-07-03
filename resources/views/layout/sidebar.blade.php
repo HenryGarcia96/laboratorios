@@ -23,6 +23,23 @@
         </a>
       </li>
       <li class="nav-item">
+        {{-- <a class="nav-link" data-bs-toggle="collapse" href="#advanced-ui" role="button" aria-expanded="{{ is_active_route(['advanced-ui/*']) }}" aria-controls="advanced-ui"> --}}
+          <a class="nav-link" data-bs-toggle="collapse" href="#recepcion-menu" role="button" aria-expanded="" aria-controls="advanced-ui">
+            <i class="link-icon" data-feather="clipboard"></i>
+            <span class="link-title">Recepcion</span>
+            <i class="link-arrow" data-feather="chevron-down"></i>
+          </a>
+        {{-- <div class="collapse {{ show_class(['advanced-ui/*']) }}" id="advanced-ui"> --}}
+          <div class="collapse " id="recepcion-menu">
+            <ul class="nav sub-menu">
+              <li class="nav-item">
+                {{-- <a href="{{ url('/advanced-ui/cropper') }}" class="nav-link {{ active_class(['advanced-ui/cropper']) }}">Cropper</a> --}}
+                <a href="{{route('recepcion.index')}}" class="nav-link">Nuevo</a>
+              </li>
+            </ul>
+          </div>
+      </li>
+      <li class="nav-item">
         <a href="{{route('caja.index')}}" class="nav-link">
           <i class="link-icon" data-feather="server"></i>
           <span class="link-title">Caja</span>
@@ -65,6 +82,10 @@
             </li>
             <li class="nav-item">
               {{-- <a href="{{ url('/advanced-ui/sweet-alert') }}" class="nav-link {{ active_class(['advanced-ui/sweet-alert']) }}">Sweet Alert</a> --}}
+              <a href="{{route('catalogo.pacientes')}}" class="nav-link">Pacientes</a>
+            </li>
+            <li class="nav-item">
+              {{-- <a href="{{ url('/advanced-ui/sweet-alert') }}" class="nav-link {{ active_class(['advanced-ui/sweet-alert']) }}">Sweet Alert</a> --}}
               <a href="{{route('catalogo.muestras')}}" class="nav-link">Muestras</a>
             </li>
             <li class="nav-item">
@@ -74,6 +95,10 @@
             <li class="nav-item">
               {{-- <a href="{{ url('/advanced-ui/sweet-alert') }}" class="nav-link {{ active_class(['advanced-ui/sweet-alert']) }}">Sweet Alert</a> --}}
               <a href="{{route('catalogo.equipos')}}" class="nav-link">Equipos</a>
+            </li>
+            <li class="nav-item">
+              {{-- <a href="{{ url('/advanced-ui/sweet-alert') }}" class="nav-link {{ active_class(['advanced-ui/sweet-alert']) }}">Sweet Alert</a> --}}
+              <a href="{{route('catalogo.doctores')}}" class="nav-link">Doctores</a>
             </li>
           </ul>
         </div>
