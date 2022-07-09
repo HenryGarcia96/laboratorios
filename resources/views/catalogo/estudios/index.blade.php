@@ -89,7 +89,7 @@
                                 </select>
                                 <x-jet-input-error for="tecnica"></x-jet-input-error>
                             </div>
-                            <div class="mb-3 col-sm-6">
+                            {{-- <div class="mb-3 col-sm-6">
                                 <label for="equipo" class="form-label">Equipo</label>
                                 <select class="form-select {{ $errors->has('equipo') ? 'is-invalid' : '' }}" name="equipo" >
                                     @forelse ($equipos as $equipo)
@@ -98,7 +98,7 @@
                                     @endforelse
                                 </select>
                                 <x-jet-input-error for="equipo"></x-jet-input-error>
-                            </div>
+                            </div> --}}
                             <div class="mb-3 col-sm-12">
                                 <label for="condiciones" class="form-label">Condiciones del paciente</label>
                                 <textarea class='form-control {{ $errors->has('condiciones') ? 'is-invalid' : '' }}' name="condiciones" rows="3"placeholder='Condiciones'></textarea>

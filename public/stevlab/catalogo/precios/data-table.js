@@ -2,7 +2,7 @@ $(function() {
     'use strict';
   
     $(function() {
-      $('#dataTableAnalitos').DataTable({
+      $('.dataTablePrecios').DataTable({
         responsive: true,
         "aLengthMenu": [
           [10, 30, 50, -1],
@@ -13,7 +13,7 @@ $(function() {
           search: ""
         }
       });
-      $('#dataTableAnalitos').each(function() {
+      $('.dataTablePrecios').each(function() {
         var datatable = $(this);
         // SEARCH - Add the placeholder for Search and Turn this into in-line form control
         var search_input = datatable.closest('.dataTables_wrapper').find('div[id$=_filter] input');
@@ -24,5 +24,5 @@ $(function() {
         length_sel.removeClass('form-control-sm');
       });
     });
-
+  
   });

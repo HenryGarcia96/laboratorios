@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 // Página principal
 Route::get('/', [IndexController::class, 'index']);
+
 // Rutas del registro de usuario y del registro de laboratorio
 Route::name('registro.')->prefix('registro')->group(function(){
     Route::get('/index', [RegisterController::class, 'index'])->name('index');
@@ -39,24 +40,29 @@ Route::post('/getCity', [RegisterController::class, 'getCities'])->name('getCity
 Route::post('/setAnalito', [CatalogoController::class, 'set_analito'])->name('setAnalito');
 
 
-// Todas las rutas (Dashboard) (Caja) donde los usuarios esten autenticados
-Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified' ])
-        ->group(function () {
+// Todas las rutas (Dashboard) (Caja) (Recepción) (Catalogos) 
+// Donde los usuarios esten autenticados
+Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified' ])->group(function () {
 
     // Dashboard
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     
-    // Caja
-    Route::resource('recepcion', RecepcionsController::class);
-    Route::get('for', [RecepcionsController::class, 'index']);
-    Route::post('guardar', [RecepcionsController::class, 'guardar']); 
+    // Recepcion
+    Route::name('recepcion.')->prefix('recepcion')->group(function(){
+        // Recepcion - nuevo
+        Route::get('/index', [RecepcionsController::class, 'index'])->name('index');
+        Route::post('/guardar', [RecepcionsController::class, 'guardar']); 
+
+        // Recepcion -  captura de resultados
+        Route::get('/captura', [RecepcionsController::class, 'recepcion_captura_index'])->name('captura');
+    });
     
     // Caja
     Route::resource('caja', CajaController::class);
 
     // Catalogos
     Route::name('catalogo.')->prefix('catalogo')->group(function(){
-                
+        
         // Catalogo - estudios.index
         Route::get('/estudios', [CatalogoController::class, 'catalogo_estudio_index'])->name('estudios');
         // Catalogo - estudios-store
@@ -66,44 +72,43 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
         Route::get('/analitos', [CatalogoController::class, 'catalogo_analito_index'])->name('analitos');
         // Catalogo - analitos-store
         Route::post('/store-analito', [CatalogoController::class, 'catalogo_analito_store'])->name('store-analito');
+        // Catalogo - verifica clave
+        Route::post('/verifyKey', [CatalogoController::class, 'catalogo_verify_key'])->name('verifyKey');
+        // Catalogo - agrega imagen
+        Route::post('/store-imagen-analito', [CatalogoController::class, 'catalogo_store_imagen_referencia'])->name('store-imagen-analito');
         // Catalogo - store-referencias
         Route::post('/store-referencia', [CatalogoController::class, 'catalogo_referencia_store'])->name('store-referencia');
-        // Catalogo -analitos - buscar estudio
+        // Eliminar referencia
+        Route::post('/eliminaReferencia', [CatalogoController::class, 'catalogo_referencia_delete'])->name('eliminaReferencia');
+        // Catalogo - analitos - buscar estudio
         Route::get('/getEstudios', [CatalogoController::class, 'get_estudios'])->name('getEstudios');
-        // Catalogo  -analito - buscar analito
+        // Checa analitos y los asigna 
+        Route::post('/checkAnalitos', [CatalogoController::class, 'get_check_analitos'])->name('checkAnalitos');
+        // Catalogo  - analito - buscar analito
         Route::get('/getAnalito', [CatalogoController::class, 'get_analitos'])->name('getAnalito');
+        // Catalogo - elimina analito que viene con estudio
+        Route::post('/eliminaAnalito', [CatalogoController::class, 'delete_analito_estudio'])->name('eliminaAnalito');
+        // Catalogo - asignar analitos a estudios
+        Route::post('/asignAnalitos', [CatalogoController::class, 'asign_estudio_analitos'])->name('asignAnalitos');
         
-        // Catalogo - areas.index
+        // Catalogo - areas.index - Demás areas
         Route::get('/areas', [CatalogoController::class, 'catalogo_area_index'])->name('areas');
         // Catalogo - areas-store
         Route::post('/store-area', [CatalogoController::class, 'catalogo_area_store'])->name('store-area');
-
-        // Catalogo - metodos.index
-        Route::get('/metodos', [CatalogoController::class, 'catalogo_metodo_index'])->name('metodos');
         // Catalogo - metodos-store
         Route::post('/store-metodo', [CatalogoController::class, 'catalogo_metodo_store'])->name('store-metodo');
-
-        // Catalogo - recipientes.index
-        Route::get('/recipientes', [CatalogoController::class, 'catalogo_recipiente_index'])->name('recipientes');
         // Catalogo - recipientes-store
         Route::post('/store-recipiente', [CatalogoController::class, 'catalogo_recipiente_store'])->name('store-recipiente');
-        
-        // Catalogo - muestras.index
-        Route::get('/muestras', [CatalogoController::class, 'catalogo_muestra_index'])->name('muestras');
         // Catalogo - muestras-store
         Route::post('/store-muestra', [CatalogoController::class, 'catalogo_muestra_store'])->name('store-muestra');
-
-        // Catalogo - tecnicas.index
-        Route::get('/tecnicas', [CatalogoController::class, 'catalogo_tecnica_index'])->name('tecnicas');
-        // Catalogo - tecnicas-store
+       // Catalogo - tecnicas-store
         Route::post('/store-tecnica', [CatalogoController::class, 'catalogo_tecnica_store'])->name('store-tecnica');
         
-        // Catalogo - equipos.index
-        Route::get('/equipos', [CatalogoController::class, 'catalogo_equipo_index'])->name('equipos');
-        // Catalogo - equipos-store
-        Route::post('/store-equipo', [CatalogoController::class, 'catalogo_equipo_store'])->name('store-equipo');
-
-
+        // Catalogo - precios.index
+        Route::get('/precios', [CatalogoController::class, 'catalogo_precio_index'])->name('precios');
+        // Catalogo  - precios-store -Guardar lista
+        Route::post('/store-list', [CatalogoController::class, 'catalogo_store_list'])->name('store-list');
+        
         //Catalogo - doctores.index 
         Route::get('/doctores', [DoctoresController::class, 'doctores_index'])->name('doctores');
         //Catalogo - doctores.guardar
@@ -115,8 +120,7 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
 
         //Catalogo - pacientes.index
         Route::get('/pacientes',[PacienteController::class, 'paciente_index'])->name('pacientes');
+
     });
+
 });
-
-
-

@@ -13,12 +13,12 @@ class RecepcionsController extends Controller
     //
     public function index(Request $request){
     //Verificar sucursal
-       $active = User::where('id', Auth::user()->id)->first()->sucs()->where('estatus', 'activa')->first();
-    // Lista de sucursales que tiene el usuario
-        $sucursales = User::where('id', Auth::user()->id)->first()->sucs()->orderBy('id', 'asc')->get(); 
+    $active = User::where('id', Auth::user()->id)->first()->sucs()->where('estatus', 'activa')->first();
+// Lista de sucursales que tiene el usuario
+    $sucursales = User::where('id', Auth::user()->id)->first()->sucs()->orderBy('id', 'asc')->get(); 
 
-        return view('recepcion.index',['active'=>$active,'sucursales'=>$sucursales]);  
-     }
+    return view('recepcion.index',['active'=>$active,'sucursales'=>$sucursales]);  
+    }
 
     public function guardar(Request $request){
         $request->validate([
@@ -56,5 +56,23 @@ class RecepcionsController extends Controller
 
         $recep->save();
         return back()->with('success', 'Registro completo');
-     }
+    }
+
+    public function recepcion_captura_index(){
+        //Verificar sucursal
+        $active = User::where('id', Auth::user()->id)->first()->sucs()->where('estatus', 'activa')->first();
+        // Lista de sucursales que tiene el usuario
+        $sucursales = User::where('id', Auth::user()->id)->first()->sucs()->orderBy('id', 'asc')->get();
+        // Areas
+        $areas = User::where('id', Auth::user()->id)->first()->labs()->first()->areas()->get();
+
+        // Estudios para validad
+        $estudios = Recepcions::all();
+        return view('recepcion.captura.index',['active'     => $active, 
+                                            'sucursales'    => $sucursales, 
+                                            'areas'         => $areas,
+                                            'estudios'      => $estudios
+                                        ]);
+    }
+
 }

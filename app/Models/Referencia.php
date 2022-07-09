@@ -15,6 +15,8 @@ class Referencia extends Model
         'sexo',
         'referencia_inicial',
         'referencia_final',
+        'dias_inicio',
+        'dias_final'
     ];
     use HasFactory;
 

@@ -1,11 +1,13 @@
 @extends('layout.master')
 
 @push('plugin-styles')
+<link href="{{ asset('public/assets/plugins/@mdi/css/materialdesignicons.min.css') }}" rel="stylesheet" />
 <link href="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.css') }}" rel="stylesheet" />
-
 <link href="{{ asset('public/assets/plugins/select2/select2.min.css') }}" rel="stylesheet" />
-<link href="{{ asset('public/assets/plugins/dropzone/dropzone.min.css') }}" rel="stylesheet" />
+<link href="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
+<link href="{{ asset('public/assets/plugins/dropify/css/dropify.min.css') }}" rel="stylesheet" />
 
+<link rel="stylesheet" href="{{asset('public/stevlab/catalogo/analitos/sortable.css')}}">
 @endpush
 
 @section('content')
@@ -32,7 +34,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Selecciona estudio</h4>
-                <div class="mb-3">
+                <div class="mb-3" id='estudioData'>
                     <select id="selectEstudio" class="js-example-basic-multiple form-select" data-width="100%">
                     </select>
                 </div>
@@ -43,21 +45,10 @@
                 </div>
                 <div class="mb-5">
                     <h4 class="card-title">Estudios de perfil</h4>
-                    <div class="table-responsive">
-                        <table id="dataTablePerfiles" class="table">
-                            <thead>
-                                <tr>
-                                    <th>Clave</th>
-                                    <th>Descripcion</th>
-                                    <th>Tipo</th>
-                                    <th>Orden</th>
-                                    <th>Imprimir</th>
-                                </tr>
-                            </thead>
-                            <tbody id='values'>
-                            </tbody>
-                        </table>
-                    </div>
+                    <p class="text-muted mb-3">Ordenamiento (Orden de impresión)</p>
+                    <ul class="list-group mb-3" id="analitos-list">
+                    </ul>
+                    <button onclick="sendAnalitos()"  class="btn btn-secondary">Guardar analitos</button>
                 </div>
             </div>
         </div>
@@ -66,6 +57,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Tabla de analitos</h4>
+                
                 <div class="table-responsive">
                     <table id="dataTableAnalitos" class="table">
                         <thead>
@@ -107,8 +99,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
             </div>
             <div class="modal-body">
-                <form id='regisAnalito' class="form-sample" action="{{ route('catalogo.store-analito') }}" method="POST">
-                    {{-- action="{{ route('catalogo.store-analito') }}" method="POST" --}}
+                <form id='regisAnalito' class="form-sample" action="{{ route('catalogo.store-analito') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-sm-3">
@@ -228,7 +219,7 @@
                         <div class="col-sm-12">
                             <div class="mb-3">
                                 <label class="form-label">Documento</label>
-                                <input type="text" name="documento" class="form-control" placeholder="Documento">
+                                <textarea class="form-control" name="documento" id="documentExample" cols="30" rows="1" placeholder="Documento"></textarea>
                             </div>
                         </div>
                     </div>
@@ -249,7 +240,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalReferenciaLabel">Valor referenciado</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
+                <button onclick='cerrarModal()' type="button" class="btn-close" ></button>
+                {{-- data-bs-dismiss="modal" aria-label="btn-close" --}}
             </div>
             <div class="modal-body">
                 <form id="referenciaAnalito" class="form-sample">
@@ -266,7 +258,7 @@
                                 <label class="form-label">Tipo</label>
                                 <select name='tipo_inicial' class='js-example-basic-single form-select'id="">
                                     <option selected disabled>Seleccione</option>
-
+                                    
                                     <option value="año">Año</option>
                                     <option value="mes">Mes</option>
                                     <option value="dia">Dias</option>
@@ -353,25 +345,51 @@
         </div>
     </div>
 </div>
+{{-- Modal imagen --}}
+<!-- Modal -->
+<div class="modal fade" id="targetImagen" data-bs-backdrop="static" tabindex="-1" aria-labelledby="targetImagenLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Guardar imagen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('catalogo.store-imagen-analito')}}" class="form-sample mb-3" id='formImagen' action="" enctype="multipart/form-data" method="POST">
+                    @csrf
+                    <div class="col-sm-12 mb-3">
+                        <label  for="imagen" class="form-label">Cargar imagen</label>
+                        <input name='imagen' type="file" id="dropImagen" data-allowed-file-extensions="jpg jpeg png" data-default-file="{{ asset('public/storage/analitos/stock.jpg')}}" />
+                    </div>
+                    <button type="submit" class="btn btn-primary submit">Guardar imagen</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('plugin-scripts')
 <script src="{{ asset('public/assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-
+<script src="{{ asset('public/assets/plugins/sortablejs/Sortable.min.js') }}"></script>
 <script src="{{ asset('public/assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
 <script src="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.js') }}"></script>
 <script src="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('public/assets/plugins/select2/select2.min.js') }}"></script>
-<script src="{{ asset('public/assets/plugins/dropzone/dropzone.min.js') }}"></script>
 <script src="{{ asset('public/assets/js/axios.min.js') }}"></script>
+<script src="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+<script src="{{ asset('public/assets/plugins/tinymce/tinymce.min.js') }}"></script>
+<script src="{{ asset('public/assets/plugins/dropify/js/dropify.min.js') }}"></script>
 
 @endpush
 
 @push('custom-scripts')
 <script src="{{ asset('public/stevlab/catalogo/analitos/select2.js') }}"></script>
-<script src="{{ asset('public/stevlab/catalogo/analitos/dropzone.js') }}"></script>
 <script src="{{ asset('public/stevlab/catalogo/analitos/data-table.js') }}"></script>
 <script src="{{ asset('public/stevlab/catalogo/analitos/functions.js') }}"></script>
 <script src="{{ asset('public/stevlab/catalogo/analitos/form-validation.js') }}"></script>
+<script src="{{ asset('public/stevlab/catalogo/analitos/sortablejs.js') }}"></script>
+<script src="{{ asset('public/stevlab/catalogo/analitos/tinymce.js') }}"></script>
+<script src="{{ asset('public/stevlab/catalogo/analitos/dropify.js') }}"></script>
 
 @endpush

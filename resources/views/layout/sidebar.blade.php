@@ -36,6 +36,10 @@
                 {{-- <a href="{{ url('/advanced-ui/cropper') }}" class="nav-link {{ active_class(['advanced-ui/cropper']) }}">Cropper</a> --}}
                 <a href="{{route('recepcion.index')}}" class="nav-link">Nuevo</a>
               </li>
+              <li class="nav-item">
+                {{-- <a href="{{ url('/advanced-ui/cropper') }}" class="nav-link {{ active_class(['advanced-ui/cropper']) }}">Cropper</a> --}}
+                <a href="{{route('recepcion.captura')}}" class="nav-link">Captura de resultados</a>
+              </li>
             </ul>
           </div>
       </li>
@@ -61,6 +65,10 @@
               <a href="{{route('catalogo.estudios')}}" class="nav-link">Estudios</a>
             </li>
             <li class="nav-item">
+              {{-- <a href="{{ url('/advanced-ui/owl-carousel') }}" class="nav-link {{ active_class(['advanced-ui/owl-carousel']) }}">Owl Carousel</a> --}}
+              <a href="{{route('catalogo.areas')}}" class="nav-link ">Áreas de estudio</a>
+            </li>
+            <li class="nav-item">
               {{-- <a href="{{ url('/advanced-ui/sortablejs') }}" class="nav-link {{ active_class(['advanced-ui/sortablejs']) }}">SortableJs</a> --}}
               <a href="{{route('catalogo.analitos')}}" disabled class="nav-link ">Analitos</a>
             </li>
@@ -68,33 +76,14 @@
               {{-- <a href="{{ url('/advanced-ui/sweet-alert') }}" class="nav-link {{ active_class(['advanced-ui/sweet-alert']) }}">Sweet Alert</a> --}}
               <a href="#" disabled class="nav-link">Perfiles</a>
             </li>
-            <li class="nav-item">
-              {{-- <a href="{{ url('/advanced-ui/owl-carousel') }}" class="nav-link {{ active_class(['advanced-ui/owl-carousel']) }}">Owl Carousel</a> --}}
-              <a href="{{route('catalogo.areas')}}" class="nav-link ">Áreas</a>
-            </li>
-            <li class="nav-item">
-              {{-- <a href="{{ url('/advanced-ui/sortablejs') }}" class="nav-link {{ active_class(['advanced-ui/sortablejs']) }}">SortableJs</a> --}}
-              <a href="{{route('catalogo.metodos')}}" class="nav-link ">Métodos</a>
-            </li>
-            <li class="nav-item">
-              {{-- <a href="{{ url('/advanced-ui/sweet-alert') }}" class="nav-link {{ active_class(['advanced-ui/sweet-alert']) }}">Sweet Alert</a> --}}
-              <a href="{{route('catalogo.recipientes')}}" class="nav-link">Recipientes</a>
-            </li>
+            
             <li class="nav-item">
               {{-- <a href="{{ url('/advanced-ui/sweet-alert') }}" class="nav-link {{ active_class(['advanced-ui/sweet-alert']) }}">Sweet Alert</a> --}}
               <a href="{{route('catalogo.pacientes')}}" class="nav-link">Pacientes</a>
             </li>
             <li class="nav-item">
               {{-- <a href="{{ url('/advanced-ui/sweet-alert') }}" class="nav-link {{ active_class(['advanced-ui/sweet-alert']) }}">Sweet Alert</a> --}}
-              <a href="{{route('catalogo.muestras')}}" class="nav-link">Muestras</a>
-            </li>
-            <li class="nav-item">
-              {{-- <a href="{{ url('/advanced-ui/sweet-alert') }}" class="nav-link {{ active_class(['advanced-ui/sweet-alert']) }}">Sweet Alert</a> --}}
-              <a href="{{route('catalogo.tecnicas')}}" class="nav-link">Técnicas</a>
-            </li>
-            <li class="nav-item">
-              {{-- <a href="{{ url('/advanced-ui/sweet-alert') }}" class="nav-link {{ active_class(['advanced-ui/sweet-alert']) }}">Sweet Alert</a> --}}
-              <a href="{{route('catalogo.equipos')}}" class="nav-link">Equipos</a>
+              <a href="{{route('catalogo.precios')}}" class="nav-link">Lista de precios</a>
             </li>
             <li class="nav-item">
               {{-- <a href="{{ url('/advanced-ui/sweet-alert') }}" class="nav-link {{ active_class(['advanced-ui/sweet-alert']) }}">Sweet Alert</a> --}}
