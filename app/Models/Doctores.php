@@ -11,4 +11,9 @@ class Doctores extends Model
     public $fillable = ['clave', 'nombre', 'ap_paterno',
                         'ap_materno', 'telefono', 'celular',
                         'email', 'usuario', 'password'];
+
+    
+    public function laboratory(){
+        return $this->belongsToMany(Laboratory::class, 'doctores_has_laboratories');
+    }                           
 }

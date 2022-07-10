@@ -93,7 +93,7 @@ class CajaController extends Controller
                                 'estatus'   => 'abierta',
                             ]);
                             
-        $lastcaja = Caja::latest('id')->first();
+        $lastcaja = Caja::latest('id')->first(); 
 
         $lastcaja->laboratorios()->attach($laboratorio->id, 
                                         ['sucursal_id'=>$sucursal->id, 
