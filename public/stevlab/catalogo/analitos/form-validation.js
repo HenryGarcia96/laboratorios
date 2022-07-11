@@ -1,6 +1,6 @@
 $(function() {
     'use strict';
-    
+	var CSRF_TOKEN = $('meta[name="_token"]').attr('content');
     // $.validator.setDefaults({
     // });
     $(function() {
@@ -9,7 +9,14 @@ $(function() {
             rules: {
                 clave:{
                     required: true,
-                    minlength:4
+                    minlength:4,
+                    remote:{
+                        url: "/catalogo/verifyKey",
+                        type:"post",
+                        data:{
+                            _token: CSRF_TOKEN,
+                        }
+                    }
                 },
                 descripcion:  'required',
                 bitacora:     'required',
@@ -20,8 +27,9 @@ $(function() {
             },
             messages: {
                 clave: {
-                    required: "Ingrese clave.",
-                    minlength: "Debe ingresar al menos 4 caracteres."
+                    required:   "Ingrese clave.",
+                    minlength:  "Debe ingresar al menos 4 caracteres.",
+                    remote:     "Clave ya registrada.",
                 },
                 descripcion:    'Ingrese descripción.',
                 bitacora:       'Ingrese dato de bitacora.',
@@ -65,9 +73,47 @@ $(function() {
                         console.log(response);
                         
                         if(response.tipo_resultado == "referencia"){
-                            let  value = `<input type="hidden" name="analito" value="${response.id}">`;
+                            let  value = `<input type="hidden" id='analito' name="analito" value="${response.id}">`;
                             $('#modalReferencia').modal('show');
                             $('#referenciaAnalito').append(value);
+
+                            // Notificacion
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                            });
+                            
+                            Toast.fire({
+                            icon: 'success',
+                            title: 'Analito guardado correctamente'
+                            });
+                        }else if(response.tipo_resultado == 'imagen'){
+                            let  value = `<input type="hidden" id='analito' name="analito" value="${response.id}">`;
+                            $('#targetImagen').modal('show');
+                            $('#formImagen').prepend(value);
+                        }else{
+                            // Notificacion
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                            });
+                            
+                            Toast.fire({
+                            icon: 'success',
+                            title: 'Analito guardado correctamente'
+                            });
+
+                            // Reload
+                            setTimeout(function(){
+                                window.location.reload();
+                            }, 3100);
+
                         }
     
                         $('#modalAnalito').modal('hide');
@@ -137,16 +183,20 @@ $(function() {
                         console.log(response);
                         let data = `
                                     <tr>
-                                        <th>${response.edad_inicial}</th>
-                                        <th>${response.tipo_inicial}</th>
-                                        <th>${response.edad_final}</th>
-                                        <th>${response.tipo_final}</th>
-                                        <th>${response.sexo}</th>
-                                        <th>${response.referencia_inicial}</th>
-                                        <th>${response.referencia_final}</th>
-                                        <th>dias1</th>
-                                        <th>dias2</th>
-                                        <th>Buttons</th>
+                                        <th class='text-center'>${response.edad_inicial}</th>
+                                        <th class='text-center'>${response.tipo_inicial}</th>
+                                        <th class='text-center'>${response.edad_final}</th>
+                                        <th class='text-center'>${response.tipo_final}</th>
+                                        <th class='text-center'>${response.sexo}</th>
+                                        <th class='text-center'>${response.referencia_inicial}</th>
+                                        <th class='text-center'>${response.referencia_final}</th>
+                                        <th class='text-center'>${response.dias_inicio}</th>
+                                        <th class='text-center'>${response.dias_final}</th>
+                                        <th class='d-flex align-items-center'>
+                                        <button  onclick='removeReferences(this, ${response.id})' type="button" class="btn btn-xs btn-danger btn-icon delete">
+                                            <i class="mdi mdi-delete"></i>
+                                        </button>
+                                        </th>
                                     </tr>
                                 `;
                         $('#valoresReferencias').append(data);

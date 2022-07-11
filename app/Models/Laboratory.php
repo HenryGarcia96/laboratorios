@@ -120,6 +120,12 @@ class Laboratory extends Model
         return $this->belongsToMany(Equipo::class, 'equipos_has_laboratories');
     }
 
+
+    // Precios de los laboratorios
+    public function precios(){
+        return $this->belongsToMany(Precio::class, 'precios_has_laboratories');
+    }
+    
     //Pacientes 
     public function pacientes(){
         return $this->belongsToMany(Pacientes::class, 'pacientes_has_laboratories');
@@ -132,7 +138,5 @@ class Laboratory extends Model
     public function doctores(){
         return $this->belongsToMany(Doctores::class, 'doctores_has_laboratories');
     }        
-    
-    
     
 }

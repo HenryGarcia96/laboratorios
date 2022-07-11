@@ -22,6 +22,9 @@ class Referencias extends Migration
             $table->string('sexo');
             $table->string('referencia_inicial');
             $table->string('referencia_final');
+            $table->string('dias_inicio');
+            $table->string('dias_final');
+
             $table->timestamps();
         });
     }
