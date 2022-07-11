@@ -8,12 +8,15 @@ use App\Models\Equipo;
 use App\Models\Estudio;
 use App\Models\Metodo;
 use App\Models\Muestra;
+use App\Models\Precio;
 use App\Models\Recipiente;
 use App\Models\Referencia;
 use App\Models\Tecnica;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CatalogoController extends Controller
 {
@@ -23,6 +26,14 @@ class CatalogoController extends Controller
         // Trae listas de estudios
         $estudios = User::where('id', Auth::user()->id)->first()->labs()->first()->estudios()->where('descripcion', 'LIKE', "%{$search['q']}%")->get();
 
+        return $estudios;
+    }
+
+    public function get_check_analitos(Request $request){
+        $id = $request->except('_token');
+
+        $estudios = Estudio::where('id', $id)->first()->analitos()->orderBy('orden', 'asc')->get();
+        // $estudio;
         return $estudios;
     }
 
@@ -62,7 +73,7 @@ class CatalogoController extends Controller
         // Trae metodos creadas
         $metodos = User::where('id', Auth::user()->id)->first()->labs()->first()->metodos()->get();
         // Trae equipos creadas
-        $equipos = User::where('id', Auth::user()->id)->first()->labs()->first()->equipos()->get();
+        // $equipos = User::where('id', Auth::user()->id)->first()->labs()->first()->equipos()->get();
          // Trae tecnicas creadas
         $tecnicas = User::where('id', Auth::user()->id)->first()->labs()->first()->tecnicas()->get();
 
@@ -73,7 +84,7 @@ class CatalogoController extends Controller
                                                 'muestras'      =>$muestras,
                                                 'recipientes'   =>$recipientes,
                                                 'metodos'       =>$metodos,
-                                                'equipos'       =>$equipos,
+                                                // 'equipos'       =>$equipos,
                                                 'tecnicas'      =>$tecnicas,
                                             ]);
     }
@@ -140,57 +151,196 @@ class CatalogoController extends Controller
         return view('catalogo.analitos.index',['active' => $active, 'sucursales'=> $sucursales, 'analitos' => $analitos]);
     }
 
+    public function catalogo_verify_key(Request $request){
+        $analito = Analito::where('clave', $request->clave)->first();
+
+        if($analito) {
+            $response = false;
+        } else {
+            $response = true;
+        }
+    
+        header("HTTP/1.1 200 OK");
+        header('Content-Type: application/json');
+        return json_encode($response);
+    }
+
+
+// Elimina analito del estudio
+    public function delete_analito_estudio(Request $request){
+        $clave = $request->only('data');
+        $estudio = $request->only('estudio');
+
+        $analito = Analito::where('clave', '=' ,$clave)->first();
+        
+        $delete = DB::table('analitos_has_estudios')
+                        ->where('analito_id', '=', $analito->id)
+                        ->where('estudio_id', '=', $estudio['estudio'])
+                        ->delete();
+
+        if($delete) {
+            $response = true;
+        } else {
+            $response = false;
+        }
+
+        header("HTTP/1.1 200 OK");
+        header('Content-Type: application/json');
+        return json_encode($response);
+    }
+
+    // Asigna analito al estudio
+    public function asign_estudio_analitos(Request $request){
+        $analito = [];
+        $numero = 0;
+
+        $datos = $request->except('_token');
+        $data = $request->only('data');
+        $estudio = $request->only('estudio');
+        foreach ($data['data'] as $key=>$value) {
+            $analito_id = Analito::where('clave', $value)->first();
+
+            $numero++;
+            $analito[$key]['analito_id'] = $analito_id->id;
+            $analito[$key]['estudio_id'] = $estudio['estudio'];
+            $analito[$key]['orden']      = $numero;
+
+            $insercion = DB::table('analitos_has_estudios')
+                        ->updateOrInsert([  'analito_id' => $analito[$key]['analito_id'], 
+                                            'estudio_id' => $analito[$key]['estudio_id']],
+
+                                        [   'analito_id' => $analito[$key]['analito_id'],
+                                            'estudio_id' => $analito[$key]['estudio_id'],
+                                            'orden'      => $numero]  );
+        }
+        
+        if($numero > 0 ) {
+            $response = true;
+        } else {
+            $response = false;
+        }
+
+        header("HTTP/1.1 200 OK");
+        header('Content-Type: application/json');
+        return json_encode($response);
+    }
+
     public function catalogo_analito_store(Request $request){
         // Verificar laboratorio asignado
         $laboratorio = User::where('id', Auth::user()->id)->first()->labs()->first();
         
-        // Para validar datos de areas
-        // $analitos = request()->validate([
-        //     'clave'                 => 'required',
-        //     'descripcion'           => 'required',
-        //     'bitacora'              => 'required',
-        //     'defecto'               => 'required',
-        //     'unidad'                => 'required',
-        //     'digito'                => 'required',
-        // ],[
-        //     'clave.required'        => 'Ingresa clave.',
-        //     'descripcion.required'  => 'Ingresa descripción.',
-        //     'bitacora.required'     => 'Ingresa bitacora.',
-        //     'defecto.required'      => 'Ingresa valor por defecto.',
-        //     'unidad.required'       => 'Ingresa unidad.',
-        //     'digito.required'       => 'Ingresa digitos.',
-        // ]);
-
         // Para obtener todos los datos
         $real = $request->except('_token');
         $analito = Analito::create($real);
         $laboratorio->analitos()->save($analito);
 
-        // session()->flash('analito','Analito guardado.');
         return $analito;
+    }
+
+    public function catalogo_store_imagen_referencia(Request $request){
+        // $analito = request()->validate([
+        //     'imagen' =>'required| image | mimes:jpg,bmp,png | max:1'
+        // ],[
+        //     'imagen' => 'Formato de imagen incorrecto'
+        // ]);
+        // $request->validate([
+        //     'file'=>'required|image'
+        // ]);
+        $analito = request()->except('_token');
+        $id = intval($analito['analito']);
+
+        if($request->hasFile('imagen')){
+            if(Storage::exists($analito['imagen'])){
+                Storage::delete($analito['imagen']);
+            }
+
+            $request->file('imagen')->storeAs('public', 'analitos/analito-' . $id .'.png');
+            $analito['imagen'] = 'analitos/analito-'. $id.'.png';
+        }
+
+        $insert = Analito::where('id', $id)->updateOrInsert(
+                                                        ['id' => $id],
+                                                        ['imagen'=>$analito['imagen']]
+                                                    );
+        return redirect()->route('catalogo.analitos');
+
+        
     }
 
     public function catalogo_referencia_store(Request $request){
         $estudio = Analito::where('id', $request->analito)->first();
 
-        $data = Referencia::create($request->except('_token'));
+        $data = $request->except('_token');
 
-        $estudio->referencias()->save($data);
+        if($data['tipo_inicial'] == 'dia'){
+            $data['dias_inicio'] = intval($data['edad_inicial']) * 1;
+        }else if($data['tipo_inicial'] == 'mes'){
+            $data['dias_inicio'] = intval($data['edad_inicial']) * 30;
+        }else if($data['tipo_inicial'] == 'año'){
+            $data['dias_inicio'] = intval($data['edad_inicial']) * 365;
+        }
 
-        return $data;
+        if($data['tipo_final'] == 'dia'){
+            $data['dias_final'] = intval($data['edad_final']) * 1;
+        }else if($data['tipo_final'] == 'mes'){
+            $data['dias_final'] = intval($data['edad_final']) * 30;
+        }else if($data['tipo_final'] == 'año'){
+            $data['dias_final'] = intval($data['edad_final']) * 365;
+        }
+
+        $dato = Referencia::create($data);
+
+        $estudio->referencias()->save($dato);
+
+        return $dato;
     }
 
+    // Delete referencia
+    public function catalogo_referencia_delete(Request $request){
+        $analito = Analito::where('id', $request->analito)->first();
+
+        $dato = $request->except('_token');
+
+        $delete = DB::table('referencias_has_analitos')->where('analito_id', $dato['analito'])->where('referencia_id', $dato['referencia'])->delete();
+
+        $borra = Referencia::where('id', $dato['referencia'])->delete();
+
+        if($delete) {
+            $response = true;
+        } else {
+            $response = false;
+        }
+
+        header("HTTP/1.1 200 OK");
+        header('Content-Type: application/json');
+        return json_encode($response);
+    }
 
     // AREAS
     public function catalogo_area_index(){
         // Trae areas creadas
         $areas = User::where('id', Auth::user()->id)->first()->labs()->first()->areas()->get();
+        // Trae metodos creadas
+        $metodos = User::where('id', Auth::user()->id)->first()->labs()->first()->metodos()->get();
+        // Trae recipientes creadas
+        $recipientes = User::where('id', Auth::user()->id)->first()->labs()->first()->recipientes()->get();
+        // Trae areas creadas
+        $muestras = User::where('id', Auth::user()->id)->first()->labs()->first()->muestras()->get();
+        // Trae tecnicas creadas
+        $tecnicas = User::where('id', Auth::user()->id)->first()->labs()->first()->tecnicas()->get();
+
         //Verificar sucursal
         $active = User::where('id', Auth::user()->id)->first()->sucs()->where('estatus', 'activa')->first();
         // Lista de sucursales que tiene el usuario
         $sucursales = User::where('id', Auth::user()->id)->first()->sucs()->orderBy('id', 'asc')->get();
 
-        return view('catalogo.areas.index', ['active' => $active, 'sucursales' => $sucursales, 'areas' =>$areas]);
+        return view('catalogo.areas.index', ['active' => $active, 
+                                            'sucursales' => $sucursales, 
+                                            'areas' =>$areas, 
+                                            'metodos'=>$metodos, 
+                                            'recipientes'=> $recipientes,
+                                            'muestras'=>$muestras,
+                                            'tecnicas'=>$tecnicas]);
     }
 
     public function catalogo_area_store(){
@@ -214,19 +364,6 @@ class CatalogoController extends Controller
     }
 
 
-    // METODOS
-    public function catalogo_metodo_index(){
-        // Trae metodos creadas
-        $metodos = User::where('id', Auth::user()->id)->first()->labs()->first()->metodos()->get();
-        //Verificar sucursal
-        $active = User::where('id', Auth::user()->id)->first()->sucs()->where('estatus', 'activa')->first();
-        // Lista de sucursales que tiene el usuario
-        $sucursales = User::where('id', Auth::user()->id)->first()->sucs()->orderBy('id', 'asc')->get();
-
-
-        return view('catalogo.metodos.index',['active'=>$active,'sucursales'=>$sucursales, 'metodos'=>$metodos]);
-    }
-
     public function catalogo_metodo_store(){
         // Verificar laboratorio asignado
         $laboratorio = User::where('id', Auth::user()->id)->first()->labs()->first();
@@ -241,21 +378,9 @@ class CatalogoController extends Controller
 
         $metodo = Metodo::create($metodos);
         $laboratorio->metodos()->save($metodo);
-        return redirect()->route('catalogo.metodos');
+        return redirect()->route('catalogo.areas');
     }
 
-
-    // RECIPIENTES
-    public function catalogo_recipiente_index(){
-        // Trae recipientes creadas
-        $recipientes = User::where('id', Auth::user()->id)->first()->labs()->first()->recipientes()->get();
-        //Verificar sucursal
-        $active = User::where('id', Auth::user()->id)->first()->sucs()->where('estatus', 'activa')->first();
-        // Lista de sucursales que tiene el usuario
-        $sucursales = User::where('id', Auth::user()->id)->first()->sucs()->orderBy('id', 'asc')->get();
-
-        return view('catalogo.recipientes.index', ['active'=> $active, 'sucursales' => $sucursales, 'recipientes'=> $recipientes]);
-    }
 
     public function catalogo_recipiente_store(){
         // Verificar laboratorio asignado
@@ -285,18 +410,6 @@ class CatalogoController extends Controller
     }
 
 
-    public function catalogo_muestra_index(){
-        // Trae areas creadas
-        $muestras = User::where('id', Auth::user()->id)->first()->labs()->first()->muestras()->get();
-
-        //Verificar sucursal
-        $active = User::where('id', Auth::user()->id)->first()->sucs()->where('estatus', 'activa')->first();
-        // Lista de sucursales que tiene el usuario
-        $sucursales = User::where('id', Auth::user()->id)->first()->sucs()->orderBy('id', 'asc')->get();
-
-        return view('catalogo.muestras.index', ['active'=>$active, 'sucursales'=>$sucursales, 'muestras'=>$muestras]);
-    }
-
     public function catalogo_muestra_store(){
         // Verificar laboratorio asignado
         $laboratorio = User::where('id', Auth::user()->id)->first()->labs()->first();
@@ -314,21 +427,9 @@ class CatalogoController extends Controller
 
         $laboratorio->muestras()->save($muestra);
 
-        return redirect()->route('catalogo.muestras');
+        return redirect()->route('catalogo.areas');
     }
 
-
-    public function catalogo_tecnica_index(){
-        // Trae tecnicas creadas
-        $tecnicas = User::where('id', Auth::user()->id)->first()->labs()->first()->tecnicas()->get();
-
-        //Verificar sucursal
-        $active = User::where('id', Auth::user()->id)->first()->sucs()->where('estatus', 'activa')->first();
-        // Lista de sucursales que tiene el usuario
-        $sucursales = User::where('id', Auth::user()->id)->first()->sucs()->orderBy('id', 'asc')->get();
-        
-        return view('catalogo.tecnicas.index', ['active'=>$active, 'sucursales'=>$sucursales, 'tecnicas'=>$tecnicas]);
-    }
 
     public function catalogo_tecnica_store(){
         
@@ -351,35 +452,43 @@ class CatalogoController extends Controller
     }
 
 
-    public function catalogo_equipo_index(){
-        // Trae equipos creadas
-        $equipos = User::where('id', Auth::user()->id)->first()->labs()->first()->equipos()->get();
 
+    public function catalogo_precio_index(){
         //Verificar sucursal
         $active = User::where('id', Auth::user()->id)->first()->sucs()->where('estatus', 'activa')->first();
         // Lista de sucursales que tiene el usuario
         $sucursales = User::where('id', Auth::user()->id)->first()->sucs()->orderBy('id', 'asc')->get();
 
-        return view('catalogo.equipos.index', ['active'=>$active, 'sucursales' => $sucursales, 'equipos'=>$equipos]);
+        // Lista de precios disponibles
+        $listas = User::where('id', Auth::user()->id)->first()->labs()->first()->precios()->get();
+
+        // Lista de estudios disponibles
+        $estudios = User::where('id', Auth::user()->id)->first()->labs()->first()->estudios()->get();
+
+        return view('catalogo.precios.index', ['active' => $active, 
+                                                'sucursales' => $sucursales, 
+                                                'listas' => $listas,
+                                                'estudios' => $estudios]);
     }
 
-    public function catalogo_equipo_store(){
+    public function catalogo_store_list(Request $request){
         // Verificar laboratorio asignado
         $laboratorio = User::where('id', Auth::user()->id)->first()->labs()->first();
 
-        // Para validar datos de metodos
-        $equipos = request()->validate([
-            'descripcion'           => 'required',
-            'observaciones'         => 'required',
-        ],[
-            'descripcion.required'  => 'Ingresa alguna descripcion',
-            'observaciones.required'=> 'Ingresa alguna observación',
-        ]);
+        $listas = $request->except('_token');
 
-        $equipo = Equipo::create($equipos);
-        $laboratorio->equipos()->save($equipo);
-        return redirect()->route('catalogo.equipos');
+        $lista = Precio::create($listas); 
+        $laboratorio->precios()->save($lista);
+
+        if($lista ) {
+            $response = true;
+        } else {
+            $response = false;
+        }
+
+        header("HTTP/1.1 200 OK");
+        header('Content-Type: application/json');
+        return json_encode($response);
     }
-
 
 }

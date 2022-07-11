@@ -37,4 +37,9 @@ class Analito extends Model
     public function referencias(){
         return $this->belongsToMany(Referencia::class, 'referencias_has_analitos');
     }
+
+    // analitos_has_estudios
+    public function estudios(){
+        return $this->belongsToMany(Estudio::class, 'analitos_has_estudios');
+    }
 }

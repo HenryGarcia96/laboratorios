@@ -32,7 +32,7 @@ class Analitos extends Migration
 
             $table->string('documento')->nullable();
             // $table->string('valor_referencia')->nullable();
-            // $table->string('imagen')->nullable();
+            $table->string('imagen')->nullable();
 
             $table->timestamps();
         });

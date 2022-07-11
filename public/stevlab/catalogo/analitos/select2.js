@@ -29,6 +29,36 @@ $(function() {
 		}
 	});
 	$('#selectEstudio').on('select2:select', function (e) {
+		let data= e.params.data.id;
+		// Revisame los analitos que ya esten asignados
+		axios.post('/catalogo/checkAnalitos', {
+			_token: CSRF_TOKEN,
+			data: data,
+		})
+		.then(function (response) {
+			// Para settear los analitos
+			response.data.forEach(function(element, index){
+				let list =`
+						<li class="list-group-item"> 
+							<span></span> <strong>${element.clave}</strong> - ${element.descripcion}
+							<button  onclick='removeAnalito(this)' type="button" class="text-white float-right btn btn-xs btn-warning btn-icon delete">
+								<i class="mdi mdi-delete"></i>
+							</button>
+						</li>
+					`;
+				$('#analitos-list').append(list);
+			});
+
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+
+		// Para adjuntar el id del estudio
+		let dato = `
+				<input id='estudioId' type="hidden" value='${e.params.data.id}'>
+			`;
+		$('#estudioData').append(dato);
 		$('#setAnalito').show();
 	});
 	
@@ -48,7 +78,7 @@ $(function() {
 			processResults: function (data) {
 				var listEstudios = [];
 				data.forEach(function(element, index){
-					let est_data = {id: element.id, text: `${element.clave} - ${element.descripcion}`};
+					let est_data = {id: element.id, text: `${element.clave} - ${element.descripcion} - tipo: ${element.tipo_resultado}`};
 					
 					listEstudios.push(est_data);
 				});
@@ -62,35 +92,21 @@ $(function() {
 	$('#selectAnalito').on('select2:select', function (e) {
 		var data = e.params.data.id;
 
+		
+
 		const response = axios.post('/setAnalito', {
 			data: data,
 		})
 		.then(res =>  {
-			console.log(res.data);
-			let table = `
-					<tr>
-						<td>
-						${res.data.clave}
-						</td>
-
-						<td>
-						${res.data.descripcion}
-						</td>
-
-						<td>
-						${res.data.tipo_resultado}
-						</td>
-
-						<td class='col-1'>
-							<input type="number" min='0'>
-						</td>
-
-						<td>
-							button
-						</td>
-					</tr>
+			let list =`
+					<li class="list-group-item"> 
+						<span></span> <strong>${res.data.clave}</strong> - ${res.data.descripcion}
+						<button onclick='removeThis(this)' type="button" class=" float-right btn btn-xs btn-danger btn-icon delete">
+							<i class="mdi mdi-delete"></i>
+						</button>
+					</li>
 				`;
-			$('#values').append(table);
+			$('#analitos-list').append(list);
 		}).catch((err) => {
 			console.log(err);
 		});

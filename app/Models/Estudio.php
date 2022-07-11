@@ -43,5 +43,8 @@ class Estudio extends Model
     //     return $this->belongsToMany(Tenica::class, 'estudios_has_laboratories')->withPivot();
     // }
 
-    
+    // analitos_has_estudios
+    public function analitos(){
+        return $this->belongsToMany(Analito::class, 'analitos_has_estudios');
+    }
 }
