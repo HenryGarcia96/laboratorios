@@ -73,7 +73,7 @@ class Laboratory extends Model
     public function area(){
         return $this->belongsToMany(Area::class, 'estudios_has_laboratories')->withPivot('sucursal_id', 'estudio_id', 'muestra_id', 'recipiente_id', 'metodo_id');
     }
-
+ 
     public function muestr(){
         return $this->belongsToMany(Muestra::class, 'estudios_has_laboratories')->withPivot('sucursal_id', 'estudio_id', 'area_id', 'recipiente_id', 'metodo_id');
     }
@@ -120,9 +120,23 @@ class Laboratory extends Model
         return $this->belongsToMany(Equipo::class, 'equipos_has_laboratories');
     }
 
+
     // Precios de los laboratorios
     public function precios(){
         return $this->belongsToMany(Precio::class, 'precios_has_laboratories');
     }
+    
+    //Pacientes 
+    public function pacientes(){
+        return $this->belongsToMany(Pacientes::class, 'pacientes_has_laboratories');
+    }
+    //Empresas 
+    public function empresas(){
+        return $this->belongsToMany(Empresas::class, 'empresas_has_laboratories');
+    }
+    //Doctores 
+    public function doctores(){
+        return $this->belongsToMany(Doctores::class, 'doctores_has_laboratories');
+    }        
     
 }

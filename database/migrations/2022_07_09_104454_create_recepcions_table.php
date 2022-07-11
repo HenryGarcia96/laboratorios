@@ -4,7 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-
 class CreateRecepcionsTable extends Migration
 {
     /**
@@ -14,22 +13,36 @@ class CreateRecepcionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('recepcions', function (Blueprint $table) { 
+        Schema::create('recepcions', function (Blueprint $table) {
             $table->id();
 
             $table->string('folio');
             $table->string('numOrden');
             $table->string('numRegistro');
             //llave foranea-------------------------------
-            $table->string('paciente');
+            //$table->string('paciente');
+            $table->foreignId('id_paciente')
+            ->nullable()
+            ->constrained('pacientes')
+            ->cascadeOnUpdate()
+            ->nullOnDelete();
             //--------------------------------------------
-            $table->string('empresa');
+            //$table->foreign('id_empresas')->references('id')->on('empresas');
+            $table->foreignId('id_empresa')
+                    ->nullable()
+                    ->constrained('empresas')
+                    ->cascadeOnUpdate()
+                    ->nullOnDelete();
+
             $table->string('servicio');
             $table->string('tipPasiente');
             $table->string('turno');
             //llave foranea-------------------------------
-            $table->string('doctor_id')->nullable();
-            $table->string('medico')->nullable();
+            $table->foreignId('id_doctor')
+            ->nullable()
+            ->constrained('doctores')
+            ->cascadeOnUpdate()
+            ->nullOnDelete();
             //--------------------------------------------
             $table->string('numCama'); 
             $table->string('peso');
