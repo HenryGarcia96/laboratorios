@@ -17,6 +17,7 @@ class AnalitosHasEstudios extends Migration
             $table->id();
             $table->unsignedBigInteger('analito_id');
             $table->unsignedBigInteger('estudio_id');
+            $table->string('orden')->nullable();
 
             $table->foreign('analito_id')->references('id')->on('analitos')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('estudio_id')->references('id')->on('estudios')->onDelete('restrict')->onUpdate('cascade');

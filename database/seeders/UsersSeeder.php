@@ -210,5 +210,16 @@ class UsersSeeder extends Seeder
             'laboratory_id'     =>'1',
         ]);
 
+        DB::table('analitos_has_estudios')->insert([
+            'analito_id'=>'1',
+            'estudio_id'=>'1',
+            'orden'=>'1',
+        ]);
+
+        DB::table('analitos_has_estudios')->insert([
+            'analito_id'=>'2',
+            'estudio_id'=>'1',
+            'orden'=>'2',
+        ]);
     }
 }

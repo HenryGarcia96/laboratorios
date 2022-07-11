@@ -67,20 +67,21 @@
                     
                   <div class="col-md-15">
                     <label class="form-label">Nombre de paciente(modals):</label>
-                    <input class="form-control mb-4 mb-md-0 @error('paciente') is-invalid @enderror" name="paciente" value="{{old('paciente')}}" type="text">
-                    @error('paciente')
-                    <span class="invalid-feedback">
-                      <strong>{{$message}}</strong>
-                    </span>
-                    @enderror
+                    <select class="js-example-basic-single form-select @error('id_paciente') is-invalid @enderror" name="id_paciente" data-width="100%"">
+                      @forelse ($pacientes as $paciente)
+                      <option value="{{$paciente->id}}">{{$paciente->nombre}} {{$paciente->ap_paterno}} {{$paciente->ap_materno}}</option>
+                      @empty
+                      @endforelse
+                    </select>
                   </div>
                  
                   <div class="mb-3 col-md-15">
                     <label class="form-label">Empresa:</label>
-                    <select class="js-example-basic-single form-select @error('empresa') is-invalid @enderror" name="empresa" data-width="100%" value="{{old('empresa')}}">
-                      <option></option>
-                      <option value="TX">Empresa de publicidad</option>
-                      <option value="NY">Empresa particular</option>
+                    <select class="js-example-basic-single form-select @error('id_empresa') is-invalid @enderror" name="id_empresa" data-width="100%">
+                      @forelse ($empresas as $empresa)
+                      <option value="{{$empresa->id}}">{{$empresa->descripcion}}</option>
+                      @empty
+                      @endforelse
                     </select>
                   </div>
 
@@ -114,12 +115,12 @@
 
                   <div class="col-md-15">
                     <label class="form-label">Medico(modals):</label>
-                    <input class="form-control mb-1 mb-md-0 @error('medico') is-invalid @enderror" name="medico" value="{{old('medico')}}" type="text" placeholder="AQC-A quien corresponda" >
-                    @error('medico')
-                    <span class="invalid-feedback">
-                      <strong>{{$message}}</strong>
-                    </span>
-                    @enderror
+                    <select class="js-example-basic-single form-select @error('id_doctor') is-invalid @enderror" name="id_doctor" data-width="100%">
+                      @forelse ($doctores as $doctor)
+                      <option value="{{$doctor->id}}">{{$doctor->nombre}} {{$doctor->ap_paterno}} {{$doctor->ap_materno}}</option>
+                      @empty
+                      @endforelse
+                    </select>
                   </div>
 
                   <div class="row mb-1">
@@ -261,7 +262,6 @@
           </div>
 
         </form>
-
           
           <!----------------------------------------------------------------------------------------------------->
 
