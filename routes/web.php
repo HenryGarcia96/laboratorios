@@ -3,6 +3,7 @@
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\DoctoresController;
+use App\Http\Controllers\EmpresasController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\PacienteController;
@@ -46,10 +47,15 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
     // Dashboard
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     
-    // Caja
-    Route::resource('recepcion', RecepcionsController::class);
-    Route::get('for', [RecepcionsController::class, 'index']);
-    Route::post('guardar', [RecepcionsController::class, 'guardar']); 
+    // Recepcion
+    Route::name('recepcion.')->prefix('recepcion')->group(function(){
+    // Recepcion - nuevo
+    Route::get('/index', [RecepcionsController::class, 'index'])->name('index');
+    Route::post('/guardar', [RecepcionsController::class, 'guardar']); 
+
+    // Recepcion -  captura de resultados
+    // Route::get('/captura', [RecepcionsController::class, 'recepcion_captura_index'])->name('captura');
+    });
     
     // Caja
     Route::resource('caja', CajaController::class);
@@ -83,7 +89,7 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
         // Catalogo - metodos-store
         Route::post('/store-metodo', [CatalogoController::class, 'catalogo_metodo_store'])->name('store-metodo');
 
-        // Catalogo - recipientes.index
+        // Catalogo - recipientes.index 
         Route::get('/recipientes', [CatalogoController::class, 'catalogo_recipiente_index'])->name('recipientes');
         // Catalogo - recipientes-store
         Route::post('/store-recipiente', [CatalogoController::class, 'catalogo_recipiente_store'])->name('store-recipiente');
@@ -109,12 +115,35 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
         //Catalogo - doctores.guardar
         Route::post('/doctores_guardar', [DoctoresController::class, 'doctores_guardar'])->name('doctores_guardar');
         //Catalogo - doctor.editar
-        //Route::get('/doctor_editar/{id}', [DoctoresController::class, 'doctor_editar'])->name('doctor_editar');
+        Route::post('/getDoctor', [DoctoresController::class, 'get_doctor_edit'])->name('getDoctor');
+        //Catalogo - doctor.actualizar
+        Route::post('/doctor_actualizar', [DoctoresController::class, 'doctor_actualizar'])->name('doctor_actualizar');
         //Catalogo - doctor.elimiar
         Route::get('/doctor_eliminar/{id}', [DoctoresController::class, 'doctor_eliminar'])->name('doctor_eliminar');
 
         //Catalogo - pacientes.index
         Route::get('/pacientes',[PacienteController::class, 'paciente_index'])->name('pacientes');
+        //Catalogo - pacientes.guardar
+        Route::post('/paciente_guardar', [PacienteController::class, 'paciente_guardar'])->name('paciente_guardar');
+        //Catalogo - pacientes.eliminar
+        Route::get('/paciente_eliminar/{id}', [PacienteController::class, 'paciente_eliminar'])->name('paciente_eliminar');
+        //Catalogo - pacientes.editar
+        Route::post('/getPaciente', [PacienteController::class, 'get_paciente_edit'])->name('getPaciente');
+        //Catalogo - paciente.actualizar
+        Route::post('/paciente_actualizar', [PacienteController::class, 'paciente_actualizar'])->name('paciente_actualizar');
+
+        //Catalogo - empresas.index
+        Route::get('/empresas',[EmpresasController::class, 'empresa_index'])->name('empresas');
+        //Catalogo - empresas.guardar
+        Route::post('/empresa_guardar', [EmpresasController::class, 'empresa_guardar'])->name('empresa_guardar');
+        //Catalogo - empresa.eliminar
+        Route::get('/empresa_eliminar/{id}', [EmpresasController::class, 'empresa_eliminar'])->name('empresa_eliminar');
+
+        //Catalogo - empresa.editar
+        Route::post('/getEmpresa', [EmpresasController::class, 'get_empresa_edit'])->name('getEmpresa');
+        //Catalogo - empresa.actualizar
+        Route::post('/empresa_actualizar', [EmpresasController::class, 'empresa_actualizar'])->name('empresa_actualizar');        
+        
     });
 });
 
