@@ -16,7 +16,7 @@
 
 <div class="row">
     {{-- d-none d-md-block col-md-4 col-xl-3 left-wrapper --}}
-    <div class="d-none d-md-block col-md-12 col-lg-6 grid-margin stretch-card">
+    <div class="d-md-block col-md-12 col-lg-6 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 

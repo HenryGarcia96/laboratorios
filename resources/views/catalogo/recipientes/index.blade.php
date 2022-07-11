@@ -73,7 +73,7 @@
             </div>
         </div>
     </div>
-    <div class="d-none d-md-block col-lg-6 grid-margin stretch-card">
+    <div class="d-md-block col-lg-6 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Tabla de recipientes</h4>
