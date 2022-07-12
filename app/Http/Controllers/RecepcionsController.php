@@ -19,7 +19,9 @@ class RecepcionsController extends Controller
     //Verificar sucursal
     $active = User::where('id', Auth::user()->id)->first()->sucs()->where('estatus', 'activa')->first();
 // Lista de sucursales que tiene el usuario
-    $sucursales = User::where('id', Auth::user()->id)->first()->sucs()->orderBy('id', 'asc')->get(); 
+    $sucursales = User::where('id', Auth::user()->id)->first()->sucs()->orderBy('id', 'asc')->get();
+    
+    $listas = User::where('id', Auth::user()->id)->first()->labs()->first()->recepcions()->get();
 
 
         $empresas = Empresas::all();
@@ -28,11 +30,13 @@ class RecepcionsController extends Controller
 
         return view('recepcion.index',
         ['active'=>$active,'sucursales'=>$sucursales, 'empresas'=>$empresas,
-         'pacientes'=>$pacientes, 'doctores' => $doctores]);  
+         'pacientes'=>$pacientes, 'doctores' => $doctores, 'listas' => $listas]);  
      }
 
 
     public function guardar(Request $request){
+        $laboratorio = User::Where('id', Auth::user()->id)->first()->labs()->first();
+
         $request->validate([
             'folio' => 'required | unique:recepcions',
             'numOrden' => 'required | unique:recepcions',
@@ -66,7 +70,8 @@ class RecepcionsController extends Controller
         $recep->listPrecio = $request->listPrecio;
 
 
-        $recep->save();
+        //$recep->save();
+        $laboratorio->recepcions()->save($recep);
         return back()->with('success', 'Registro completo');
     }
 
@@ -85,6 +90,81 @@ class RecepcionsController extends Controller
                                             'areas'         => $areas,
                                             'estudios'      => $estudios
                                         ]);
+    }
+
+    public function recepcion_editar_index(Request $request){
+        //Verificar sucursal
+        $active = User::where('id', Auth::user()->id)->first()->sucs()->where('estatus', 'activa')->first();
+        // Lista de sucursales que tiene el usuario
+        $sucursales = User::where('id', Auth::user()->id)->first()->sucs()->orderBy('id', 'asc')->get();
+        // Areas
+        $areas = User::where('id', Auth::user()->id)->first()->labs()->first()->areas()->get();
+        
+        $listas = User::where('id', Auth::user()->id)->first()->labs()->first()->recepcions()->get();
+
+
+        $empresas = Empresas::all();
+        $pacientes = Pacientes::all();
+        $doctores = Doctores::all();
+        $recepcions = Recepcions::all();
+
+        return view('recepcion.editar.index',
+                    ['active'=>$active,'sucursales'=>$sucursales, 
+                    'empresas'=>$empresas,'pacientes'=>$pacientes, 
+                    'doctores' => $doctores, 'listas' => $listas,
+                    'areas'=>$areas, 'recepcions' => $recepcions]);
+                    
+       
+ 
+    }
+
+    public function recepcion_editar($id){
+                //Verificar sucursal
+                $active = User::where('id', Auth::user()->id)->first()->sucs()->where('estatus', 'activa')->first();
+                // Lista de sucursales que tiene el usuario
+                $sucursales = User::where('id', Auth::user()->id)->first()->sucs()->orderBy('id', 'asc')->get();
+                // Areas
+                $areas = User::where('id', Auth::user()->id)->first()->labs()->first()->areas()->get();
+                
+                $listas = User::where('id', Auth::user()->id)->first()->labs()->first()->recepcions()->get();
+
+        $empresas = Empresas::all();
+        $pacientes = Pacientes::all();
+        $doctores = Doctores::all();
+
+        $re = Recepcions::findOrFail($id);
+
+       return view('recepcion.editar.editar',
+       ['active'=>$active,'sucursales'=>$sucursales, 
+       'empresas'=>$empresas,'pacientes'=>$pacientes, 
+       'doctores' => $doctores, 'listas' => $listas,
+       'areas'=>$areas,'re' =>$re]);
+    }
+
+    public function recepcion_actualizar(Request $request, $id){
+        $recep = Recepcions::findOrFail($id);
+
+        $recep->folio = $request->folio;
+        $recep->numOrden = $request->numOrden;
+        $recep->numRegistro = $request->numRegistro;
+        $recep->id_paciente = $request->id_paciente;
+        $recep->id_empresa = $request->id_empresa;
+        $recep->servicio = $request->servicio;
+        $recep->tipPasiente = $request->tipPasiente;
+        $recep->turno = $request->turno;
+        $recep->id_doctor = $request->id_doctor;
+        $recep->numCama = $request->numCama;
+        $recep->peso = $request->peso;
+        $recep->talla = $request->talla;
+        $recep->fur = $request->fur;
+        $recep->medicamento = $request->medicamento;
+        $recep->diagnostico = $request->diagnostico;
+        $recep->observaciones = $request->observaciones;
+        $recep->listPrecio = $request->listPrecio;
+
+        $recep->save();
+        return back();
+
     }
 
 }
