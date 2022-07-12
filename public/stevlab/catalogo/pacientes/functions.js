@@ -8,7 +8,7 @@ function mostrarModal(obj){
 
     const response = axios.post('/catalogo/getPaciente', {
         _token: CSRF_TOKEN,
-        data: data,
+        data: data, 
     })
     .then(res =>  {
         console.log(res.data);

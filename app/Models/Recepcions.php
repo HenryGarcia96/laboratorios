@@ -18,13 +18,17 @@ class Recepcions extends Model
 
 
     public function empresas(){
-        return $this->belongsTo(Empresas::class, 'id_empresa');
+        return $this->belongsTo(Empresas::class, 'id_empresa'); 
     }
     public function pacientes(){
         return $this->belongsTo(Pacientes::class, 'id_paciente');
     }
     public function doctores(){
         return $this->belongsTo(Doctores::class, 'id_doctor');
+    }
+
+    public function laboratory(){
+        return $this->belongsToMany(Laboratory::class, 'recepcions_has_laboratories');
     }
 }
 

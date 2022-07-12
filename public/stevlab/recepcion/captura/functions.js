@@ -17,4 +17,8 @@ $(document).ready(function(){
         title: 'Estas cambiando los datos del formulario'
         });
     });
+
+    $('.js-example-basic-single').select2();
+    
+    $('.datepicker').datepicker();
 });
