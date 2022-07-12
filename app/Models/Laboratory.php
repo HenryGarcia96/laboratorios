@@ -137,6 +137,10 @@ class Laboratory extends Model
     //Doctores 
     public function doctores(){
         return $this->belongsToMany(Doctores::class, 'doctores_has_laboratories');
-    }        
+    }
+    //Recepcion 
+    public function recepcions(){
+        return $this->belongsToMany(Recepcions::class, 'recepcions_has_laboratories');
+    }             
     
 }

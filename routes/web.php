@@ -57,6 +57,13 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
         // Recepcion -  captura de resultados
         Route::get('/captura', [RecepcionsController::class, 'recepcion_captura_index'])->name('captura');
         
+        //Recepcion - Editar index
+        Route::get('/editar', [RecepcionsController::class, 'recepcion_editar_index'])->name('editar');
+        //Recepcion - Editar solicitud
+        Route::get('/recepcion_editar/{id}', [RecepcionsController::class, 'recepcion_editar'])->name('recepcion_editar');
+        //Recepcion - Editar solicitud - Actualiazar
+        Route::post('/recepcion_actualizar/{id}', [RecepcionsController::class, 'recepcion_actualizar'])->name('recepcion_actualizar');
+
     });
     
     // Caja

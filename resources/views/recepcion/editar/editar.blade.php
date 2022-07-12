@@ -13,6 +13,8 @@
       <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{{route('dashboard')}}">StevLab</a></li>
           <li class="breadcrumb-item active" aria-current="page"> <a href="{{route('recepcion.index')}}">Recepcion</a> </li>
+          <li class="breadcrumb-item active" aria-current="page"> <a href="{{route('recepcion.editar')}}">Solicitudes</a> </li>
+          <li class="breadcrumb-item active" aria-current="page"> <a href="{{route('recepcion.editar')}}">Editar solicitud</a> </li>
       </ol>
   </nav>
   {{-- Fin breadcrumb recepcion --}}
@@ -23,23 +25,16 @@
            $z=  (random_int(100000000,999999999));
            ?>
           <!---------------------------------------------------------------------------------------------------->
-          <div class="col-lg-6 col-12 mx-auto">
-            @if(Session::has('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-              <strong>{{Session::get('success')}}</strong>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close"></button>
-            </div>         
-              @endif 
-            </div>
-          
+         
           <div class="row">
             <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
 
-                  <form id="signupForm" class="forms-sample" method="POST" action="guardar">
-                    @csrf  
-
+                  <form id="signupForm" class="forms-sample" method="POST" action="{{route('recepcion.recepcion_actualizar', $re->id)}}">
+                    @csrf
+ 
+                    <input type="hidden" name="id" value="{{$re->id}}">
                     <div class="row mb-1">
                       <div class="col-md-4">
                         <label class="form-label">Folio:</label>
@@ -48,7 +43,7 @@
 
                       <div class="col-md-4">
                         <label class="form-label">No. Orden:</label>
-                        <input class="form-control @error('numOrden') is-invalid @enderror" name="numOrden" value="{{old('numOrden')}}" type="number">
+                        <input class="form-control @error('numOrden') is-invalid @enderror" name="numOrden" value="{{$re->numOrden}}" type="number">
                         @error('numOrden')
                         <span class="invalid-feedback">
                           <strong>{{$message}}</strong>
@@ -58,7 +53,7 @@
         
                     <div class="col-md-4">
                       <label class="form-label">No.registro</label>
-                      <input class="form-control @error('numRegistro') is-invalid @enderror" name="numRegistro" value="{{old('numRegistro')}}" type="number">
+                      <input class="form-control @error('numRegistro') is-invalid @enderror" name="numRegistro" value="{{$re->numRegistro}}" type="number">
                       @error('numRegistro')
                       <span class="invalid-feedback">
                         <strong>{{'Es necesario un Numero de registro'}}</strong>
@@ -69,12 +64,7 @@
                     
                   <div class="col-md-15">
                     <label class="form-label">Nombre de paciente(modals):</label>
-                    <select class="js-example-basic-single js-states form-control @error('id_paciente') is-invalid @enderror" name="id_paciente" data-width="100%"">
-                      @forelse ($pacientes as $paciente)
-                      <option value="{{$paciente->id}}">{{$paciente->nombre}} {{$paciente->ap_paterno}} {{$paciente->ap_materno}}</option>
-                      @empty
-                      @endforelse
-                    </select>
+                    <input class="form-control" readonly="id_paciente" name="numRegistro" value="{{$re->pacientes->nombre}} {{$re->pacientes->ap_paterno}} {{$re->pacientes->ap_materno}}" type="text">
                   </div>
                  
                   <div class="mb-3 col-md-15">
@@ -130,7 +120,7 @@
                   <div class="row mb-1">
                     <div class="col-md-3">
                       <label class="form-label">No. Cama:</label>
-                      <input class="form-control @error('numCama') is-invalid @enderror" name="numCama" value="{{old('numCama')}}" type="number">
+                      <input class="form-control @error('numCama') is-invalid @enderror" name="numCama" value="{{$re->numCama}}" type="number">
                       @error('numCama')
                       <span class="invalid-feedback">
                         <strong>{{$message}}</strong>
@@ -140,7 +130,7 @@
         
                     <div class="col-md-3">
                       <label class="form-label">Peso:</label>
-                      <input class="form-control @error('peso') is-invalid @enderror" name="peso"value="{{old('peso')}}" type="text">
+                      <input class="form-control @error('peso') is-invalid @enderror" name="peso"value="{{$re->peso}}" type="text">
                       @error('peso')
                       <span class="invalid-feedback">
                         <strong>{{$message}}</strong>
@@ -150,7 +140,7 @@
         
                     <div class="col-md-3">
                       <label class="form-label">Talla:</label>
-                      <input class="form-control @error('talla') is-invalid @enderror" name="talla"value="{{old('talla')}}" type="text">
+                      <input class="form-control @error('talla') is-invalid @enderror" name="talla"value="{{$re->talla}}" type="text">
                       @error('talla')
                       <span class="invalid-feedback">
                         <strong>{{$message}}</strong>
@@ -159,13 +149,13 @@
                     </div>
                     <div class="col-md-3">
                       <label class="form-label">FUR:</label>
-                      <input class="form-control" name="fur" type="text">
+                      <input class="form-control" name="fur" type="text" value="{{$re->fur}}">
                     </div>
                   </div> 
 
                   <div class="col-md-15">
                     <label class="form-label">Medicamento:</label>
-                    <input class="form-control mb-1 mb-md-0 @error('medicamento') is-invalid @enderror" name="medicamento"value="{{old('medicamento')}}" type="text">
+                    <input class="form-control mb-1 mb-md-0 @error('medicamento') is-invalid @enderror" name="medicamento"value="{{$re->medicamento}}" type="text">
                     @error('medicamento')
                     <span class="invalid-feedback">
                       <strong>{{$message}}</strong>
@@ -175,7 +165,7 @@
 
                   <div class="col-md-15">
                     <label class="form-label">Diagnostico:</label>
-                    <input class="form-control mb-1 mb-md-0 @error('diagnostico') is-invalid @enderror" name="diagnostico"value="{{old('diagnostico')}}" type="text">
+                    <input class="form-control mb-1 mb-md-0 @error('diagnostico') is-invalid @enderror" name="diagnostico"value="{{$re->diagnostico}}" type="text">
                     @error('diagnostico')
                     <span class="invalid-feedback">
                       <strong>{{$message}}</strong>
@@ -195,13 +185,13 @@
                       <label for="defaultconfig-4" class="form-label">Observaciones:</label>
                     </div>
                     <div class="col-lg-15">
-                      <textarea id="maxlength-textarea" class="form-control" maxlength="500" rows="2" name="observaciones"></textarea>
+                      <textarea id="maxlength-textarea" class="form-control" maxlength="500" rows="2" name="observaciones">{{$re->observaciones}}</textarea>
                     </div>
                </div>   
 
                <div class="col-md-15">
                 <label class="form-label">Lista de precios:</label>
-                <input class="form-control mb-4 mb-md-0" name="listPrecio" type="text">
+                <input class="form-control mb-4 mb-md-0" name="listPrecio" type="text" value="{{$re->listPrecio}}">
               </div>  <br>
               <!------------------------Tabla---------------------------------------------------------------------->
               <style>
@@ -233,10 +223,10 @@
                           </thead>
                           <tbody>
                             <tr>
-                              <th>00TP</th>
-                              <td>T.P/TIEMPO DE PROTROMBINA</td>
-                              <td>Estudios</td>
-                              <td>$80.00</td>
+                              <th></th>
+                              <td></td>
+                              <td></td>
+                              <td></td>
                               <td>
                                 <div class="form-check mb-3">
                                   <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -254,7 +244,7 @@
               </div>
               <div class="col-md-4">
                 <label class="form-label">Total:</label>
-                <input class="form-control mb-4 mb-md-0" name="tot_precio" type="text" placeholder="$80.00" readonly="readonly" id="num_total">
+                <input class="form-control mb-4 mb-md-0" name="tot_precio" type="text"  readonly="readonly" id="num_total">
               </div> <br>
               <!---------------------------------------------------------------------------------------------------->  
                 <!--botones-->

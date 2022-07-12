@@ -40,6 +40,10 @@
                 {{-- <a href="{{ url('/advanced-ui/cropper') }}" class="nav-link {{ active_class(['advanced-ui/cropper']) }}">Cropper</a> --}}
                 <a href="{{route('recepcion.captura')}}" class="nav-link">Captura de resultados</a>
               </li>
+              <li class="nav-item">
+                {{-- <a href="{{ url('/advanced-ui/cropper') }}" class="nav-link {{ active_class(['advanced-ui/cropper']) }}">Cropper</a> --}}
+                <a href="{{route('recepcion.editar')}}" class="nav-link">Editar solicitud</a>
+              </li>
             </ul>
           </div>
       </li>
@@ -89,7 +93,6 @@
               {{-- <a href="{{ url('/advanced-ui/sweet-alert') }}" class="nav-link {{ active_class(['advanced-ui/sweet-alert']) }}">Sweet Alert</a> --}}
               <a href="{{route('catalogo.empresas')}}" class="nav-link">Empresas</a>
             </li>
-            
             <li class="nav-item">
               {{-- <a href="{{ url('/advanced-ui/sweet-alert') }}" class="nav-link {{ active_class(['advanced-ui/sweet-alert']) }}">Sweet Alert</a> --}}
               <a href="{{route('catalogo.doctores')}}" class="nav-link">Doctores</a>
