@@ -52,7 +52,7 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
     Route::name('recepcion.')->prefix('recepcion')->group(function(){
         // Recepcion - nuevo
         Route::get('/index', [RecepcionsController::class, 'index'])->name('index');
-        Route::post('/guardar', [RecepcionsController::class, 'guardar']); 
+        Route::post('/guardar', [RecepcionsController::class, 'guardar'])->name('guardar'); 
 
         // Recepcion -  captura de resultados
         Route::get('/captura', [RecepcionsController::class, 'recepcion_captura_index'])->name('captura');
@@ -123,6 +123,7 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
         Route::post('/get-estudios-asignados', [CatalogoController::class, 'catalogo_tabla_precios_estudios'])->name('get-estudios-asignados');
         // Settear seleccion para agregar
         Route::post('/set-estudios-for-precios', [CatalogoController::class, 'catalogo_set_position'])->name('set-estudios-for-precios');
+        
         //Catalogo - doctores.index 
         Route::get('/doctores', [DoctoresController::class, 'doctores_index'])->name('doctores');
         //Catalogo - doctores.guardar

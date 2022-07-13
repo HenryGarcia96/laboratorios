@@ -2,8 +2,8 @@
 
 @push('plugin-styles') 
 <link href="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.css') }}" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<link href="path/to/select2.min.css" rel="stylesheet" />
+<link href="{{ asset('public/assets/plugins/select2/select2.min.css') }}" rel="stylesheet" />
+
 @endpush
 
 
@@ -37,7 +37,7 @@
               <div class="card">
                 <div class="card-body">
 
-                  <form id="signupForm" class="forms-sample" method="POST" action="guardar">
+                  <form id="signupForm" class="forms-sample" method="POST" action="{{route('recepcion.guardar')}}">
                     @csrf  
 
                     <div class="row mb-1">
@@ -274,12 +274,11 @@
 <script src="{{ asset('public/assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
 <script src="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.js') }}"></script>
 <script src="{{ asset('public/assets/js/axios.min.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="path/to/select2.min.js"></script>
+<script src="{{ asset('public/assets/plugins/select2/select2.min.js') }}"></script>
+
 @endpush
 
 @push('custom-scripts')
 <script src="{{ asset('public/assets/js/data-table.js') }}"></script>
-<script src="{{ asset('public\stevlab\recepcion\captura/functions.js') }}"></script>
 @endpush
 
