@@ -74,7 +74,7 @@ class User extends Authenticatable
     }
 
     // Users has laboratories
-    public function laboratorio(){
+    public function laboratorio(){ 
         return $this->belongsToMany(Laboratory::class, 'users_has_laboratories', 'sucursal_id', 'laboratorio_id', 'usuario_id')->withPivot('sucursal_id');
     }
 

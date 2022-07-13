@@ -66,7 +66,7 @@ class Laboratory extends Model
         return $this->belongsToMany(Estudio::class, 'estudios_has_laboratories')->withPivot('sucursal_id', 'area_id', 'muestra_id', 'recipiente_id', 'metodo_id');
     }
 
-    public function sucursl(){
+    public function sucursl(){ 
         return $this->belongsToMany(Subsidiary::class, 'estudios_has_laboratories')->withPivot('estudio_id', 'area_id', 'muestra_id', 'recipiente_id', 'metodo_id' );
     }
 

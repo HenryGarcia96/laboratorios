@@ -15,20 +15,23 @@ use Illuminate\Http\Request;
 class RecepcionsController extends Controller{
 
     public function index(Request $request){
-    //Verificar sucursal
-    $active = User::where('id', Auth::user()->id)->first()->sucs()->where('estatus', 'activa')->first();
-    // Lista de sucursales que tiene el usuario
-    $sucursales = User::where('id', Auth::user()->id)->first()->sucs()->orderBy('id', 'asc')->get();
-    
-    $listas = User::where('id', Auth::user()->id)->first()->labs()->first()->recepcions()->get();
+      //Verificar sucursal
+      $active = User::where('id', Auth::user()->id)->first()->sucs()->where('estatus', 'activa')->first();
+      // Lista de sucursales que tiene el usuario
+      $sucursales = User::where('id', Auth::user()->id)->first()->sucs()->orderBy('id', 'asc')->get();
 
-        $empresas = Empresas::all();
-        $pacientes = Pacientes::all();
-        $doctores = Doctores::all();
+      $listas = User::where('id', Auth::user()->id)->first()->labs()->first()->recepcions()->get();
 
-        return view('recepcion.index',
-        ['active'=>$active,'sucursales'=>$sucursales, 'empresas'=>$empresas,
-        'pacientes'=>$pacientes, 'doctores' => $doctores, 'listas' => $listas]);  
+
+      $empresas = User::where('id', Auth::user()->id)->first()->labs()->first()->empresas()->get();
+
+      $pacientes = User::where('id', Auth::user()->id)->first()->labs()->first()->pacientes()->get();
+      $doctores = User::where('id', Auth::user()->id)->first()->labs()->first()->doctores()->get();
+
+
+      return view('recepcion.index',
+      ['active'=>$active,'sucursales'=>$sucursales, 'empresas'=>$empresas,
+      'pacientes'=>$pacientes, 'doctores' => $doctores, 'listas' => $listas]);  
     }  
 
 
@@ -108,10 +111,10 @@ class RecepcionsController extends Controller{
         $listas = User::where('id', Auth::user()->id)->first()->labs()->first()->recepcions()->get();
 
 
-        $empresas = Empresas::all();
-        $pacientes = Pacientes::all();
-        $doctores = Doctores::all();
-        $recepcions = Recepcions::all();
+        $empresas = User::where('id', Auth::user()->id)->first()->labs()->first()->empresas()->get();
+        $pacientes = User::where('id', Auth::user()->id)->first()->labs()->first()->pacientes()->get();
+        $doctores = User::where('id', Auth::user()->id)->first()->labs()->first()->doctores()->get();
+        $recepcions = User::where('id', Auth::user()->id)->first()->labs()->first()->recepcions()->get();
 
         return view('recepcion.editar.index',
                     ['active'=>$active,'sucursales'=>$sucursales, 
@@ -131,9 +134,9 @@ class RecepcionsController extends Controller{
                 
                 $listas = User::where('id', Auth::user()->id)->first()->labs()->first()->recepcions()->get();
 
-        $empresas = Empresas::all();
-        $pacientes = Pacientes::all();
-        $doctores = Doctores::all();
+                $empresas = User::where('id', Auth::user()->id)->first()->labs()->first()->empresas()->get();
+                $pacientes = User::where('id', Auth::user()->id)->first()->labs()->first()->pacientes()->get();
+                $doctores = User::where('id', Auth::user()->id)->first()->labs()->first()->doctores()->get();
 
         $re = Recepcions::findOrFail($id);
 
@@ -150,7 +153,6 @@ class RecepcionsController extends Controller{
         $recep->folio = $request->folio;
         $recep->numOrden = $request->numOrden;
         $recep->numRegistro = $request->numRegistro;
-        $recep->id_paciente = $request->id_paciente;
         $recep->id_empresa = $request->id_empresa;
         $recep->servicio = $request->servicio;
         $recep->tipPasiente = $request->tipPasiente;
@@ -166,7 +168,9 @@ class RecepcionsController extends Controller{
         $recep->listPrecio = $request->listPrecio;
 
         $recep->save();
-        return back();
+        return redirect()->route('recepcion.editar');
+
+
     }
 
 }
