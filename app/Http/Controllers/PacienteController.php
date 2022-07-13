@@ -22,15 +22,16 @@ class PacienteController extends Controller
 
 
         //traer datos de la base de datos 
-        $pacientes = DB::table('pacientes')
-                    ->select('pacientes.*')
-                    ->orderBy('id','DESC')
-                    ->get();
-   
+        //$pacientes = DB::table('pacientes')
+        //            ->select('pacientes.*')
+        //            ->orderBy('id','DESC')
+        //            ->get();
+
+        $pacientes = User::where('id', Auth::user()->id)->first()->labs()->first()->pacientes()->get();
     
 
         return view('catalogo.pacientes.index',
-        ['active'=>$active,'sucursales'=>$sucursales])->with('pacientes', $pacientes);
+        ['active'=>$active,'sucursales'=>$sucursales, 'listas' => $listas, 'pacientes'=> $pacientes]);
     }
     
     public function paciente_guardar(Request $request){

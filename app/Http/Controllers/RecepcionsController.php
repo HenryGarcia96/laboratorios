@@ -119,7 +119,7 @@ class RecepcionsController extends Controller
  
     }
 
-    public function recepcion_editar($id){
+    public function recepcion_editar($id){ 
                 //Verificar sucursal
                 $active = User::where('id', Auth::user()->id)->first()->sucs()->where('estatus', 'activa')->first();
                 // Lista de sucursales que tiene el usuario

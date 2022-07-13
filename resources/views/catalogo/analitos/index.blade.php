@@ -46,7 +46,7 @@
                 <div class="mb-5">
                     <h4 class="card-title">Estudios de perfil</h4>
                     <p class="text-muted mb-3">Ordenamiento (Orden de impresión)</p>
-                    <ul class="list-group mb-3" id="analitos-list">
+                    <ul class="list-group mb-3" id="analitos-list"> 
                     </ul>
                     <button onclick="sendAnalitos()"  class="btn btn-secondary">Guardar analitos</button>
                 </div>
