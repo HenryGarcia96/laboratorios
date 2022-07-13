@@ -222,7 +222,7 @@
                   </td>
                   
                   <td>
-                    <a href="{{route('catalogo.empresa_eliminar',$empresa->id)}}"><i data-feather="trash-2"></i></a>
+                    <a class="btn btn-primary" href="{{route('catalogo.empresa_eliminar',$empresa->id)}}"><i data-feather="trash-2"></i></a>
 
                   </td>
                 </tr>

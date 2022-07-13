@@ -21,10 +21,7 @@ class EmpresasController extends Controller
                 $listas = User::where('id', Auth::user()->id)->first()->labs()->first()->empresas()->get(); 
             
                 //datos traidos de la base de datos
-                    $empresas = DB::table('empresas')
-                    ->select('empresas.*')
-                    ->orderBy('id','DESC')
-                    ->get();        
+                    $empresas = User::where('id', Auth::user()->id)->first()->labs()->first()->empresas()->get();       
 
                     return view('catalogo.empresas.index',
                     ['active'=>$active,'sucursales'=>$sucursales]) ->with('empresas', $empresas);  

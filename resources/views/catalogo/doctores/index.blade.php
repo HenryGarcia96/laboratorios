@@ -192,7 +192,7 @@
                 </td>
 
                   <td>
-                    <a href="{{ route('catalogo.doctor_eliminar',$doctor->id) }}"><i data-feather="trash-2"></i></a>
+                    <a class="btn btn-primary" href="{{ route('catalogo.doctor_eliminar',$doctor->id) }}"><i data-feather="trash-2"></i></a>
 
                   </td>
                 </tr>
