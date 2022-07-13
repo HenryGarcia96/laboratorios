@@ -64,7 +64,7 @@
                     
                   <div class="col-md-15">
                     <label class="form-label">Nombre de paciente(modals):</label>
-                    <input class="form-control" readonly="id_paciente" name="numRegistro" value="{{$re->pacientes->nombre}} {{$re->pacientes->ap_paterno}} {{$re->pacientes->ap_materno}}" type="text">
+                    <input class="form-control" readonly="id_paciente" name="id_paciente" value="{{$re->pacientes->nombre}} {{$re->pacientes->ap_paterno}} {{$re->pacientes->ap_materno}}" type="text">
                   </div>
                  
                   <div class="mb-3 col-md-15">
