@@ -1,8 +1,10 @@
 'use strict';
 
 $(document).ready(function(){
-    $('.consultaEstudios').change(function(){
+    $('.datepicker').datepicker();
 
+    $('.consultaEstudios').change(function(){
+        
         // Notificacion
         const Toast = Swal.mixin({
             toast: true,
@@ -14,11 +16,19 @@ $(document).ready(function(){
         
         Toast.fire({
         icon: 'success',
-        title: 'Estas cambiando los datos del formulario'
+        title: 'Actualizando busqueda'
         });
     });
 
-    $('.js-example-basic-single').select2();
-    
-    $('.datepicker').datepicker();
+    // $('.js-example-basic-single').select2();
+    var table = $('#dataTableMetodos').DataTable();
+
+
+    table.on( 'click', 'tr' ,function () {
+        var valores =[];
+        $(this).find('td').each(function(){
+            valores.push($(this).html());
+        });
+        alert(valores);
+    } );
 });
