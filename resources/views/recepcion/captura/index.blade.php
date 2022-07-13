@@ -3,6 +3,7 @@
 @push('plugin-styles')
     <link href="{{ asset('public/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -14,7 +15,7 @@
     </ol>
 </nav>
 <div class="row">
-    <div class="col-md-12 col-lg-6 grid-margin stretch-card">
+    <div class="col-md-12 col-lg-5 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title">Busqueda de solicitudes</h6>
@@ -86,7 +87,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-12 col-lg-6 grid-margin stretch-card">
+    <div class="col-md-12 col-lg-7 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Solicitudes</h4>
@@ -137,6 +138,9 @@
     <script src="{{ asset('public/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('public/assets/js/axios.min.js') }}"></script>
     <script src="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.responsive.min.js') }}"></script>
 @endpush
 
 @push('custom-scripts')

@@ -47,4 +47,9 @@ class Estudio extends Model
     public function analitos(){
         return $this->belongsToMany(Analito::class, 'analitos_has_estudios');
     }
+
+    // Precios has estudios
+    public function precios(){
+        return $this->belongsToMany(Precio::class, 'estudios_has_precios');
+    }
 }
