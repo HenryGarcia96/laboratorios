@@ -20,13 +20,13 @@ class EmpresasHasLaboratories extends Migration
                     ->nullable()
                     ->constrained('empresas')
                     ->cascadeOnUpdate()
-                    ->nullOnDate();
+                    ->cascadeOnDelete();
 
             $table->foreignId('laboratory_id')
                     ->nullable()
                     ->constrained('laboratories')
                     ->cascadeOnUpdate()
-                    ->nullOnDate();                    
+                    ->cascadeOnDelete();                   
 
             $table->timestamps();
         });

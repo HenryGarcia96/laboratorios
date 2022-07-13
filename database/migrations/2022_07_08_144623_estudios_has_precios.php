@@ -17,7 +17,6 @@ class EstudiosHasPrecios extends Migration
             $table->id();
             $table->unsignedBigInteger('estudio_id');
             $table->unsignedBigInteger('precio_id');
-            $table->text('precio')->nullable();
 
             $table->foreign('estudio_id')->references('id')->on('estudios')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('precio_id')->references('id')->on('precios')->onDelete('restrict')->onUpdate('cascade');

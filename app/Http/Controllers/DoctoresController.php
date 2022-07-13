@@ -21,10 +21,7 @@ class DoctoresController extends Controller
       $listas = User::where('id', Auth::user()->id)->first()->labs()->first()->doctores()->get();
 
    //datos traidos de la base de datos
-      $doctores = DB::table('doctores')
-                  ->select('doctores.*')
-                  ->orderBy('id','DESC')
-                  ->get();
+      $doctores = User::where('id', Auth::user()->id)->first()->labs()->first()->doctores()->get();
       
       return view('catalogo.doctores.index',
       ['active'=>$active,'sucursales'=>$sucursales]) ->with('doctores', $doctores);  

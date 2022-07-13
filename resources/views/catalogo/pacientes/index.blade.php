@@ -266,7 +266,7 @@
                         </td> 
                         
                         <td>
-                          <a href="{{route('catalogo.paciente_eliminar',$paciente->id)}}"><i data-feather="trash-2"></i></a>
+                          <a class="btn btn-primary" href="{{route('catalogo.paciente_eliminar',$paciente->id)}}"><i data-feather="trash-2"></i></a>
         
                         </td>
                       </tr>

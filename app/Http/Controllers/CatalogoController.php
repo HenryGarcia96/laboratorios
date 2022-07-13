@@ -46,6 +46,15 @@ class CatalogoController extends Controller
         return $analitos;
 
     }
+    // Para recepcions
+    public function get_estudios_recepcion(Request $request){
+        $search = $request->except('_token');
+
+        $estudio = Estudio::where('id', $search['data'])->first();
+
+        return $estudio;
+    }
+
 
     public function set_analito(Request $request){
         $search = $request->except('_token');
@@ -53,6 +62,7 @@ class CatalogoController extends Controller
         return $analito;
     }
 
+    
     // Para retornar datos acerca del estudio a listar con precios
     public function catalogo_set_position(Request $request){
         $search = $request->except('_token');
@@ -115,6 +125,7 @@ class CatalogoController extends Controller
             'condiciones'       => 'required',
             'aplicaciones'      => 'required',
             'dias_proceso'      => 'required',
+            'precio'            => 'required',
         ],[
             'clave.required'        => 'Ingresa clave',
             'codigo.required'       => 'Ingresa código',
@@ -127,13 +138,12 @@ class CatalogoController extends Controller
             'condiciones.required'  => 'Ingresa condiciones del paciente',
             'aplicaciones.required' => 'Ingresa aplicaciones',
             'dias_proceso.required' => 'Ingresa días',
+            'precio.required'       => 'Ingresa el precio correcto',
         ]);
-
         $estudio = Estudio::create($estudios);
-        $estudy = Estudio::latest('id')->first();
 
         // Crea relación entre usuarios + laboratorios + sucursales
-        $laboratorio->estdy()->attach($estudy->id, ['sucursal_id'   => $sucursal->id,
+        $laboratorio->estdy()->attach($estudio->id, ['sucursal_id'   => $sucursal->id,
                                                     'area_id'       => $estudios['area'], 
                                                     'muestra_id'    => $estudios['muestra'], 
                                                     'recipiente_id' => $estudios['recipiente'], 
