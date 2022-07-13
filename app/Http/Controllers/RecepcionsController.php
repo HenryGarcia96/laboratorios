@@ -36,25 +36,8 @@ class RecepcionsController extends Controller{
 
 
     public function guardar(Request $request){
+        dd($request);
         $laboratorio = User::Where('id', Auth::user()->id)->first()->labs()->first();
-        $request->validate([
-            'folio'             => 'required | unique:recepcions',
-            'numOrden'          => 'required | unique:recepcions',
-            'numRegistro'       => 'required | unique:recepcions',
-            'id_paciente'       =>'required', 
-            'id_empresa'        =>'required',
-            'servicio'          =>'required', 
-            'tipPasiente'       =>'required',
-            'turno'             =>'required', 
-            'id_doctor'         =>'required',
-            'numCama'           =>'required', 
-            'peso'              =>'required',
-            'talla'             =>'required', 
-            'fur',
-            'medicamento'       =>'required', 
-            'diagnostico'       =>'required',
-            'observaciones', 
-        ]);
 
         $recep = new Recepcions;
         $recep->folio           = $request->folio;
@@ -63,7 +46,7 @@ class RecepcionsController extends Controller{
         $recep->id_paciente     = $request->id_paciente;
         $recep->id_empresa      = $request->id_empresa;
         $recep->servicio        = $request->servicio;
-        $recep->tipPasiente     = $request->tipPasiente;
+        $recep->tipPasiente     = $request->tipoPaciente;
         $recep->turno           = $request->turno;
         $recep->id_doctor       = $request->id_doctor;
         $recep->numCama         = $request->numCama;
@@ -73,14 +56,21 @@ class RecepcionsController extends Controller{
         $recep->medicamento     = $request->medicamento;
         $recep->diagnostico     = $request->diagnostico;
         $recep->observaciones   = $request->observaciones;
-        $recep->listPrecio      = $request->listPrecio;
 
         //recepcion has laboratories
         $laboratorio->recepcions()->save($recep);
         // recepcion has estudios
-        $recep->estudios()->save($recep);
-
-        return redirect()->route('recepcion.index')->with('success', 'Registro completo');
+        // $recep->estudios()->save($recep);
+        if($laboratorio) {
+            $response = true;
+        } else {
+            $response = false;
+        }
+    
+        header("HTTP/1.1 200 OK");
+        header('Content-Type: application/json');
+        return json_encode($response);
+        // return redirect()->route('recepcion.index');
     }
 
     public function recepcion_captura_index(){

@@ -21,6 +21,7 @@ class Estudios extends Migration
             $table->string('condiciones');
             $table->string('aplicaciones');
             $table->integer('dias_proceso');
+            $table->integer('precio');
             $table->timestamps();
         });
     }

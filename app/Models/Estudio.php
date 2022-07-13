@@ -13,7 +13,8 @@ class Estudio extends Model
         'descripcion',
         'condiciones',
         'aplicaciones',
-        'dias_proceso'
+        'dias_proceso',
+        'precio'
     ];
 
     use HasFactory;
