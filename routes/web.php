@@ -31,7 +31,6 @@ Route::name('registro.')->prefix('registro')->group(function(){
     Route::post('/store', [RegisterController::class, 'store'])->name('store');
     Route::get('/regSucursal', [RegisterController::class, 'regSucursal'])->name('regSucursal');
     Route::post('/regSucursal', [RegisterController::class, 'storeSucursal'])->name('regSucursal');
-    
 });
 
 // Get de los estados y ciudades para el registro
@@ -71,6 +70,8 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
 
     // Catalogos
     Route::name('catalogo.')->prefix('catalogo')->group(function(){
+        // Busqueda para recepcion
+        Route::post('/checkEstudio', [CatalogoController::class, 'get_estudios_recepcion'])->name('checkEstudio');
         
         // Catalogo - estudios.index
         Route::get('/estudios', [CatalogoController::class, 'catalogo_estudio_index'])->name('estudios');
