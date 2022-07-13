@@ -42,10 +42,10 @@
               <tr>
                 <td>{{$recepcion->folio}}</td>
                 <td>{{$recepcion->pacientes->nombre}}</td>
-                <td>{{$recepcion->folio}}</td>
-                <td>{{$recepcion->folio}}</td>
-                <td>{{$recepcion->folio}}</td>
-                <td>{{$recepcion->folio}}</td>
+                <td>{{$recepcion->pacientes->ap_paterno}}</td>
+                <td>{{$recepcion->pacientes->ap_materno}}</td>
+                <td>{{$recepcion->pacientes->fecha_nacimiento}}</td>
+                <td>{{$recepcion->empresas->descripcion}}</td>
 
                 <td>
                     <a class="btn btn-primary" href="{{route('recepcion.recepcion_editar',$recepcion->id)}}" ><i data-feather="edit"></i></a>
