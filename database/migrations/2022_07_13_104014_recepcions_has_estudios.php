@@ -15,10 +15,10 @@ class RecepcionsHasEstudios extends Migration
     {
         Schema::create('recepcions_has_estudios', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('recepcion_id');
+            $table->unsignedBigInteger('recepcions_id');
             $table->unsignedBigInteger('estudio_id');
 
-            $table->foreign('recepcion_id')->references('id')->on('recepcions')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('recepcions_id')->references('id')->on('recepcions')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('estudio_id')->references('id')->on('estudios')->onDelete('restrict')->onUpdate('cascade');
             
             $table->timestamps();

@@ -30,5 +30,11 @@ class Recepcions extends Model
     public function laboratory(){
         return $this->belongsToMany(Laboratory::class, 'recepcions_has_laboratories');
     }
+
+    // Recepcion has estudios
+    public function estudios(){
+        return $this->belongsToMany(Estudio::class, 'recepcions_has_estudios');
+    }
+    // 
 }
 

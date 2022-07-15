@@ -23,18 +23,17 @@
                     <div class="col-sm-6">
                         <div class="mb-3">
                             <label class="form-label">Fecha inicial</label>
-                            <div class="input-group date datepicker consultaEstudios" id="selectInicio">
-                                <input type="text" class="form-control">
+                            <div class="input-group date datepicker consultaEstudios" >
+                                <input type="text" class="form-control" id="selectInicio">
                                 <span class="input-group-text input-group-addon"><i data-feather="calendar"></i></span>
-                                
                             </div>
                         </div>
                     </div><!-- Col -->
                     <div class="col-sm-6">
                         <div class="mb-3">
                             <label class="form-label">Fecha final</label>
-                            <div class="input-group date datepicker consultaEstudios" id="selectFinal">
-                                <input type="text" class="form-control">
+                            <div class="input-group date datepicker consultaEstudios" >
+                                <input type="text" class="form-control" id="selectFinal">
                                 <span class="input-group-text input-group-addon"><i data-feather="calendar"></i></span>
                             </div>
                         </div>
@@ -106,25 +105,13 @@
                             @forelse($estudios as $estudio)
                                 <tr>
                                     <td>{{$estudio->folio}}</td>
-                                    <td>{{$estudio->paciente}}</td>
+                                    <td>{{$estudio->pacientes->nombre}}</td>
                                     <td>Sucursal</td>
-                                    <td>{{$estudio->empresa}}</td>
+                                    <td>{{$estudio->empresas->descripcion}}</td>
                                     <td>{{$estudio->created_at}}</td>
                                 </tr>
                             @empty
-                            @endforelse 
-                            {{-- @forelse ($metodos as $metodo)
-                                <tr>
-                                    <td>{{$metodo->descripcion}}</td>
-                                    <td>{{$metodo->observaciones}}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td>
-                                        No data allowed
-                                    </td>
-                                </tr>
-                            @endforelse --}}
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
