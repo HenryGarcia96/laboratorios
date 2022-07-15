@@ -9,6 +9,7 @@ use App\Models\Pacientes;
 use Illuminate\Support\Facades\DB;
 use App\Models\Recepcions;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -60,7 +61,7 @@ class RecepcionsController extends Controller{
         $recep->diagnostico     = $data['data'][15]['value'];
         $recep->observaciones   = $data['data'][16]['value'];
 
-        $recepcion = Recepcions::latest('id')->first();
+        $recepcion = Recepcions::where('folio', $recep->folio)->first();
         //recepcion has laboratories
         $laboratorio->recepcions()->save($recep);
 
@@ -109,7 +110,12 @@ class RecepcionsController extends Controller{
     }
 
     public function recepcion_captura_consulta(Request $request){
-        dd($request);
+        $fecha_inicio = Carbon::parse($request->fecha_inicio);
+        $fecha_final = Carbon::parse($request->fecha_final)->addDay();
+
+        $estudios = Recepcions::whereBetween('created_at', [$fecha_inicio, $fecha_final])->get();
+        
+        return $estudios;
     }
 
     public function recepcion_editar_index(Request $request){
