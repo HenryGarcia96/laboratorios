@@ -46,11 +46,28 @@ class CatalogoController extends Controller
         return $analitos;
 
     }
+    // Para recepcions
+    public function get_estudios_recepcion(Request $request){
+        $search = $request->except('_token');
+
+        $estudio = Estudio::where('id', $search['data'])->first();
+
+        return $estudio;
+    }
+
 
     public function set_analito(Request $request){
         $search = $request->except('_token');
         $analito = User::where('id', Auth::user()->id)->first()->labs()->first()->analitos()->where('analito_id', $search['data'])->first();
         return $analito;
+    }
+
+    
+    // Para retornar datos acerca del estudio a listar con precios
+    public function catalogo_set_position(Request $request){
+        $search = $request->except('_token');
+        $estudio = Estudio::where('id', $search)->first();
+        return $estudio;
     }
 
     //ESTUDIOS
@@ -108,6 +125,7 @@ class CatalogoController extends Controller
             'condiciones'       => 'required',
             'aplicaciones'      => 'required',
             'dias_proceso'      => 'required',
+            'precio'            => 'required',
         ],[
             'clave.required'        => 'Ingresa clave',
             'codigo.required'       => 'Ingresa código',
@@ -120,13 +138,12 @@ class CatalogoController extends Controller
             'condiciones.required'  => 'Ingresa condiciones del paciente',
             'aplicaciones.required' => 'Ingresa aplicaciones',
             'dias_proceso.required' => 'Ingresa días',
+            'precio.required'       => 'Ingresa el precio correcto',
         ]);
-
         $estudio = Estudio::create($estudios);
-        $estudy = Estudio::latest('id')->first();
 
         // Crea relación entre usuarios + laboratorios + sucursales
-        $laboratorio->estdy()->attach($estudy->id, ['sucursal_id'   => $sucursal->id,
+        $laboratorio->estdy()->attach($estudio->id, ['sucursal_id'   => $sucursal->id,
                                                     'area_id'       => $estudios['area'], 
                                                     'muestra_id'    => $estudios['muestra'], 
                                                     'recipiente_id' => $estudios['recipiente'], 
@@ -459,17 +476,33 @@ class CatalogoController extends Controller
         // Lista de sucursales que tiene el usuario
         $sucursales = User::where('id', Auth::user()->id)->first()->sucs()->orderBy('id', 'asc')->get();
 
+        
         // Lista de precios disponibles
         $listas = User::where('id', Auth::user()->id)->first()->labs()->first()->precios()->get();
 
+        // $estudios = User::where('id', Auth::user()->id)->first()->labs()->first()->estudios()->where('estudio_id', '1')->first()->precios()->get();
+        // dd($estudios);
+        
         // Lista de estudios disponibles
-        $estudios = User::where('id', Auth::user()->id)->first()->labs()->first()->estudios()->get();
-
+        // $estudios = User::where('id', Auth::user()->id)->first()->labs()->first()->estudios()->get();
+        // dd($estudios);
+        $data = DB::table('estudios_has_precios')
+        ->select('estudios_has_precios.id',
+                'estudios.clave',
+                'estudios.descripcion',
+                'estudios_has_precios.precio')
+        ->join('precios', 'precios.id', '=', 'estudios_has_precios.precio_id')
+        ->join('estudios', "estudios.id" , '=', 'estudios_has_precios.id')
+        ->where('estudios_has_precios.estudio_id', '=', 1)
+        ->get();
+        // dd($data);
+        
         return view('catalogo.precios.index', ['active' => $active, 
                                                 'sucursales' => $sucursales, 
-                                                'listas' => $listas,
-                                                'estudios' => $estudios]);
+                                                'listas'=>$listas]);
     }
+
+
 
     public function catalogo_store_list(Request $request){
         // Verificar laboratorio asignado
@@ -491,4 +524,57 @@ class CatalogoController extends Controller
         return json_encode($response);
     }
 
+    public function catalogo_precios_estudios(Request $request){
+        $variable = $request->only('data');
+        $precio = $request->only('precio_id');
+
+        foreach ($variable['data'] as $key=>$value) {
+            # code...
+            $estudio_id = Estudio::where('clave', $value['clave'])->first()->id;
+
+            $estudio[$key]['estudio_id'] = $estudio_id;
+            $estudio[$key]['precio_id'] = $precio['precio_id'] ;
+            $estudio[$key]['precio'] = $value['precio'];
+            // $estudio[$key]['precio_id'] =;
+            $insercion = DB::table('estudios_has_precios')->updateOrInsert([
+                                                            'estudio_id' => $estudio[$key]['estudio_id'],
+                                                            'precio_id'  => $estudio[$key]['precio_id'],
+                                                            ],[
+                                                                'estudio_id' => $estudio[$key]['estudio_id'],
+                                                                'precio_id'  => $estudio[$key]['precio_id'],
+                                                                'precio'     => $estudio[$key]['precio']
+                                                                    ]);
+        }
+
+        if($insercion) {
+            $response = true;
+        } else {
+            $response = false;
+        }
+
+        header("HTTP/1.1 200 OK");
+        header('Content-Type: application/json');
+        return json_encode($response);
+    }
+
+    public function catalogo_tabla_precios_estudios(Request $request){
+        // $estudios = Estudio::where('id', $request->only('id'))->first();
+        $data = DB::table('estudios_has_precios')
+        ->select('estudios_has_precios.id',
+                'estudios.clave',
+                'estudios.descripcion',
+                'estudios_has_precios.precio')
+        ->join('precios', 'precios.id', '=', 'estudios_has_precios.precio_id')
+        ->join('estudios', "estudios.id" , '=', 'estudios_has_precios.id')
+        ->where('estudios_has_precios.precio_id', '=', $request->only('data'))
+        ->get();
+
+        return json_encode($data);
+    }
+    // $querys = DB::table('pacientes')
+    //                 ->select('pacientes.*',
+    //                         'pacientes_has_doctors.clinica_id')
+    //                 ->join('pacientes_has_doctors', 'pacientes_has_doctors.paciente_id', '=', 'pacientes.id' )
+    //                 ->where('pacientes_has_doctors.clinica_id', '=', $clinica_id)
+    //                 ->where('nombre', 'LIKE' ,'%' . $term . '%' )->get();
 }

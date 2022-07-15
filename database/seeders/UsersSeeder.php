@@ -153,7 +153,8 @@ class UsersSeeder extends Seeder
             'descripcion'       =>'Hemoglobina Glucocilada',
             'condiciones'       =>'Ayuno entre 8-12 horas',
             'aplicaciones'      =>'Sospecha de diabetes',
-            'dias_proceso'      =>'2',
+            'dias_proceso'      => 2,
+            'precio'            => 150,
         ]);
 
         DB::table('estudios_has_laboratories')->insert([

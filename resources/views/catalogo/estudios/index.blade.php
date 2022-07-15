@@ -114,6 +114,11 @@
                                 <input type="number" class="form-control {{ $errors->has('dias_proceso') ? 'is-invalid' : '' }}" name="dias_proceso" placeholder='Días de proceso'>
                                 <x-jet-input-error for="dias_proceso"></x-jet-input-error>
                             </div>
+                            <div class="mb-3 col-sm-6">
+                                <label for="precio" class="form-label">Precio</label>
+                                <input type="number" class="form-control {{ $errors->has('precio') ? 'is-invalid' : '' }}" name="precio" placeholder='$'>
+                                <x-jet-input-error for="precio"></x-jet-input-error>
+                            </div>
                         </div>
                     </div>
                     <input class="btn btn-primary" type="submit" value="Guardar">

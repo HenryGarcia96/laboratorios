@@ -59,14 +59,12 @@ class EmpresasController extends Controller
         //$recep->save();
         $laboratorio->empresas()->save($recep);
         return back()->with('success', 'Registro completo');
-                       
     }
 
     public function get_empresa_edit(Request $request){
         $empresa = $request->except('_token');
 
         $empresas = Empresas::where('clave', $empresa)->first();
-  
         return $empresas;
     }
 
@@ -99,7 +97,7 @@ class EmpresasController extends Controller
                 'list_precios' => $request->list_precios,
                 'usuario' => $request->usuario,
                 'password' => $request->password]);
-  
+
         return back(); 
 
     }

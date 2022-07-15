@@ -31,7 +31,6 @@ Route::name('registro.')->prefix('registro')->group(function(){
     Route::post('/store', [RegisterController::class, 'store'])->name('store');
     Route::get('/regSucursal', [RegisterController::class, 'regSucursal'])->name('regSucursal');
     Route::post('/regSucursal', [RegisterController::class, 'storeSucursal'])->name('regSucursal');
-    
 });
 
 // Get de los estados y ciudades para el registro
@@ -52,17 +51,18 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
     Route::name('recepcion.')->prefix('recepcion')->group(function(){
         // Recepcion - nuevo
         Route::get('/index', [RecepcionsController::class, 'index'])->name('index');
-        Route::post('/guardar', [RecepcionsController::class, 'guardar']); 
+        Route::post('/guardar', [RecepcionsController::class, 'guardar'])->name('guardar'); 
 
         // Recepcion -  captura de resultados
         Route::get('/captura', [RecepcionsController::class, 'recepcion_captura_index'])->name('captura');
-
+        
         //Recepcion - Editar index
         Route::get('/editar', [RecepcionsController::class, 'recepcion_editar_index'])->name('editar');
         //Recepcion - Editar solicitud
         Route::get('/recepcion_editar/{id}', [RecepcionsController::class, 'recepcion_editar'])->name('recepcion_editar');
         //Recepcion - Editar solicitud - Actualiazar
         Route::post('/recepcion_actualizar/{id}', [RecepcionsController::class, 'recepcion_actualizar'])->name('recepcion_actualizar');
+
     });
     
     // Caja
@@ -70,6 +70,8 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
 
     // Catalogos
     Route::name('catalogo.')->prefix('catalogo')->group(function(){
+        // Busqueda para recepcion
+        Route::post('/checkEstudio', [CatalogoController::class, 'get_estudios_recepcion'])->name('checkEstudio');
         
         // Catalogo - estudios.index
         Route::get('/estudios', [CatalogoController::class, 'catalogo_estudio_index'])->name('estudios');
@@ -116,6 +118,12 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
         Route::get('/precios', [CatalogoController::class, 'catalogo_precio_index'])->name('precios');
         // Catalogo  - precios-store -Guardar lista
         Route::post('/store-list', [CatalogoController::class, 'catalogo_store_list'])->name('store-list');
+        // Catalogo - estudios_has_precios
+        Route::post('/store-precio-estudios', [CatalogoController::class, 'catalogo_precios_estudios'])->name('store-precio-estudios');
+        // Catalogo - rellenar tabla
+        Route::post('/get-estudios-asignados', [CatalogoController::class, 'catalogo_tabla_precios_estudios'])->name('get-estudios-asignados');
+        // Settear seleccion para agregar
+        Route::post('/set-estudios-for-precios', [CatalogoController::class, 'catalogo_set_position'])->name('set-estudios-for-precios');
         
         //Catalogo - doctores.index 
         Route::get('/doctores', [DoctoresController::class, 'doctores_index'])->name('doctores');
