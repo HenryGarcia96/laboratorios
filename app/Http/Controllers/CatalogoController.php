@@ -29,7 +29,7 @@ class CatalogoController extends Controller
         return $estudios;
     }
 
-    public function get_check_analitos(Request $request){
+    public function get_check_analitos(Request $request){ 
         $id = $request->except('_token');
 
         $estudios = Estudio::where('id', $id)->first()->analitos()->orderBy('orden', 'asc')->get();

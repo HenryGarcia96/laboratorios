@@ -10,7 +10,7 @@ class Empresas extends Model
     public $fillable = ['clave','descripcion','calle',
                         'colonia','ciudad','telefono',
                         'rfc','email','contacto',
-                        'list_precios','usuario','password'];
+                        'descuento','usuario','password'];
 
 
     public function recepcions(){
@@ -19,5 +19,8 @@ class Empresas extends Model
     
     public function laboratory(){
         return $this->belongsToMany(Laboratory::class, 'empresas_has_laboratories');
+    }
+    public function pacientes(){
+        return $this->hasMany(Pacientes::class, 'id'); 
     }                    
 }

@@ -55,6 +55,7 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
 
         // Recepcion -  captura de resultados
         Route::get('/captura', [RecepcionsController::class, 'recepcion_captura_index'])->name('captura');
+        Route::post('/consulta-estudios', [RecepcionsController::class, 'recepcion_captura_consulta'])->name('consulta-estudios');
         
         //Recepcion - Editar index
         Route::get('/editar', [RecepcionsController::class, 'recepcion_editar_index'])->name('editar');
