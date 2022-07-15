@@ -13,7 +13,8 @@ class Estudio extends Model
         'descripcion',
         'condiciones',
         'aplicaciones',
-        'dias_proceso'
+        'dias_proceso',
+        'precio'
     ];
 
     use HasFactory;
@@ -47,4 +48,15 @@ class Estudio extends Model
     public function analitos(){
         return $this->belongsToMany(Analito::class, 'analitos_has_estudios');
     }
+
+    // Precios has estudios
+    public function precios(){
+        return $this->belongsToMany(Precio::class, 'estudios_has_precios');
+    }
+
+    // Recepcions has estudios
+    public function recepcions(){
+        return $this->belongsToMany(Recepcions::class, 'recepcions_has_estudios');
+    }
+    // 
 }

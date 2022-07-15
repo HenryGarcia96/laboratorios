@@ -3,6 +3,7 @@
 @push('plugin-styles')
     <link href="{{ asset('public/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -14,7 +15,7 @@
     </ol>
 </nav>
 <div class="row">
-    <div class="col-md-12 col-lg-6 grid-margin stretch-card">
+    <div class="col-md-12 col-lg-5 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title">Busqueda de solicitudes</h6>
@@ -22,18 +23,17 @@
                     <div class="col-sm-6">
                         <div class="mb-3">
                             <label class="form-label">Fecha inicial</label>
-                            <div class="input-group date datepicker consultaEstudios" id="selectInicio">
-                                <input type="text" class="form-control">
+                            <div class="input-group date datepicker consultaEstudios" >
+                                <input type="text" class="form-control" id="selectInicio">
                                 <span class="input-group-text input-group-addon"><i data-feather="calendar"></i></span>
-                                
                             </div>
                         </div>
                     </div><!-- Col -->
                     <div class="col-sm-6">
                         <div class="mb-3">
                             <label class="form-label">Fecha final</label>
-                            <div class="input-group date datepicker consultaEstudios" id="selectFinal">
-                                <input type="text" class="form-control">
+                            <div class="input-group date datepicker consultaEstudios" >
+                                <input type="text" class="form-control" id="selectFinal">
                                 <span class="input-group-text input-group-addon"><i data-feather="calendar"></i></span>
                             </div>
                         </div>
@@ -86,7 +86,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-12 col-lg-6 grid-margin stretch-card">
+    <div class="col-md-12 col-lg-7 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Solicitudes</h4>
@@ -105,25 +105,13 @@
                             @forelse($estudios as $estudio)
                                 <tr>
                                     <td>{{$estudio->folio}}</td>
-                                    <td>{{$estudio->paciente}}</td>
+                                    <td>{{$estudio->pacientes->nombre}}</td>
                                     <td>Sucursal</td>
-                                    <td>{{$estudio->empresa}}</td>
+                                    <td>{{$estudio->empresas->descripcion}}</td>
                                     <td>{{$estudio->created_at}}</td>
                                 </tr>
                             @empty
-                            @endforelse 
-                            {{-- @forelse ($metodos as $metodo)
-                                <tr>
-                                    <td>{{$metodo->descripcion}}</td>
-                                    <td>{{$metodo->observaciones}}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td>
-                                        No data allowed
-                                    </td>
-                                </tr>
-                            @endforelse --}}
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -137,6 +125,9 @@
     <script src="{{ asset('public/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('public/assets/js/axios.min.js') }}"></script>
     <script src="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.responsive.min.js') }}"></script>
 @endpush
 
 @push('custom-scripts')

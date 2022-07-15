@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class EstudiosHasPrecios extends Migration
+class RecepcionsHasEstudios extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class EstudiosHasPrecios extends Migration
      */
     public function up()
     {
-        Schema::create('estudios_has_precios', function (Blueprint $table) {
+        Schema::create('recepcions_has_estudios', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('recepcions_id');
             $table->unsignedBigInteger('estudio_id');
-            $table->unsignedBigInteger('precio_id');
 
+            $table->foreign('recepcions_id')->references('id')->on('recepcions')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('estudio_id')->references('id')->on('estudios')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('precio_id')->references('id')->on('precios')->onDelete('restrict')->onUpdate('cascade');
-
+            
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class EstudiosHasPrecios extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estudios_has_precios');
+        Schema::dropIfExists('recepcions_has_estudios');
     }
 }
