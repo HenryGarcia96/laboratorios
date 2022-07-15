@@ -2,6 +2,9 @@
 
 @push('plugin-styles') 
 <link href="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.css') }}" rel="stylesheet" />
+<link href="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
+<link href="{{ asset('public/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
+<link href="{{ asset('public/assets/plugins/select2/select2.min.css') }}" rel="stylesheet" />
 @endpush
 
 
@@ -20,15 +23,7 @@
   {{-- @dd(Auth::user()->first()) --}}
 
   <!------------------------------------------------------------------------------------------------>
-        <div class="col-lg-6 col-12 mx-auto">
-          @if(Session::has('success'))
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>{{Session::get('success')}}</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close"></button>
-          </div>         
-            @endif
-          </div>
-<!------------------------------------------------------------------------------------------------>
+
 <div class="row">
   <div class="col-lg-6 grid-margin stretch-card">
     <div class="card">
@@ -82,12 +77,21 @@
                     <option value="masculino">Masculino</option>
                     <option value="femenino">Femenino</option>
                   </select>
+                  @error('sexo')
+                  <span class="invalid-feedback">
+                    <strong>{{$message}}</strong>
+                  </span>
+                  @enderror
                 </div>
               </div>
               <div class="col-sm-4">
                 <div class="mb-3">
                   <label class="form-label">Fecha Nacimiento</label>
-                  <input type="date" class="form-control @error('fecha_nacimiento') is-invalid @enderror" name="fecha_nacimiento" value="{{old('fecha_nacimiento')}}">
+                  <div class="input-group date datepicker" id="fecha-nacimiento">
+                    <input type="text" class="form-control @error('fecha_nacimiento') is-invalid @enderror" name="fecha_nacimiento" value="{{old('fecha_nacimiento')}}">
+                    <span class="input-group-text input-group-addon"><i data-feather="calendar"></i></span>
+                  </div>
+
                   @error('fecha_nacimiento')
                   <span class="invalid-feedback">
                     <strong>{{$message}}</strong>
@@ -98,12 +102,7 @@
               <div class="col-sm-4">
                 <div class="mb-3">
                   <label class="form-label">Celular</label>
-                  <input type="number" class="form-control @error('celular') is-invalid @enderror" name="celular" value="{{old('celular')}}">
-                  @error('celular')
-                  <span class="invalid-feedback">
-                    <strong>{{$message}}</strong>
-                  </span>
-                  @enderror
+                  <input type="number" class="form-control" name="celular" value="{{old('celular')}}">
                 </div>
               </div>
             </div>
@@ -112,23 +111,13 @@
               <div class="col-sm-6">
                 <div class="mb-3">
                   <label class="form-label">Domicilio</label>
-                  <input class="form-control @error('domicilio') is-invalid @enderror" name="domicilio" value="{{old('domicilio')}}" type="text">
-                  @error('domicilio')
-                  <span class="invalid-feedback">
-                    <strong>{{$message}}</strong>
-                  </span>
-                  @enderror
+                  <input class="form-control" name="domicilio" value="{{old('domicilio')}}" type="text">
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="mb-3">
                   <label class="form-label">Colonia</label>
-                  <input type="text" class="form-control @error('colonia') is-invalid @enderror" name="colonia" value="{{old('colonia')}}">
-                  @error('colonia')
-                  <span class="invalid-feedback">
-                    <strong>{{$message}}</strong>
-                  </span>
-                  @enderror
+                  <input type="text" class="form-control" name="colonia" value="{{old('colonia')}}">
                 </div>
               </div>
             </div>
@@ -137,12 +126,7 @@
               <div class="col-sm-15">
                 <div class="mb-3">
                   <label class="form-label">No. Seguro popular</label>
-                  <input type="text" class="form-control @error('seguro_popular') is-invalid @enderror" name="seguro_popular" value="{{old('seguro_popular')}}">
-                  @error('seguro_popular')
-                  <span class="invalid-feedback">
-                    <strong>{{$message}}</strong>
-                  </span>
-                  @enderror
+                  <input type="text" class="form-control" name="seguro_popular" value="{{old('seguro_popular')}}">
                 </div>
               </div>
             </div>
@@ -151,23 +135,19 @@
               <div class="col-sm-6">
                 <div class="mb-3">
                   <label class="form-label">Vigencia inicio</label>
-                  <input type="date" class="form-control @error('vigencia_inicio') is-invalid @enderror" name="vigencia_inicio" value="{{old('vigencia_inicio')}}">
-                  @error('vigencia_inicio')
-                  <span class="invalid-feedback">
-                    <strong>{{$message}}</strong>
-                  </span>
-                  @enderror
+                <div class="input-group date datepicker" id="vigencia-inicio">
+                  <input type="text" class="form-control" name="vigencia_inicio" value="{{old('vigencia_inicio')}}">
+                  <span class="input-group-text input-group-addon"><i data-feather="calendar"></i></span>
                 </div>
+              </div>
               </div>
               <div class="col-sm-6">
                 <div class="mb-3">
                   <label class="form-label">Vigencia fin</label>
-                  <input type="date" class="form-control @error('vigencia_fin') is-invalid @enderror" name="vigencia_fin" value="{{old('vigencia_fin')}}">
-                  @error('vigencia_fin')
-                  <span class="invalid-feedback">
-                    <strong>{{$message}}</strong>
-                  </span>
-                  @enderror
+                  <div class="input-group date datepicker" id="vigencia-fin">
+                    <input type="text" class="form-control" name="vigencia_fin" value="{{old('vigencia_fin')}}">
+                    <span class="input-group-text input-group-addon"><i data-feather="calendar"></i></span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -176,21 +156,17 @@
               <div class="col-sm-6">
                 <div class="mb-3">
                   <label class="form-label">Email</label>
-                  <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{old('email')}}">
-                  @error('email')
-                  <span class="invalid-feedback">
-                    <strong>{{$message}}</strong>
-                  </span>
-                  @enderror
+                  <input type="email" class="form-control" name="email" value="{{old('email')}}">
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="mb-3">
                   <label class="form-label">Empresa</label>
-                  <select class="js-example-basic-single form-select @error('empresa') is-invalid @enderror" name="empresa" data-width="100%" value="{{old('empresa')}}">
-                    <option></option>
-                    <option value="publicidad">Empresa de publicidad</option>
-                    <option value="particular">Particular</option>
+                  <select class="js-example-basic-single form-select" name="id_empresa" data-width="100%" value="{{old('id_empresa')}}">
+                    @forelse ($empresas as $empresa)
+                    <option value="{{$empresa->id}}">{{$empresa->descripcion}}</option> 
+                    @empty
+                    @endforelse
                   </select>
                 </div>
               </div>
@@ -200,28 +176,18 @@
               <div class="col-sm-6">
                 <div class="mb-3">
                   <label class="form-label">Usuario</label>
-                  <input type="text" class="form-control @error('usuario') is-invalid @enderror" name="usuario" value="{{old('usuario')}}">
-                  @error('usuario')
-                  <span class="invalid-feedback">
-                    <strong>{{$message}}</strong>
-                  </span>
-                  @enderror
+                  <input type="text" class="form-control" name="usuario" value="">
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="mb-3">
                   <label class="form-label">Password</label>
-                  <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{old('password')}}">
-                  @error('password')
-                  <span class="invalid-feedback">
-                    <strong>{{$message}}</strong>
-                  </span>
-                  @enderror
+                  <input type="password" class="form-control" name="password" readonly="readonly" value="{{$a}}">
                 </div>
               </div>
             </div>
 
-            <button type="submit" class="btn btn-success">Guardar</button>
+            <button type="submit" onclick="showSwal('mixin')" class="btn btn-primary">Guardar</button>
 
         </form>
       </div>
@@ -230,10 +196,12 @@
 <style>
                   th, td{
                   text-align: center !important;
-                  font-size: 14px !important;
+                  font-size: 13px !important;
                   padding: 0.6em !important; 
-
-                }
+                  }
+                  input, label{
+                    font-size: 13px !important;
+                  }
 </style>
 
   <div class="col-lg-19">
@@ -253,20 +221,21 @@
                         <th>Eliminar</th>
         
                       </tr>
-                    </thead>
+                    </thead> 
                     <tbody>
                       @foreach ($pacientes as $paciente)
                       <tr>
                         <td>{{$paciente->nombre}}<br>{{$paciente->ap_paterno}} {{$paciente->ap_materno}}</td>
                         <td class="data">{{$paciente->fecha_nacimiento}}</td>
                         <td>
-                          <button onclick='mostrarModal(this)' type="button" class="btn btn-primary">
+                          <button onclick='mostrarModal(this)' type="button" class="btn btn-success">
                             <i data-feather="edit"></i></a> 
                           </button>
                         </td> 
                         
                         <td>
-                          <a class="btn btn-primary" href="{{route('catalogo.paciente_eliminar',$paciente->id)}}"><i data-feather="trash-2"></i></a>
+                          <a class="btn btn-danger regis-eliminar"
+                           href="{{route('catalogo.paciente_eliminar',$paciente->id)}}"><i data-feather="trash-2"></i></a>
         
                         </td>
                       </tr>
@@ -390,10 +359,12 @@
             <div class="col-sm-6">
               <div class="mb-3">
                 <label class="form-label">Empresa</label>
-                <select class="js-example-basic-single form-select" name="empresa" data-width="100%" value="" id="empresa">
-                  <option></option>
-                  <option value="publicidad">Empresa de publicidad</option>
-                  <option value="particular">Particular</option>
+                <select class="js-example-basic-single js-states form-control @error('id_empresa') is-invalid @enderror" name="id_empresa" 
+                id="idEmpresa">
+                  @forelse ($empresas as $empresa)
+                  <option value="{{$empresa->id}}">{{$empresa->descripcion}}</option>
+                  @empty
+                  @endforelse
                 </select>
               </div>
             </div>
@@ -408,6 +379,7 @@
     </div>
   </div>
 </div>
+
 <!---------------------------------------------------------------------------------------------->
 
   @endsection
@@ -416,9 +388,17 @@
 <script src="{{ asset('public/assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
 <script src="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.js') }}"></script>
 <script src="{{ asset('public/assets/js/axios.min.js') }}"></script>
+<script src="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+<script src="{{ asset('public/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ asset('public/assets/plugins/select2/select2.min.js') }}"></script>
+
+
 @endpush
 
 @push('custom-scripts')
 <script src="{{ asset('public/assets/js/data-table.js') }}"></script>
+<script src="{{ asset('public/stevlab/catalogo/pacientes/swee-alert.js') }}"></script>
 <script src="{{ asset('public/stevlab/catalogo/pacientes/functions.js') }}"></script>
+<script src="{{ asset('public/stevlab/catalogo/pacientes/datepicker.js') }}"></script>
+<script src="{{ asset('public\stevlab\catalogo\pacientes\select2.js') }}"></script>
 @endpush

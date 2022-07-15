@@ -243,7 +243,7 @@
                                   <label class="form-check-label" for="exampleCheck1"></label>
                                 </div>
                               </td>
-                              <td><a href=""><i data-feather="delete"></i></a></td>
+                              <td><a href=""><i data-feather="delete"></i></a></td> 
                             </tr>
                           </tbody>
                         </table>

@@ -17,13 +17,13 @@ class CreateEmpresasTable extends Migration
             $table->id();
 
             $table->string('clave');
-            $table->string('descripcion')->nullable();
-            $table->string('calle');
-            $table->string('colonia');
-            $table->string('ciudad');
+            $table->string('descripcion');
+            $table->string('calle')->nullable();
+            $table->string('colonia')->nullable();
+            $table->string('ciudad')->nullable();
             $table->string('telefono');
-            $table->string('rfc');
-            $table->string('email');
+            $table->string('rfc')->nullable();
+            $table->string('email')->nullable();
             $table->string('contacto');
             $table->string('list_precios');
             $table->string('usuario');

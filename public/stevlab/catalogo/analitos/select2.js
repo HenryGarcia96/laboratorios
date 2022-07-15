@@ -3,7 +3,7 @@ $(function() {
 	var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 	
 
-	var estudio = $('#selectEstudio').select2({
+	var estudio = $('#selectEstudio').select2({ 
 		placeholder: 'Busca estudio',
 		ajax: {
 			url: 'getEstudios',

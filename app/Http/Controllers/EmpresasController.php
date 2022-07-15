@@ -24,7 +24,8 @@ class EmpresasController extends Controller
                     $empresas = User::where('id', Auth::user()->id)->first()->labs()->first()->empresas()->get();       
 
                     return view('catalogo.empresas.index',
-                    ['active'=>$active,'sucursales'=>$sucursales]) ->with('empresas', $empresas);  
+                    ['active'=>$active,'sucursales'=>$sucursales,
+                    'empresas' => $empresas, 'listas' => $listas]);  
     }
 
     public function empresa_guardar(Request $request){
@@ -32,12 +33,9 @@ class EmpresasController extends Controller
 
         $request->validate(['clave' => 'required | unique:empresas',
                             'descripcion' => 'required',
-                            'calle' => 'required',
-                            'colonia' => 'required',
-                            'ciudad' => 'required',
-                            'telefono' => 'required',
-                            'rfc' => 'required | unique:empresas',
-                            'email' => 'required',
+                            'calle', 'colonia',
+                            'ciudad','telefono' => 'required',
+                            'rfc','email',
                             'contacto' => 'required',
                             'list_precios' => 'required',
                             'usuario' => 'required | unique:empresas',
@@ -73,18 +71,18 @@ class EmpresasController extends Controller
     }
 
     public function empresa_actualizar(Request $request){
-        $request->validate(['id','clave' => 'required',
-                            'descripcion' => 'required',
-                            'calle' => 'required',
-                            'colonia' => 'required',
-                            'ciudad' => 'required',
-                            'telefono' => 'required',
-                            'rfc' => 'required',
-                            'email' => 'required',
-                            'contacto' => 'required',
-                            'list_precios' => 'required',
-                            'usuario' => 'required',
-                            'password' => 'required'
+        $request->validate(['id','clave',
+                            'descripcion',
+                            'calle' ,
+                            'colonia',
+                            'ciudad',
+                            'telefono',
+                            'rfc',
+                            'email',
+                            'contacto',
+                            'list_precios',
+                            'usuario',
+                            'password'
                             ]);
 
         $recep = DB::table('empresas')

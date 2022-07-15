@@ -19,5 +19,8 @@ class Empresas extends Model
     
     public function laboratory(){
         return $this->belongsToMany(Laboratory::class, 'empresas_has_laboratories');
+    }
+    public function pacientes(){
+        return $this->hasMany(Pacientes::class, 'id'); 
     }                    
 }

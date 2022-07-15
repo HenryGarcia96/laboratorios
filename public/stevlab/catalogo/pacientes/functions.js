@@ -3,7 +3,7 @@
 function mostrarModal(obj){
 	var CSRF_TOKEN = $('meta[name="_token"]').attr('content');
 
-    $('#modalEditar').modal('show');
+    $('#modalEditar').modal('show'); 
     let data = $(obj).parent().parent().find('.data').html();
 
     const response = axios.post('/catalogo/getPaciente', {
@@ -23,7 +23,7 @@ function mostrarModal(obj){
         $('#fecha_nacimiento').val(res.data.fecha_nacimiento);
         $('#celular').val(res.data.celular);
         $('#email').val(res.data.email);
-        $('#empresa').val(res.data.empresa);
+        $('#id_empresa').val(res.data.empresa);
         $('#seguro_popular').val(res.data.seguro_popular);
         $('#vigencia_inicio').val(res.data.vigencia_inicio);
         $('#vigencia_fin').val(res.data.vigencia_fin);
@@ -32,4 +32,6 @@ function mostrarModal(obj){
     }).catch((err) => {
         console.log(err);
     });
+   
 }
+

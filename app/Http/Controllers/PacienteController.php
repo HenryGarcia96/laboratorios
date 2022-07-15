@@ -19,19 +19,17 @@ class PacienteController extends Controller
         $sucursales = User::where('id', Auth::user()->id)->first()->sucs()->orderBy('id', 'asc')->get();
 
         $listas = User::where('id', Auth::user()->id)->first()->labs()->first()->pacientes()->get();
-
-
-        //traer datos de la base de datos 
-        //$pacientes = DB::table('pacientes')
-        //            ->select('pacientes.*')
-        //            ->orderBy('id','DESC')
-        //            ->get();
-
+        
         $pacientes = User::where('id', Auth::user()->id)->first()->labs()->first()->pacientes()->get();
+
+        $empresas = User::where('id', Auth::user()->id)->first()->labs()->first()->empresas()->get();
     
+        $a = rand(100000,999999);
 
         return view('catalogo.pacientes.index',
-        ['active'=>$active,'sucursales'=>$sucursales, 'listas' => $listas, 'pacientes'=> $pacientes]);
+        ['active'=>$active,'sucursales'=>$sucursales,
+         'listas' => $listas, 'pacientes'=> $pacientes,
+        'empresas' => $empresas, 'a' => $a]); 
     }
     
     public function paciente_guardar(Request $request){
@@ -39,13 +37,13 @@ class PacienteController extends Controller
 
         $request->validate(['nombre' => 'required',
                             'ap_paterno' => 'required', 'ap_materno' => 'required',
-                            'domicilio' => 'required', 'colonia' => 'required',
+                            'domicilio' => 'nullable', 'colonia' => 'nullable',
                             'sexo' => 'required', 'fecha_nacimiento' => 'required',
-                            'celular' => 'required', 'email' => 'required',
-                            'empresa' => 'required', 'seguro_popular' => 'required',
-                            'vigencia_inicio' => 'required', 'vigencia_fin' => 'required',
-                            'usuario' => 'required | unique:pacientes',
-                            'password' => 'required | unique:pacientes']);
+                            'celular' => 'nullable', 'email' => 'nullable',
+                            'id_empresa' => 'required', 'seguro_popular' => 'nullable',
+                            'vigencia_inicio' => 'nullable', 'vigencia_fin' => 'nullable',
+                            'usuario' => 'unique:pacientes',
+                            'password' => 'unique:pacientes']);
 
                            
         $recep = new Pacientes;
@@ -59,14 +57,14 @@ class PacienteController extends Controller
         $recep->fecha_nacimiento = $request->fecha_nacimiento;
         $recep->celular = $request->celular;
         $recep->email = $request->email;
-        $recep->empresa = $request->empresa;
+        $recep->id_empresa = $request->id_empresa;
         $recep->seguro_popular = $request->seguro_popular;
         $recep->vigencia_inicio = $request->vigencia_inicio;
         $recep->vigencia_fin = $request->vigencia_fin;
         $recep->usuario = $request->usuario;
         $recep->password = $request->password;   
         
-        //$recep->save();
+
         $laboratorio->pacientes()->save($recep);
         return back()->with('success', 'Registro completo');
     }
@@ -84,9 +82,9 @@ class PacienteController extends Controller
         'ap_paterno' => 'required', 'ap_materno' => 'required',
         'domicilio' => 'required', 'colonia' => 'required',
         'sexo' => 'required', 'fecha_nacimiento' => 'required',
-        'celular' => 'required', 'email' => 'required',
-        'empresa' => 'required', 'seguro_popular' => 'required',
-        'vigencia_inicio' => 'required', 'vigencia_fin' => 'required']);
+        'celular', 'email',
+        'id_empresa' => 'required', 'seguro_popular',
+        'vigencia_inicio', 'vigencia_fin']);
 
         $recep = DB::table('pacientes')
         ->where('id', $request->id)
@@ -99,7 +97,7 @@ class PacienteController extends Controller
                 'fecha_nacimiento' => $request->fecha_nacimiento,
                 'celular' => $request->celular,
                 'email' => $request->email,
-                'empresa' => $request->empresa,
+                'id_empresa' => $request->id_empresa,
                 'seguro_popular' => $request->seguro_popular,
                 'vigencia_inicio' => $request->vigencia_inicio,
                 'vigencia_fin' => $request->vigencia_fin]);

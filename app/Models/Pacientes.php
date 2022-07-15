@@ -22,6 +22,10 @@ class Pacientes extends Model
     
     public function recepcions(){
         return $this->hasMany(Recepcions::class, 'id'); 
+    }
+    
+    public function empresas(){
+        return $this->belongsTo(Empresas::class, 'id_empresa'); 
     }    
 
 
