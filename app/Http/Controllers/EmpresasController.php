@@ -37,7 +37,7 @@ class EmpresasController extends Controller
                             'ciudad','telefono' => 'required',
                             'rfc','email',
                             'contacto' => 'required',
-                            'list_precios' => 'required',
+                            'descuento' => 'required | integer | max:100',
                             'usuario' => 'required | unique:empresas',
                             'password' => 'required | unique:empresas'
                         ]);
@@ -52,7 +52,7 @@ class EmpresasController extends Controller
         $recep->rfc = $request->rfc;
         $recep->email = $request->email;
         $recep->contacto = $request->contacto;
-        $recep->list_precios = $request->list_precios;
+        $recep->descuento = $request->descuento;
         $recep->usuario = $request->usuario;
         $recep->password = $request->password;
 
@@ -80,7 +80,7 @@ class EmpresasController extends Controller
                             'rfc',
                             'email',
                             'contacto',
-                            'list_precios',
+                            'descuento | integer | max:100',
                             'usuario',
                             'password'
                             ]);
@@ -96,7 +96,7 @@ class EmpresasController extends Controller
                 'rfc' => $request->rfc,
                 'email' => $request->email,
                 'contacto' => $request->contacto,
-                'list_precios' => $request->list_precios,
+                'descuento' => $request->list_precios,
                 'usuario' => $request->usuario,
                 'password' => $request->password]);
   

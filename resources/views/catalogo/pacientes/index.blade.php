@@ -5,6 +5,7 @@
 <link href="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
 <link href="{{ asset('public/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
 <link href="{{ asset('public/assets/plugins/select2/select2.min.css') }}" rel="stylesheet" />
+<link href="{{ asset('public/assets/plugins/prismjs/prism.css') }}" rel="stylesheet" />
 @endpush
 
 
@@ -152,6 +153,13 @@
               </div>
             </div>
 
+<style>
+.empre{
+  width: 220px !important;
+  height: 33px !important;
+}
+</style>
+
             <div class="row">
               <div class="col-sm-6">
                 <div class="mb-3">
@@ -161,15 +169,16 @@
               </div>
               <div class="col-sm-6">
                 <div class="mb-3">
-                  <label class="form-label">Empresa</label>
-                  <select class="js-example-basic-single form-select" name="id_empresa" data-width="100%" value="{{old('id_empresa')}}">
+                  <label class="form-label">Empresa</label>               
+                  <select class="js-example-basic-single form-select form-control" name="id_empresa" data-width="100%" value="{{old('id_empresa')}}">
                     @forelse ($empresas as $empresa)
                     <option value="{{$empresa->id}}">{{$empresa->descripcion}}</option> 
                     @empty
                     @endforelse
-                  </select>
+                   </select>
+                   <button type="button" class="btn btn-secondary empre" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl">Nueva empresa</button>           
+                  </div>
                 </div>
-              </div>
             </div>
 
             <div class="row">
@@ -192,6 +201,8 @@
         </form>
       </div>
     </div>
+    <br>
+
 <!----------------------------Tabla--------------------------------------------------------------->
 <style>
                   th, td{
@@ -199,7 +210,7 @@
                   font-size: 13px !important;
                   padding: 0.6em !important; 
                   }
-                  input, label{
+                  input, label, button{
                     font-size: 13px !important;
                   }
 </style>
@@ -252,6 +263,7 @@
     </div>
  
 </div>
+
 <!-----------modal------------------------------------------------------------------------------>
 <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditar" aria-hidden="true">
   <div class="modal-dialog">
@@ -380,6 +392,153 @@
   </div>
 </div>
 
+<!-- Modal empresa nueva -->
+<div class="modal fade bd-example-modal-xl" tabindex="-1" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalEditar">Nueva empresa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-12 stretch-card">
+          <div class="card">
+            <div class="card-body">
+    
+                <form method="post" action="empresa_guardar">
+                 @csrf 
+    
+                 <div class="row">
+                    <div class="col-sm-3">
+                        <div class="mb-3">
+                          <label class="form-label">Clave</label>
+                          <input class="form-control @error('clave') is-invalid @enderror" name="clave" value=""type="text">
+                          @error('clave')
+                          <span class="invalid-feedback">
+                            <strong>{{$message}}</strong>
+                          </span>
+                          @enderror
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="mb-3">
+                          <label class="form-label">Usuario</label>
+                          <input class="form-control @error('usuario') is-invalid @enderror" name="usuario" value=""type="text">
+                          @error('usuario')
+                          <span class="invalid-feedback">
+                            <strong>{{$message}}</strong>
+                          </span>
+                          @enderror
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="mb-3">
+                          <label class="form-label">Password</label>
+                          <input class="form-control @error('password') is-invalid @enderror" name="password" value=""type="password">
+                          @error('password')
+                          <span class="invalid-feedback">
+                            <strong>{{$message}}</strong>
+                          </span>
+                          @enderror
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="mb-3">
+                          <label class="form-label">RFC</label>
+                          <input class="form-control" name="rfc" value="" type="text">
+                        </div>
+                    </div>
+                 </div>
+    
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="mb-3">
+                        <div class="col-lg-3">
+                            <label class="form-label">Descripcion</label>
+                          </div>
+                          <div class="col-lg-15">
+                            <textarea id="maxlength-textarea" class="form-control" id="defaultconfig-4" maxlength="500" rows="1" name="descripcion"></textarea>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                          <label class="form-label">Calle</label>
+                          <input class="form-control" name="calle" value="" type="text">
+                        </div>
+                      </div>
+                  </div>
+    
+                  <div class="row">
+                    <div class="col-sm-4">
+                        <div class="mb-3">
+                          <label class="form-label">Email</label>
+                          <input class="form-control" name="email" value="" type="email">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="mb-3">
+                          <label class="form-label">Colonia</label>
+                          <input type="text" class="form-control" name="colonia" value="">
+                          </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="mb-3">
+                          <label class="form-label">Ciudad</label>
+                          <input type="text" class="form-control" name="ciudad" value="">
+                        </div>
+                      </div>
+                </div>
+    
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <div class="mb-3">
+                        <label class="form-label">Telefono</label>
+                        <input type="number" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="">
+                        @error('telefono')
+                        <span class="invalid-feedback">
+                          <strong>{{$message}}</strong>
+                        </span>
+                        @enderror
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="mb-3">
+                          <label class="form-label">Contacto</label>
+                          <input type="text" class="form-control @error('contacto') is-invalid @enderror" name="contacto" value="">
+                          @error('contacto')
+                          <span class="invalid-feedback">
+                            <strong>{{$message}}</strong>
+                          </span>
+                          @enderror
+                        </div>
+                      </div>
+    
+                      <div class="col-sm-4">
+                        <div class="mb-3">
+                          <label class="form-label">Descuento</label>
+                          <input type="number" class="form-control @error('descuento') is-invalid @enderror" name="descuento" value="">
+                          @error('descuento')
+                          <span class="invalid-feedback">
+                            <strong>{{$message}}</strong>
+                          </span>
+                          @enderror
+                        </div>
+                      </div>
+    
+                  </div>
+    
+                  <button type="submit" onclick="showSwal('mixin')" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 <!---------------------------------------------------------------------------------------------->
 
   @endsection

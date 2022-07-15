@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Laboratory;
 use Illuminate\Support\Facades\DB;
 use App\Models\Pacientes;
@@ -25,6 +24,7 @@ class PacienteController extends Controller
         $empresas = User::where('id', Auth::user()->id)->first()->labs()->first()->empresas()->get();
     
         $a = rand(100000,999999);
+        
 
         return view('catalogo.pacientes.index',
         ['active'=>$active,'sucursales'=>$sucursales,

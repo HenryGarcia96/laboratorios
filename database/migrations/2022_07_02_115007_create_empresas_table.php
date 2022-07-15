@@ -25,7 +25,7 @@ class CreateEmpresasTable extends Migration
             $table->string('rfc')->nullable();
             $table->string('email')->nullable();
             $table->string('contacto');
-            $table->string('list_precios');
+            $table->string('descuento');
             $table->string('usuario');
             $table->string('password');
 

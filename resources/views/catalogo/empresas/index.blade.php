@@ -27,15 +27,6 @@
       <div class="card">
         <div class="card-body">
 
-          <div class="col-lg-6 col-12 mx-auto">
-            @if(Session::has('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-              <strong>{{Session::get('success')}}</strong>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close"></button>
-            </div>         
-              @endif
-            </div>
-
             <form method="post" action="empresa_guardar">
              @csrf 
 
@@ -147,12 +138,13 @@
 
                   <div class="col-sm-4">
                     <div class="mb-3">
-                      <label class="form-label">Cambiar</label>
-                      <select class="js-example-basic-single form-select @error('list_precios') is-invalid @enderror" name="list_precios" data-width="100%" value="{{old('list_precios')}}">
-                        <option></option>
-                        <option value="particular">Particular</option>
-                        <option value="maquilla">Maquilla</option>
-                      </select>
+                      <label class="form-label">Descuento</label>
+                      <input type="number" class="form-control @error('descuento') is-invalid @enderror" name="descuento" value="{{old('descuento')}}">
+                      @error('descuento')
+                      <span class="invalid-feedback">
+                        <strong>{{$message}}</strong>
+                      </span>
+                      @enderror
                     </div>
                   </div>
 
