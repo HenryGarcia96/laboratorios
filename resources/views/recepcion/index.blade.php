@@ -3,6 +3,8 @@
 @push('plugin-styles') 
 <link href="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.css') }}" rel="stylesheet" />
 <link href="{{ asset('public/assets/plugins/select2/select2.min.css') }}" rel="stylesheet" />
+<link href="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
+
 
 @endpush
 
@@ -274,7 +276,7 @@ $z=  (random_int(100000000,999999999));
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm-12">
-                                    <button onclick='sendAjax()' type="submit" class="btn btn-success">Guardar</button>
+                                    <button type="submit" class="btn btn-success">Guardar</button>
                                     <button type="button" class="btn btn-danger">Borrar</button>
 
                                 </div>
@@ -302,6 +304,7 @@ $z=  (random_int(100000000,999999999));
 <script src="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.js') }}"></script>
 <script src="{{ asset('public/assets/js/axios.min.js') }}"></script>
 <script src="{{ asset('public/assets/plugins/select2/select2.min.js') }}"></script>
+<script src="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 
 @endpush
 

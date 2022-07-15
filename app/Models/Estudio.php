@@ -53,4 +53,10 @@ class Estudio extends Model
     public function precios(){
         return $this->belongsToMany(Precio::class, 'estudios_has_precios');
     }
+
+    // Recepcions has estudios
+    public function recepcions(){
+        return $this->belongsToMany(Recepcions::class, 'recepcions_has_estudios');
+    }
+    // 
 }
