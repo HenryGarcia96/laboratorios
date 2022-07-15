@@ -33,7 +33,7 @@
                         <div class="mb-3">
                             <label class="form-label">Fecha final</label>
                             <div class="input-group date datepicker consultaEstudios" >
-                                <input type="text" class="form-control" id="selectFinal">
+                                <input type="text" class="form-control" id="selectFinal" >
                                 <span class="input-group-text input-group-addon"><i data-feather="calendar"></i></span>
                             </div>
                         </div>

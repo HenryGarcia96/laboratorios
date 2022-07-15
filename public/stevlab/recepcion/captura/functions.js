@@ -2,7 +2,10 @@
 
 $(function(){
 
-    $('.datepicker').datepicker();
+    $('.datepicker').datepicker({
+        startDate: '-2m',
+        endDate: '0d',
+    });
 
     
 
@@ -19,6 +22,7 @@ $(function(){
     } );
 });
 
+
 $('.consultaEstudios').change(function(){
     var CSRF_TOKEN = $('meta[name="_token"]').attr('content');
 
@@ -28,6 +32,7 @@ $('.consultaEstudios').change(function(){
     let estado          = $('#selectEstudio').val();
     let area            = $('#selectArea').val();
 
+
     let data = new FormData();
 
     data.append('fecha_inicio', fecha_inicio);
@@ -36,9 +41,7 @@ $('.consultaEstudios').change(function(){
     data.append('estado', estado);
     data.append('area', area);
 
-    const response = axios.post('/recepcion/consulta-estudios',{
-        _token: CSRF_TOKEN,
-        data: data,
+    const response = axios.post('/recepcion/consulta-estudios', data ,{
     })
     .then(res => {
         console.log(res);
