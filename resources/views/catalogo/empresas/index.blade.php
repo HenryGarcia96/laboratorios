@@ -2,6 +2,7 @@
 
 @push('plugin-styles') 
 <link href="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.css') }}" rel="stylesheet" />
+<link href="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
 @endpush
 
 
@@ -25,15 +26,6 @@
     <div class="col-md-12 stretch-card">
       <div class="card">
         <div class="card-body">
-
-          <div class="col-lg-6 col-12 mx-auto">
-            @if(Session::has('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-              <strong>{{Session::get('success')}}</strong>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close"></button>
-            </div>         
-              @endif
-            </div>
 
             <form method="post" action="empresa_guardar">
              @csrf 
@@ -75,12 +67,7 @@
                   <div class="col-sm-3">
                     <div class="mb-3">
                       <label class="form-label">RFC</label>
-                      <input class="form-control @error('rfc') is-invalid @enderror" name="rfc" value="{{old('rfc')}}" type="text">
-                      @error('rfc')
-                      <span class="invalid-feedback">
-                        <strong>{{$message}}</strong>
-                      </span>
-                      @enderror
+                      <input class="form-control" name="rfc" value="" type="text">
                     </div>
                 </div>
              </div>
@@ -99,12 +86,7 @@
                 <div class="col-sm-6">
                     <div class="mb-3">
                       <label class="form-label">Calle</label>
-                      <input class="form-control @error('calle') is-invalid @enderror" name="calle" value="{{old('calle')}}" type="text">
-                      @error('calle')
-                      <span class="invalid-feedback">
-                        <strong>{{$message}}</strong>
-                      </span>
-                      @enderror
+                      <input class="form-control" name="calle" value="" type="text">
                     </div>
                   </div>
               </div>
@@ -113,34 +95,19 @@
                 <div class="col-sm-4">
                     <div class="mb-3">
                       <label class="form-label">Email</label>
-                      <input class="form-control @error('email') is-invalid @enderror" name="email" value="{{old('email')}}" type="email">
-                      @error('email')
-                      <span class="invalid-feedback">
-                        <strong>{{$message}}</strong>
-                      </span>
-                      @enderror
+                      <input class="form-control" name="email" value="" type="email">
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="mb-3">
                       <label class="form-label">Colonia</label>
-                      <input type="text" class="form-control @error('colonia') is-invalid @enderror" name="colonia" value="{{old('colonia')}}">
-                      @error('colonia')
-                      <span class="invalid-feedback">
-                        <strong>{{$message}}</strong>
-                      </span>
-                      @enderror
-                    </div>
+                      <input type="text" class="form-control" name="colonia" value="">
+                      </div>
                   </div>
                   <div class="col-sm-4">
                     <div class="mb-3">
                       <label class="form-label">Ciudad</label>
-                      <input type="text" class="form-control @error('ciudad') is-invalid @enderror" name="ciudad" value="{{old('ciudad')}}">
-                      @error('ciudad')
-                      <span class="invalid-feedback">
-                        <strong>{{$message}}</strong>
-                      </span>
-                      @enderror
+                      <input type="text" class="form-control" name="ciudad" value="">
                     </div>
                   </div>
             </div>
@@ -171,24 +138,36 @@
 
                   <div class="col-sm-4">
                     <div class="mb-3">
-                      <label class="form-label">Lista de precios</label>
-                      <select class="js-example-basic-single form-select @error('list_precios') is-invalid @enderror" name="list_precios" data-width="100%" value="{{old('list_precios')}}">
-                        <option></option>
-                        <option value="particular">Particular</option>
-                        <option value="maquilla">Maquilla</option>
-                      </select>
+                      <label class="form-label">Descuento</label>
+                      <input type="number" class="form-control @error('descuento') is-invalid @enderror" name="descuento" value="{{old('descuento')}}">
+                      @error('descuento')
+                      <span class="invalid-feedback">
+                        <strong>{{$message}}</strong>
+                      </span>
+                      @enderror
                     </div>
                   </div>
 
               </div>
 
-              <button type="submit" class="btn btn-success">Guardar</button>
+              <button type="submit" onclick="showSwal('mixin')" class="btn btn-primary">Guardar</button>
             </form>
         </div>
       </div>
     </div>
   </div>
 
+      <style>
+              input, label{
+                font-size: 13px !important;
+                line-height: 1px !important;
+              }
+              th, td{
+                font-size: 13px !important;
+                padding: 0.6em !important; 
+              }
+      </style>
+<br>
 <!----------------------------Tabla--------------------------------------------------------------->
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
@@ -200,9 +179,9 @@
                 <tr>
                   <th>Clave</th>
                   <th>Empresa</th>
-                  <th>RFC</th>
-                  <th>Editar</th>
-                  <th>Eliminar</th>
+                  <th>Contacto</th>
+                  <th>Acciones</th>
+
 
                 </tr>
               </thead>
@@ -211,18 +190,16 @@
                 <tr>
                   <td class="data">{{$empresa->clave}}</td>
                   <td>{{$empresa->descripcion}}</td>
-                  <td>{{$empresa->rfc}}</td>
+                  <td>{{$empresa->contacto}}</td>
                   {{-- <td>
                     <a href="{{route('catalogo.doctor_editar', $doctor->id)}}" data-bs-toggle="modal" data-bs-target="#exampleModal"><i data-feather="edit"></i></a>
                   </td> --}}
                   <td>
-                    <button onclick='mostrarModal(this)' type="button" class="btn btn-primary">
+                    <button onclick='mostrarModal(this)' type="button" class="btn btn-success">
                       <i data-feather="edit"></i></a>
                     </button>
-                  </td>
-                  
-                  <td>
-                    <a class="btn btn-primary" href="{{route('catalogo.empresa_eliminar',$empresa->id)}}"><i data-feather="trash-2"></i></a>
+
+                    <a class="btn btn-danger" href="{{route('catalogo.empresa_eliminar',$empresa->id)}}"><i data-feather="trash-2"></i></a>
 
                   </td>
                 </tr>
@@ -330,7 +307,7 @@
 
               <div class="col-sm-4">
                 <div class="mb-3">
-                  <label class="form-label">Lista de precios</label>
+                  <label class="form-label">cambiar</label>
                   <select class="js-example-basic-single form-select" name="list_precios" data-width="100%" value="" id="list_precios">
                     <option></option>
                     <option value="particular">Particular</option>
@@ -355,9 +332,11 @@
 <script src="{{ asset('public/assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
 <script src="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.js') }}"></script>
 <script src="{{ asset('public/assets/js/axios.min.js') }}"></script>
+<script src="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
 <script src="{{ asset('public/assets/js/data-table.js') }}"></script>
 <script src="{{ asset('public/stevlab/catalogo/empresas/functions.js') }}"></script>
+<script src="{{ asset('public/stevlab/catalogo/empresas/swee-alert.js') }}"></script>
 @endpush

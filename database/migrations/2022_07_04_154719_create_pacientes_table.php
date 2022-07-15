@@ -19,16 +19,20 @@ class CreatePacientesTable extends Migration
             $table->string('nombre');
             $table->string('ap_paterno');
             $table->string('ap_materno');
-            $table->string('domicilio');
-            $table->string('colonia');
+            $table->string('domicilio')->nullable();
+            $table->string('colonia')->nullable();
             $table->string('sexo');
             $table->string('fecha_nacimiento');
-            $table->string('celular');
-            $table->string('email');
-            $table->string('empresa');
-            $table->string('seguro_popular');
-            $table->string('vigencia_inicio');
-            $table->string('vigencia_fin');
+            $table->string('celular')->nullable();
+            $table->string('email')->nullable();
+            $table->foreignId('id_empresa')
+                    ->nullable()
+                    ->constrained('empresas')
+                    ->cascadeOnUpdate()
+                    ->nullOnDelete();
+            $table->string('seguro_popular')->nullable();
+            $table->string('vigencia_inicio')->nullable();
+            $table->string('vigencia_fin')->nullable();
             $table->string('usuario');
             $table->string('password');
             //$table->string('medico')->nullable();

@@ -24,7 +24,8 @@ class DoctoresController extends Controller
       $doctores = User::where('id', Auth::user()->id)->first()->labs()->first()->doctores()->get();
       
       return view('catalogo.doctores.index',
-      ['active'=>$active,'sucursales'=>$sucursales]) ->with('doctores', $doctores);  
+      ['active'=> $active,'sucursales'=> $sucursales,
+      'doctores'=> $doctores, 'listas' => $listas]);  
    }
 
    public function doctores_guardar(Request $request){
@@ -33,7 +34,7 @@ class DoctoresController extends Controller
       $request->validate(['clave' => 'required | unique:doctores',
                            'nombre' => 'required', 'ap_paterno' => 'required',
                            'ap_materno' => 'required', 'telefono' => 'unique:doctores',
-                           'celular' => 'unique:doctores', 'email' => 'required | unique:doctores',
+                           'celular' => 'unique:doctores', 'email',
                            'usuario' => 'required | unique:doctores',
                            'password' => 'required | unique:doctores' 
                            ]);
@@ -51,7 +52,7 @@ class DoctoresController extends Controller
 
       //$recep->save();
       $laboratorio->doctores()->save($recep);
-      return back()->with('success', 'Registro completo');
+      return back();
             
    }
 

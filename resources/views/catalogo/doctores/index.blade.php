@@ -2,6 +2,7 @@
 
 @push('plugin-styles') 
 <link href="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.css') }}" rel="stylesheet" />
+<link href="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
 @endpush
 
 
@@ -25,15 +26,6 @@
     <div class="col-md-12 stretch-card">
       <div class="card">
         <div class="card-body">
-
-          <div class="col-lg-6 col-12 mx-auto">
-            @if(Session::has('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-              <strong>{{Session::get('success')}}</strong>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close"></button>
-            </div>         
-              @endif
-            </div>
 
             <form method="post" action="doctores_guardar">
              @csrf  
@@ -114,45 +106,41 @@
                 <div class="col-sm-4">
                   <div class="mb-3">
                     <label class="form-label">Telefono</label>
-                    <input type="number" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{old('telefono')}}">
-                    @error('telefono')
-                    <span class="invalid-feedback">
-                      <strong>{{$message}}</strong>
-                    </span>
-                    @enderror
+                    <input type="number" class="form-control" name="telefono" value="{{old('telefono')}}">
                   </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="mb-3">
                       <label class="form-label">Celular</label>
-                      <input type="number" class="form-control @error('celular') is-invalid @enderror" name="celular" value="{{old('celular')}}">
-                      @error('celular')
-                      <span class="invalid-feedback">
-                        <strong>{{$message}}</strong>
-                      </span>
-                      @enderror
+                      <input type="number" class="form-control" name="celular" value="{{old('celular')}}">
                     </div>
                   </div>
                   <div class="col-sm-4">
                     <div class="mb-3">
                       <label class="form-label">Email</label>
-                      <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{old('email')}}">
-                      @error('email')
-                      <span class="invalid-feedback">
-                        <strong>{{$message}}</strong>
-                      </span>
-                      @enderror
+                      <input type="email" class="form-control" name="email" value="{{old('email')}}">
                     </div>
                   </div>
               </div>
 
-              <button type="submit" class="btn btn-success">Guardar</button>
+              <button type="submit" onclick="showSwal('mixin')" class="btn btn-primary">Guardar</button>
             </form>
         </div>
       </div> 
     </div>
   </div>
 
+  <style>
+    input, label{
+      font-size: 13px !important;
+      line-height: 1px !important;
+    }
+    th, td{
+      font-size: 13px !important;
+      padding: 0.6em !important; 
+    }
+</style>
+<br>
 <!----------------------------Tabla--------------------------------------------------------------->
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
@@ -166,8 +154,7 @@
                   <th>Nombre</th>
                   <th>Ap Paterno</th>
                   <th>Ap Materno</th>
-                  <th>Editar</th>
-                  <th>Eliminar</th>
+                  <th>Acciones</th>
 
                 </tr>
               </thead>
@@ -178,21 +165,13 @@
                   <td>{{$doctor->nombre}}</td>
                   <td>{{$doctor->ap_paterno}}</td>
                   <td>{{$doctor->ap_materno}}</td>
-                  {{-- <td>
-                    <a href="{{route('catalogo.doctor_editar', $doctor->id)}}" data-bs-toggle="modal" data-bs-target="#exampleModal"><i data-feather="edit"></i></a>
-                  </td> --}}
                   <td>
-                    {{--<button class="btn btn-primary btnEditar" data-toggle="modal" data-target="#modalEditar"> 
 
-                      Editar <i data-feather="edit"></i>
-                    </button>--}}
-                    <button onclick='mostrarModal(this)' type="button" class="btn btn-primary">
-                      Editar
+                    <button onclick='mostrarModal(this)' type="button" class="btn btn-success">
+                      <i data-feather="edit"></i>
                     </button>
-                </td>
 
-                  <td>
-                    <a class="btn btn-primary" href="{{ route('catalogo.doctor_eliminar',$doctor->id) }}"><i data-feather="trash-2"></i></a>
+                    <a class="btn btn-danger" href="{{ route('catalogo.doctor_eliminar',$doctor->id) }}"><i data-feather="trash-2"></i></a>
 
                   </td>
                 </tr>
@@ -301,12 +280,13 @@
 <script src="{{ asset('public/assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
 <script src="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.js') }}"></script>
 <script src="{{ asset('public/assets/js/axios.min.js') }}"></script>
+<script src="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
 <script src="{{ asset('public/assets/js/data-table.js') }}"></script>
 <script src="{{ asset('public/stevlab/catalogo/doctores/functions.js') }}"></script>
-
+<script src="{{ asset('public/stevlab/catalogo/doctores/swee-alert.js') }}"></script>
 @endpush
 
 
