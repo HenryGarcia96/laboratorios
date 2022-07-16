@@ -31,9 +31,11 @@ class RecepcionsController extends Controller{
         $doctores = User::where('id', Auth::user()->id)->first()->labs()->first()->doctores()->get();
 
 
+        $a = rand(100000,999999);
+
         return view('recepcion.index',
         ['active'=>$active,'sucursales'=>$sucursales, 'empresas'=>$empresas,
-        'pacientes'=>$pacientes, 'doctores' => $doctores, 'listas' => $listas]);  
+        'pacientes'=>$pacientes, 'doctores' => $doctores, 'listas' => $listas, 'a' => $a]);  
     }  
 
 
@@ -190,5 +192,70 @@ class RecepcionsController extends Controller{
 
 
     }
+
+    public function paciente_guardar(Request $request){
+        $laboratorio = User::Where('id', Auth::user()->id)->first()->labs()->first();
+
+        $request->validate(['nombre' => 'required',
+                            'ap_paterno' => 'required', 'ap_materno' => 'required',
+                            'domicilio' => 'nullable', 'colonia' => 'nullable',
+                            'sexo' => 'required', 'fecha_nacimiento' => 'required',
+                            'celular' => 'nullable', 'email' => 'nullable',
+                            'id_empresa' => 'required', 'seguro_popular' => 'nullable',
+                            'vigencia_inicio' => 'nullable', 'vigencia_fin' => 'nullable',
+                            'usuario' => 'unique:pacientes',
+                            'password' => 'unique:pacientes']);
+
+                           
+        $recep = new Pacientes;
+
+        $recep->nombre = $request->nombre;
+        $recep->ap_paterno = $request->ap_paterno;
+        $recep->ap_materno = $request->ap_materno;
+        $recep->domicilio = $request->domicilio;
+        $recep->colonia = $request->colonia;
+        $recep->sexo = $request->sexo;
+        $recep->fecha_nacimiento = $request->fecha_nacimiento;
+        $recep->celular = $request->celular;
+        $recep->email = $request->email;
+        $recep->id_empresa = $request->id_empresa;
+        $recep->seguro_popular = $request->seguro_popular;
+        $recep->vigencia_inicio = $request->vigencia_inicio;
+        $recep->vigencia_fin = $request->vigencia_fin;
+        $recep->usuario = $request->usuario;
+        $recep->password = $request->password;   
+        
+
+        $laboratorio->pacientes()->save($recep);
+        return back();
+    }
+
+    public function doctores_guardar(Request $request){
+        $laboratorio = User::Where('id', Auth::user()->id)->first()->labs()->first();
+  
+        $request->validate(['clave' => 'required | unique:doctores',
+                             'nombre' => 'required', 'ap_paterno' => 'required',
+                             'ap_materno' => 'required', 'telefono' => 'unique:doctores',
+                             'celular' => 'unique:doctores', 'email',
+                             'usuario' => 'required | unique:doctores',
+                             'password' => 'required | unique:doctores' 
+                             ]);
+  
+        $recep = new  Doctores;
+        $recep->clave = $request->clave;
+        $recep->nombre = $request->nombre;
+        $recep->ap_paterno = $request->ap_paterno;
+        $recep->ap_materno = $request->ap_materno;
+        $recep->telefono = $request->telefono;
+        $recep->celular = $request->celular;
+        $recep->email = $request->email;
+        $recep->usuario = $request->usuario;
+        $recep->password = $request->password;
+  
+        //$recep->save();
+        $laboratorio->doctores()->save($recep);
+        return back();
+              
+     }
 
 }
