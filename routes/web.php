@@ -63,6 +63,10 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
         Route::get('/recepcion_editar/{id}', [RecepcionsController::class, 'recepcion_editar'])->name('recepcion_editar');
         //Recepcion - Editar solicitud - Actualiazar
         Route::post('/recepcion_actualizar/{id}', [RecepcionsController::class, 'recepcion_actualizar'])->name('recepcion_actualizar');
+                //Catalogo - pacientes.guardar
+                Route::post('/paciente_guardar', [RecepcionsController::class, 'paciente_guardar'])->name('paciente_guardar');
+                //Catalogo - doctores.guardar
+                Route::post('/doctores_guardar', [RecepcionsController::class, 'doctores_guardar'])->name('doctores_guardar');
 
     });
     

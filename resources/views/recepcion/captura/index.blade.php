@@ -120,7 +120,7 @@
     </div>
 </div>
 @endsection
-
+ 
 @push('plugin-scripts')
     <script src="{{ asset('public/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('public/assets/js/axios.min.js') }}"></script>

@@ -153,12 +153,12 @@
               </div>
             </div>
 
-<style>
-.empre{
-  width: 220px !important;
-  height: 33px !important;
-}
-</style>
+              <style>
+              .empre{
+                width: 220px !important;
+                height: 33px !important;
+              }
+              </style>
 
             <div class="row">
               <div class="col-sm-6">
@@ -559,5 +559,5 @@
 <script src="{{ asset('public/stevlab/catalogo/pacientes/swee-alert.js') }}"></script>
 <script src="{{ asset('public/stevlab/catalogo/pacientes/functions.js') }}"></script>
 <script src="{{ asset('public/stevlab/catalogo/pacientes/datepicker.js') }}"></script>
-<script src="{{ asset('public\stevlab\catalogo\pacientes\select2.js') }}"></script>
+<script src="{{ asset('public/stevlab/catalogo/pacientes/select2.js') }}"></script>
 @endpush
