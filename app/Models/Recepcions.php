@@ -14,7 +14,9 @@ class Recepcions extends Model
     'tipPasiente', 'turno', 'id_doctor',
     'numCama', 'peso', 'talla', 'fur',
     'medicamento', 'diagnostico',
-    'observaciones', 'listPrecio'];
+    'observaciones', 'listPrecio', 'num_total',
+    'num_vuelo', 'f_flebotomia', 'pais_destino',
+    'aerolinea'];
 
 
     public function empresas(){
