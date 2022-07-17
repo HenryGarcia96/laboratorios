@@ -61,7 +61,7 @@ class RecepcionsController extends Controller{
         $recep->diagnostico     = $data['data'][15]['value'];
         $recep->observaciones   = $data['data'][16]['value'];
 
-        $recepcion = Recepcions::where('folio', $recep->folio)->first();
+        $recepcion = Recepcions::where($recep->id)->first();
         //recepcion has laboratories
         $laboratorio->recepcions()->save($recep);
 
@@ -100,12 +100,10 @@ class RecepcionsController extends Controller{
         $areas = User::where('id', Auth::user()->id)->first()->labs()->first()->areas()->get();
 
         // Estudios para validad
-        $estudios = User::where('id', Auth::user()->id)->first()->labs()->first()->recepcions()->get()->load(['pacientes', 'empresas']);
 
         return view('recepcion.captura.index',['active'     => $active, 
                                             'sucursales'    => $sucursales, 
                                             'areas'         => $areas,
-                                            'estudios'      => $estudios
                                         ]);
     }
 
@@ -113,9 +111,23 @@ class RecepcionsController extends Controller{
         $fecha_inicio = Carbon::parse($request->fecha_inicio);
         $fecha_final = Carbon::parse($request->fecha_final)->addDay();
 
-        $estudios = Recepcions::whereBetween('created_at', [$fecha_inicio, $fecha_final])->get();
+        $estudios = User::where('id', Auth::user()->id)->first()->labs()->first()->recepcions()->whereBetween('recepcions.created_at', [$fecha_inicio, $fecha_final])->get()->load(['pacientes', 'empresas']);
+
+        // $estudios = Recepcions::whereBetween('created_at', [$fecha_inicio, $fecha_final])->get();
         
         return $estudios;
+    }
+
+    public function recover_estudios(Request $request){
+        $folio = $request->except('_token');
+
+        $estudios = Recepcions::where('folio', $folio)->first()->estudios()->get()->load('analitos');
+
+        return $estudios;
+    }
+
+    public function recover_analitos(Request $request){
+        dd($request);
     }
 
     public function recepcion_editar_index(Request $request){

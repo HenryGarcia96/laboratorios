@@ -102,7 +102,8 @@
                             </tr>
                         </thead>
                         <tbody id="listEstudios">
-                            @forelse($estudios as $estudio)
+                            {{-- 
+                                @forelse($estudios as $estudio)
                                 <tr>
                                     <td>{{$estudio->folio}}</td>
                                     <td>{{$estudio->pacientes->nombre}}</td>
@@ -111,11 +112,28 @@
                                     <td>{{$estudio->created_at}}</td>
                                 </tr>
                             @empty
-                            @endforelse
+                            @endforelse 
+                            --}}
                         </tbody>
                     </table>
                 </div>
+                
             </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="modalEstudio" tabindex="-1" aria-labelledby="modalEstudio" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modalEstudio">Captura datos</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
+        </div>
+        <div id="appendComponente" class="modal-body">
+        </div>
+        <div class="modal-footer">
+        </div>
         </div>
     </div>
 </div>
@@ -128,6 +146,7 @@
     <script src="{{ asset('public/assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.js') }}"></script>
     <script src="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/moment/moment.min.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
