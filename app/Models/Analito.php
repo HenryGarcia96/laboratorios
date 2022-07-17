@@ -42,4 +42,9 @@ class Analito extends Model
     public function estudios(){
         return $this->belongsToMany(Estudio::class, 'analitos_has_estudios');
     }
+
+    // historial has analitos
+    public function historials(){
+        return $this->belongsToMany(Historial::class, 'historials_has_analitos');
+    }
 }
