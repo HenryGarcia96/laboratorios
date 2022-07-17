@@ -18,7 +18,7 @@ class CreateRecepcionsTable extends Migration
 
             $table->string('folio');
             $table->string('numOrden');
-            $table->string('numRegistro')->nullable();
+            $table->string('numRegistro');
             //llave foranea-------------------------------
             //$table->string('paciente');
             $table->foreignId('id_paciente')
@@ -48,11 +48,18 @@ class CreateRecepcionsTable extends Migration
             $table->string('peso')->nullable();
             $table->string('talla')->nullable();
             $table->string('fur')->nullable();
+            //nuevos--------------------------------------
+            $table->string('f_flebotomia')->nullable();
+            $table->string('num_vuelo')->nullable();
+            $table->string('pais_destino')->nullable();
+            $table->string('aerolinea')->nullable();
+            //--------------------------------------------
             $table->string('medicamento')->nullable();
             $table->string('diagnostico')->nullable();
             $table->string('observaciones')->nullable();
             $table->string('listPrecio')->nullable();
-            //$table->string('precTotal');
+            
+            $table->string('num_total');
 
             $table->timestamps();
         });

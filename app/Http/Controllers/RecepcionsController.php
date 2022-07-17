@@ -59,9 +59,15 @@ class RecepcionsController extends Controller{
         $recep->peso            = $data['data'][11]['value'];
         $recep->talla           = $data['data'][12]['value'];
         $recep->fur             = $data['data'][13]['value'];
-        $recep->medicamento     = $data['data'][14]['value'];
-        $recep->diagnostico     = $data['data'][15]['value'];
-        $recep->observaciones   = $data['data'][16]['value'];
+        $recep->f_flebotomia    = $data['data'][14]['value'];
+        $recep->num_vuelo       = $data['data'][15]['value'];
+        $recep->pais_destino    = $data['data'][16]['value'];
+        $recep->aerolinea       = $data['data'][17]['value'];
+        $recep->medicamento     = $data['data'][18]['value'];
+        $recep->diagnostico     = $data['data'][19]['value'];
+        $recep->observaciones   = $data['data'][20]['value'];
+        
+        $recep->num_total       = $data['data'][21]['value']; 
 
         $recepcion = Recepcions::where('folio', $recep->folio)->first();
         //recepcion has laboratories

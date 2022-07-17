@@ -7,7 +7,9 @@
 <link href="{{ asset('public/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
 <link href="{{ asset('public/assets/plugins/prismjs/prism.css') }}" rel="stylesheet" />
 <link href="{{ asset('public/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
-
+{{--
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" integrity="sha512-3JRrEUwaCkFUBLK1N8HehwQgu8e23jTH4np5NHOmQOobuC4ROQxFwFgBLTnhcnQRMs84muMh0PnnwXlPq5MGjg==" crossorigin="anonymous" />
+--}}
 
 @endpush
 
@@ -159,32 +161,17 @@ $z=  (random_int(100000000,999999999));
                             <div class="row mb-3">
                                 <div class="col-md-3">
                                     <label class="form-label">No. Cama:</label>
-                                    <input class="form-control @error('numCama') is-invalid @enderror" id='numCama' name="numCama" value="{{old('numCama')}}" type="number">
-                                    @error('numCama')
-                                    <span class="invalid-feedback">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
+                                    <input class="form-control" id='numCama' name="numCama" value="{{old('numCama')}}" type="number">
+                                  </div>
                                 
                                 <div class="col-md-3">
                                     <label class="form-label">Peso:</label>
-                                    <input class="form-control @error('peso') is-invalid @enderror" id='peso' name="peso"value="{{old('peso')}}" type="text">
-                                    @error('peso')
-                                    <span class="invalid-feedback">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                    @enderror
+                                    <input class="form-control" id='peso' name="peso"value="" type="text">
                                 </div>
                                 
                                 <div class="col-md-3">
                                     <label class="form-label">Talla:</label>
-                                    <input class="form-control @error('talla') is-invalid @enderror" id="talla" name="talla"value="{{old('talla')}}" type="text">
-                                    @error('talla')
-                                    <span class="invalid-feedback">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                    @enderror
+                                    <input class="form-control" id="talla" name="talla"value="" type="text">
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">FUR:</label>
@@ -196,42 +183,44 @@ $z=  (random_int(100000000,999999999));
                                 <div class="col-md-5">
                                     <label class="form-label">F. Flebotomia:</label>
                                     <div class="input-group date datepicker" id="datePickerExample">
-                                      <input type="text" class="form-control">
+                                      <input type="text" class="form-control" id="f_flebotomia" name="f_flebotomia">
                                       <span class="input-group-text input-group-addon"><i data-feather="calendar"></i></span>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="input-group date timepicker" id="fecha" data-target-input="nearest">
-                              <input type="text" class="form-control datetimepicker-input" data-target="#fecha"/>
-                              <span class="input-group-text" data-target="#fecha" data-toggle="datetimepicker"><i data-feather="clock"></i></span>
+                                {{--
+                                <div class="col-md-5">
+                                  <label class="form-label">H. Flebotomia:</label>
+                                    <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+                                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker3"/>
+                                    <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-clock-o" data-feather="clock"></i></div>
+                                    </div>
+                                </div>
+                              </div>
+                                  --}}
+  
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-md-4">
                                     <label class="form-label">No. vuelo:</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" id="num_vuelo" name="num_vuelo">
                                 </div>
                                 
                                 <div class=" col-md-4">
                                     <label class="form-label">Pais Destino:</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" id="pais_destino" name="pais_destino">
                                 </div>
                                 <div class=" col-md-4">
                                     <label class="form-label">Aerolinea:</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" id="aerolinea" name="aerolinea">
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-md-12">
                                     <label class="form-label">Medicamento:</label>
-                                    <input class="form-control mb-1 mb-md-0 @error('medicamento') is-invalid @enderror" id="medicamento" name="medicamento"value="{{old('medicamento')}}" type="text">
-                                    @error('medicamento')
-                                    <span class="invalid-feedback">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                    @enderror
+                                    <input class="form-control mb-1 mb-md-0" id="medicamento" name="medicamento"value="" type="text">
                                 </div>
                                 
                             </div>
@@ -239,12 +228,7 @@ $z=  (random_int(100000000,999999999));
         
                                 <div class="col-md-12">
                                     <label class="form-label">Diagnostico:</label>
-                                    <input class="form-control mb-1 mb-md-0 @error('diagnostico') is-invalid @enderror" id="diagnostico" name="diagnostico"value="{{old('diagnostico')}}" type="text">
-                                    @error('diagnostico')
-                                    <span class="invalid-feedback">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                    @enderror
+                                    <input class="form-control mb-1 mb-md-0" id="diagnostico" name="diagnostico"value="" type="text">
                                 </div>
                             </div>
                             
@@ -299,19 +283,7 @@ $z=  (random_int(100000000,999999999));
                                                             </tr>
                                                         </thead>
                                                         <tbody id='listEstudios'>
-                                                            {{-- <tr>
-                                                                <th>00TP</th>
-                                                                <td>T.P/TIEMPO DE PROTROMBINA</td>
-                                                                <td>Estudios</td>
-                                                                <td>$80.00</td>
-                                                                <td>
-                                                                    <div class="form-check mb-3">
-                                                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                                                        <label class="form-check-label" for="exampleCheck1"></label>
-                                                                    </div>
-                                                                </td>
-                                                                <td><a href=""><i data-feather="delete"></i></a></td>
-                                                            </tr> --}}
+
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -324,7 +296,7 @@ $z=  (random_int(100000000,999999999));
         
                                 <div class="col-md-12">
                                     <label class="form-label">Total:</label>
-                                    <input disabled class="form-control mb-4 mb-md-0" name="tot_precio" type="text" placeholder="$00.00" readonly="readonly" id="num_total">
+                                    <input disabled class="form-control mb-4 mb-md-0" name="num_total" type="text" placeholder="$00.00" readonly="readonly" id="num_total">
                                 </div> <br>
                             </div>
                             <div class="row mb-3">
@@ -651,6 +623,8 @@ $z=  (random_int(100000000,999999999));
     </div>
   </div>
 <!----------------------------------------------------------------------------------------------------->
+
+     
 @endsection
 
 @push('plugin-scripts')
@@ -662,6 +636,11 @@ $z=  (random_int(100000000,999999999));
 <script src="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('public/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 
+{{--
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js" integrity="sha512-k6/Bkb8Fxf/c1Tkyl39yJwcOZ1P4cRrJu77p83zJjN2Z55prbFHxPs9vN7q3l3+tSMGPDdoH51AEU8Vgo1cgAA==" crossorigin="anonymous"></script>
+--}}
 
 @endpush
 

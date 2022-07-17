@@ -33,20 +33,38 @@ $(function() {
                 required: true,
             },
             peso:{
-                required: true,
+                required: false,
             },
             talla:{
-                required: true,
+                required: false,
             },
             medicamento:{
-                required: true,
+                required: false,
             },
             diagnostico:{
-                required: true,
+                required: false,
             },
             observaciones:{
+                required: false,
+            },
+            f_flebotomia:{
                 required: true,
-            }
+            },
+            num_total:{
+                required:true,
+            },
+            num_vuelo:{
+                required:false,
+            },
+            pais_destino:{
+                required:false,
+            },
+            aerolinea:{
+                required:false,
+            },
+            numCama:{
+                required:false,
+            },
         },
         messages: {
             folio:{
@@ -90,6 +108,18 @@ $(function() {
             },
             observaciones:{
                 required:"Observaciones es requerido",
+            },
+            f_flebotomia:{
+                required:"F. flebotomia es requerido",
+            },
+            num_vuelo:{
+                required:"Numero de vuelo es requerido"
+            },
+            pais_destino:{
+                required:"Pais destino es requerido"
+            },
+            aerolinea:{
+                required:"Aerolinea es requerido"
             },
         },
         errorPlacement: function(error, element) {
