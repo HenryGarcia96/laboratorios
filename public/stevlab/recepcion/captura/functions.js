@@ -36,7 +36,7 @@ $(function(){
                 let id = elemento.id;
 
                 let componente = `  <div class="row mb-3 asignEstudio">
-                                        <label class='form-label'>${elemento.descripcion}</label>
+                                        <label class='form-label'><span class='claveEstudio'>${elemento.clave}</span> - ${elemento.descripcion}</label>
                                         <div class='col-md-12 asignAnalito${id}'>
                                         </div>
                                         <div class="mb-3">
@@ -48,68 +48,31 @@ $(function(){
                 analito.forEach(function(analito, key){
                     let tipo = analito.tipo_resultado;
 
-                    if(tipo == 'subtitulo'){
-
-                        // En caso de ser subtitulo
-                        let analitos = `<div class="row">
-                                            <input type='hidden' class='idAnalito${analito.clave}' id='idAnalito${analito.clave}' value='${analito.clave}'>
-                                            <div class='col-md-2 claveAnalito'>
-                                            ${analito.clave}
-                                            </div>
-                                            <div class="col-md-6">
+                    // Valore referencial
+                    let analitos = `<div class="row listDato">
+                                        <input type='hidden' class='idAnalito${analito.clave}' id='${analito.clave}' value='${analito.clave}'>
+                                        <div class='col-md-2 '>
+                                            <span class='claveDato'>
+                                                ${analito.clave}
+                                            </span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <span class='descripcionDato'>
                                                 ${analito.descripcion}
-                                            </div>
-                                            <div class="col-md-4">
-                                                <input type="text" min='0' class="form-control storeAnalito-${id}">
-                                            </div>
-                                        </div>`;
+                                            </span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="number" min='0' class="form-control storeDato">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <span class='ejemploDato'>
+                                                ${analito.numero_uno} - ${analito.numero_dos}
+                                            </span>
+                                        </div>
+                                    </div>`;
                         // Añadir entrada
                         $('.asignAnalito'+ id).append(analitos);
 
-                    }else if(tipo == 'numerico'){
-
-                        // En caso de ser valor referencial
-                        let analitos = `<div class="row">
-                                            <input type='hidden' class='idAnalito${analito.clave}' id='idAnalito${analito.clave}' value='${analito.clave}'>
-                                            <div class='col-md-2 claveAnalito'>
-                                            ${analito.clave}
-                                            </div>
-                                            <div class="col-md-6">
-                                                ${analito.descripcion}
-                                            </div>
-                                            <div class="col-md-2">
-                                                <input type="number" min='0' class="form-control storeAnalito-${id}">
-                                            </div>
-                                            <div class="col-md-2">${analito.numero_uno} - ${analito.numero_dos}
-                                            </div>
-                                        </div>`;
-                        // Añadir entrada
-                        $('.asignAnalito'+ id).append(analitos);
-
-                    }else if(tipo == 'texto'){
-
-                        // En caso de ser valor referencial
-                        let analitos = `<div class="row">
-                                            <input type='hidden' class='idAnalito${analito.clave}' id='idAnalito${analito.clave}' value='${analito.clave}'>
-                                            <div class='col-md-2 claveAnalito'>
-                                            ${analito.clave}
-                                            </div>
-                                            <div class="col-md-6">
-                                                ${analito.descripcion}
-                                            </div>
-                                            <div class="col-md-4">
-                                                <input type="text" min='0' class="form-control storeAnalito-${id}">
-                                            </div>
-                                        </div>`;
-                        // Añadir entrada
-                        $('.asignAnalito'+ id).append(analitos);
-
-                    }else if(tipo == 'documento'){
-
-                    }else if(tipo == 'imagen'){
-
-                    }
-                    
                 });
 
             });
@@ -154,8 +117,7 @@ $('.consultaEstudios').change(function(){
                             <td>Sucursal</td>
                             <td>${index.empresas.descripcion}</td>
                             <td>${moment(index.created_at).format('DD-MM-YYYY HH:mm:ss')}</td>
-                        </tr>
-            `;
+                        </tr>`;
             $('#listEstudios').append(datito);
         })
 
@@ -181,16 +143,48 @@ $('.consultaEstudios').change(function(){
 
 
 function guardarEstudios(obj){
-    $(obj).find('.asignEstudio').each(function(){
-        let datito = $(obj).html();
+    let indice = 0;
+    let estudio = [];
+    let lista = [];
+
+
+    // let lista = new FormData();
+
+    $('.asignEstudio').each(function(){
+        let index = 0;
+        let key = $(this).find('.claveEstudio').text();
+
+        
+
+        $('.listDato').each(function(){
+            let clave = $(this).find('.claveDato').text();
+            let descripcion = $(this).find('.descripcionDato').text();
+            let valor = $(this).find('.storeDato').val();
+            // let ejemplo = $(this).find('.ejemploDato').text();
+
+            lista.push({
+                clave: clave,
+                descripcion: descripcion,
+                valor: valor,
+                // ejemplo: ejemplo,
+            })
+            
+            index++;
+        });
+
+        estudio.push({
+            codigo: key,
+            lista: lista,
+        });
+
+        indice++
+
     });
-    // let clave = $(obj).find().val();
-    // let dato = $(obj).find().val();
-    let data = new FormData();
 
-
+    const response = axios.post('/recepcion/store-resultados-estudios', estudio ,{
+    }).then(function(response){
+        console.log(response);
+    }).catch(function(error){
+        console.log(error);
+    });
 }
-
-// $(this).find('td:eq(0)').each(function(){
-//     valor.append('folio',$(this).html());
-// });

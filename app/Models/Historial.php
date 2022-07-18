@@ -8,16 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Historial extends Model
 {
     protected $fillable = [
-        'data',
+        'clave',
+        'descripcion',
+        'valor',
         'estatus',
         'entrega',
     ];
 
     use HasFactory;
 
-
-    // historial has analitos
-    public function analitos(){
-        return $this->belongsToMany(Analito::class, 'historials_has_analitos');
+    // historial has estudios
+    public function estudios(){
+        return $this->belongsToMany(Estudio::class, 'historials_has_estudios')->withPivot('analito_id');
     }
 }
