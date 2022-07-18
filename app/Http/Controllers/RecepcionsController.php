@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Doctores;
 use App\Models\Empresas;
 use App\Models\Estudio;
+use App\Models\Historial;
 use App\Models\Pacientes;
 use Illuminate\Support\Facades\DB;
 use App\Models\Recepcions;
@@ -134,8 +135,34 @@ class RecepcionsController extends Controller{
         return $estudios;
     }
 
-    public function recover_analitos(Request $request){
-        dd($request);
+    public function store_resultados_estudios(Request $request){
+
+        $estudios = $request->except('_token');
+
+        foreach($estudios as $key=>$estudio){
+            $clave = $estudio['codigo'];
+            $estudies = Estudio::where('clave', $clave)->first();
+            
+
+            foreach($estudio['lista'] as $index=>$analito){
+                $data = $analito;
+                $insercion = Historial::create($data);
+                $historial= Historial::latest('id')->first();
+
+                $estudies->historials()->save($historial);
+            }
+
+        }
+
+        if($insercion) {
+            $response = true;
+        } else {
+            $response = false;
+        }
+
+        header("HTTP/1.1 200 OK");
+        header('Content-Type: application/json');
+        return json_encode($response);
     }
 
     public function recepcion_editar_index(Request $request){

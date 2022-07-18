@@ -174,6 +174,7 @@ function sendingAjax(){
         // console.log($(this).find('td:eq(2)').text());
         lista.push($(this).find('th:eq(0)').text());
     });
+    console.log(lista);
 
     $.ajax({
         url: '/recepcion/guardar',
