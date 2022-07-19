@@ -15,9 +15,11 @@ class Historials extends Migration
     {
         Schema::create('historials', function (Blueprint $table) {
             $table->id();
-            $table->string('data');
-            $table->string('estatus');
-            $table->string('entrega');
+            $table->string('clave');
+            $table->string('descripcion');
+            $table->string('valor');
+            $table->string('estatus')->default('invalidado');
+            $table->string('entrega')->default('no entregado');
             $table->timestamps();
         });
     }

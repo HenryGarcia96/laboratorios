@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\CatalogoController;
+use App\Http\Controllers\CotizacionController;
 use App\Http\Controllers\DoctoresController;
 use App\Http\Controllers\EmpresasController;
 use App\Http\Controllers\HomeController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\RecepcionsController;
 use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 // Página principal
 Route::get('/', [IndexController::class, 'index']);
 
+
 // Rutas del registro de usuario y del registro de laboratorio
 Route::name('registro.')->prefix('registro')->group(function(){
     Route::get('/index', [RegisterController::class, 'index'])->name('index');
@@ -33,9 +36,11 @@ Route::name('registro.')->prefix('registro')->group(function(){
     Route::post('/regSucursal', [RegisterController::class, 'storeSucursal'])->name('regSucursal');
 });
 
+
 // Get de los estados y ciudades para el registro
 Route::post('/getStates', [RegisterController::class, 'getStates'])->name('getStates');
 Route::post('/getCity', [RegisterController::class, 'getCities'])->name('getCity');
+
 // Catalogo -analito - settear analito
 Route::post('/setAnalito', [CatalogoController::class, 'set_analito'])->name('setAnalito');
 
@@ -44,9 +49,11 @@ Route::post('/setAnalito', [CatalogoController::class, 'set_analito'])->name('se
 // Donde los usuarios esten autenticados
 Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified' ])->group(function () {
 
+
     // Dashboard
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     
+
     // Recepcion
     Route::name('recepcion.')->prefix('recepcion')->group(function(){
         // Recepcion - nuevo
@@ -55,11 +62,12 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
 
         // Recepcion -  captura de resultados
         Route::get('/captura', [RecepcionsController::class, 'recepcion_captura_index'])->name('captura');
+        // Consulta que estudios estan para anexar segun la busqueda
         Route::post('/consulta-estudios', [RecepcionsController::class, 'recepcion_captura_consulta'])->name('consulta-estudios');
         // Recover estudios
         Route::post('/recover-estudios', [RecepcionsController::class, 'recover_estudios'])->name('recover-estudios');
-        // Recover analitos
-        Route::post('/recover-analitos', [RecepcionsController::class, 'recover_analitos'])->name('recover-analitos');
+        // Guarda los resultados
+        Route::post('/store-resultados-estudios', [RecepcionsController::class, 'store_resultados_estudios'])->name('store-resultados-estudios');
         
         //Recepcion - Editar index
         Route::get('/editar', [RecepcionsController::class, 'recepcion_editar_index'])->name('editar');
@@ -67,15 +75,23 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
         Route::get('/recepcion_editar/{id}', [RecepcionsController::class, 'recepcion_editar'])->name('recepcion_editar');
         //Recepcion - Editar solicitud - Actualiazar
         Route::post('/recepcion_actualizar/{id}', [RecepcionsController::class, 'recepcion_actualizar'])->name('recepcion_actualizar');
-                //Catalogo - pacientes.guardar
-                Route::post('/paciente_guardar', [RecepcionsController::class, 'paciente_guardar'])->name('paciente_guardar');
-                //Catalogo - doctores.guardar
-                Route::post('/doctores_guardar', [RecepcionsController::class, 'doctores_guardar'])->name('doctores_guardar');
+
+        //Catalogo - pacientes.guardar
+        Route::post('/paciente_guardar', [RecepcionsController::class, 'paciente_guardar'])->name('paciente_guardar');
+        //Catalogo - doctores.guardar
+        Route::post('/doctores_guardar', [RecepcionsController::class, 'doctores_guardar'])->name('doctores_guardar');
+
+        //Recepcion - cotizacion index
+        Route::get('/cotizacion', [CotizacionController::class, 'cotizacion_index'])->name('cotizacion');
+        //prueba
+        Route::post('/prue_pdf', [CotizacionController::class, 'prue_pdf'])->name('prue_pdf');        
 
     });
     
+
     // Caja
     Route::resource('caja', CajaController::class);
+
 
     // Catalogos
     Route::name('catalogo.')->prefix('catalogo')->group(function(){
