@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\CatalogoController;
+use App\Http\Controllers\CotizacionController;
 use App\Http\Controllers\DoctoresController;
 use App\Http\Controllers\EmpresasController;
 use App\Http\Controllers\HomeController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\RecepcionsController;
 use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +73,11 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
                 Route::post('/paciente_guardar', [RecepcionsController::class, 'paciente_guardar'])->name('paciente_guardar');
                 //Catalogo - doctores.guardar
                 Route::post('/doctores_guardar', [RecepcionsController::class, 'doctores_guardar'])->name('doctores_guardar');
+
+        //Recepcion - cotizacion index
+        Route::get('/cotizacion', [CotizacionController::class, 'cotizacion_index'])->name('cotizacion');
+        //prueba
+        Route::post('/prue_pdf', [CotizacionController::class, 'prue_pdf'])->name('prue_pdf');        
 
     });
     
