@@ -44,6 +44,10 @@
                 {{-- <a href="{{ url('/advanced-ui/cropper') }}" class="nav-link {{ active_class(['advanced-ui/cropper']) }}">Cropper</a> --}}
                 <a href="{{route('recepcion.editar')}}" class="nav-link">Editar solicitud</a>
               </li>
+              <li class="nav-item">
+                {{-- <a href="{{ url('/advanced-ui/cropper') }}" class="nav-link {{ active_class(['advanced-ui/cropper']) }}">Cropper</a> --}}
+                <a href="{{route('recepcion.cotizacion')}}" class="nav-link">Cotizacion</a>
+              </li>
             </ul>
           </div>
       </li>
