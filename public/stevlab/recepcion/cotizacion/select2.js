@@ -79,7 +79,7 @@ $(function() {
             processResults: function(data){
                 var listEmpresas = [];
                 data.forEach(function(element, index){
-                    let est_data = {id: element.id, text: `${element.descripcion}`};
+                    let est_data = {id: element.imagen, text: `${element.descripcion}`};
                     listEmpresas.push(est_data);
                 });
                 // Transforms the top-level key of the response object from 'items' to 'results'
