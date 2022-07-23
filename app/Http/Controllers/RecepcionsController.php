@@ -70,7 +70,7 @@ class RecepcionsController extends Controller{
         $recep->observaciones   = $data['data'][20]['value'];
         $recep->num_total       = $data['data'][21]['value']; 
 
-        $recepcion = Recepcions::where($recep->id)->first();
+        $recepcion = Recepcions::latest('id')->first();
         //recepcion has laboratories
         $laboratorio->recepcions()->save($recep);
 
