@@ -36,10 +36,13 @@
     
 		}
     img{
-      display: block;
-      margin-left: 550px;
-      margin-right: 70%;
-      width: 30%;
+      position: relative;
+    top: 20px; /* ajustar los valores para mover la imagen */
+      margin-left: 510px;
+      width: 33%;
+
+
+
     }
     .lab,p{
       position: absolute; top: 0px; left: 0px;
