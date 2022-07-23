@@ -41,33 +41,33 @@ class RecepcionsController extends Controller{
 
 
     public function guardar(Request $request){
-
         $estudios = $request->only('lista');
         $data = $request->only('data');
         $laboratorio = User::Where('id', Auth::user()->id)->first()->labs()->first();
+        
 
         $recep = new Recepcions;
         $recep->folio           = $data['data'][1]['value'];
+        $recep->f_flebotomia    = $data['data'][2]['value'];
+        $recep->h_flebotomia    = $data['data'][3]['value'];
 
-        $recep->numRegistro     = $data['data'][2]['value'];
-        $recep->id_paciente     = $data['data'][3]['value'];
-        $recep->id_empresa      = $data['data'][4]['value'];
-        $recep->servicio        = $data['data'][5]['value'];
-        $recep->tipPasiente     = $data['data'][6]['value'];
-        $recep->turno           = $data['data'][7]['value'];
-        $recep->id_doctor       = $data['data'][8]['value'];
-        $recep->numCama         = $data['data'][9]['value'];
-        $recep->peso            = $data['data'][10]['value'];
-        $recep->talla           = $data['data'][11]['value'];
-        $recep->fur             = $data['data'][12]['value'];
-        $recep->f_flebotomia    = $data['data'][13]['value'];
-        $recep->num_vuelo       = $data['data'][14]['value'];
-        $recep->pais_destino    = $data['data'][15]['value'];
-        $recep->aerolinea       = $data['data'][16]['value'];
-        $recep->medicamento     = $data['data'][17]['value'];
-        $recep->diagnostico     = $data['data'][18]['value'];
-        $recep->observaciones   = $data['data'][19]['value'];
-        $recep->h_flebotomia    = $data['data'][20]['value'];
+        $recep->numRegistro     = $data['data'][4]['value'];
+        $recep->id_paciente     = $data['data'][5]['value'];
+        $recep->id_empresa      = $data['data'][6]['value'];
+        $recep->servicio        = $data['data'][7]['value'];
+        $recep->tipPasiente     = $data['data'][8]['value'];
+        $recep->turno           = $data['data'][9]['value'];
+        $recep->id_doctor       = $data['data'][10]['value'];
+        $recep->numCama         = $data['data'][11]['value'];
+        $recep->peso            = $data['data'][12]['value'];
+        $recep->talla           = $data['data'][13]['value'];
+        $recep->fur             = $data['data'][14]['value'];
+        $recep->num_vuelo       = $data['data'][15]['value'];
+        $recep->pais_destino    = $data['data'][16]['value'];
+        $recep->aerolinea       = $data['data'][17]['value'];
+        $recep->medicamento     = $data['data'][18]['value'];
+        $recep->diagnostico     = $data['data'][19]['value'];
+        $recep->observaciones   = $data['data'][20]['value'];
         $recep->num_total       = $data['data'][21]['value']; 
 
         $recepcion = Recepcions::where($recep->id)->first();
