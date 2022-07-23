@@ -31,7 +31,8 @@
 		/* Alto de las celdas */
 		height: 30px;
 		font-size: 12px;
-    width: 60%;
+    width: 80%;
+    margin: 0 auto; 
     
 		}
     img{
