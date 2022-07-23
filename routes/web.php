@@ -93,7 +93,8 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
         //Recepcion - cotizacion index
         Route::get('/cotizacion', [CotizacionController::class, 'cotizacion_index'])->name('cotizacion');
         //prueba
-        Route::post('/prue_pdf', [CotizacionController::class, 'prue_pdf'])->name('prue_pdf');        
+        Route::post('/prue_pdf', [CotizacionController::class, 'prue_pdf'])->name('prue_pdf'); 
+               
 
     });
     
@@ -103,9 +104,10 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
 
 
     // Catalogos
-    Route::name('catalogo.')->prefix('catalogo')->group(function(){
+    Route::name('catalogo.')->prefix('catalogo')->group(function(){ 
         // Busqueda para recepcion
         Route::post('/checkEstudio', [CatalogoController::class, 'get_estudios_recepcion'])->name('checkEstudio');
+        
         
         // Catalogo - estudios.index
         Route::get('/estudios', [CatalogoController::class, 'catalogo_estudio_index'])->name('estudios');
@@ -125,7 +127,7 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
         // Eliminar referencia
         Route::post('/eliminaReferencia', [CatalogoController::class, 'catalogo_referencia_delete'])->name('eliminaReferencia');
         // Catalogo - analitos - buscar estudio
-        Route::get('/getEstudios', [CatalogoController::class, 'get_estudios'])->name('getEstudios');
+        Route::get('/getEstudios', [CatalogoController::class, 'get_estudios'])->name('getEstudios'); 
         // Checa analitos y los asigna 
         Route::post('/checkAnalitos', [CatalogoController::class, 'get_check_analitos'])->name('checkAnalitos');
         // Catalogo  - analito - buscar analito
@@ -192,8 +194,10 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
         //Catalogo - empresa.editar
         Route::post('/getEmpresa', [EmpresasController::class, 'get_empresa_edit'])->name('getEmpresa');
         //Catalogo - empresa.actualizar
-        Route::post('/empresa_actualizar', [EmpresasController::class, 'empresa_actualizar'])->name('empresa_actualizar');        
+        Route::post('/empresa_actualizar', [EmpresasController::class, 'empresa_actualizar'])->name('empresa_actualizar');
 
+        //Catalogo - empresa - buscar empresas
+        Route::get('/getEmpresas', [EmpresasController::class, 'get_empresas'])->name('getEmpresas'); 
 
     });
 

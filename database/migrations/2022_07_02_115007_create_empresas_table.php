@@ -28,6 +28,7 @@ class CreateEmpresasTable extends Migration
             $table->string('descuento');
             $table->string('usuario');
             $table->string('password');
+            $table->string('imagen')->nullable();
 
             $table->timestamps();
         });

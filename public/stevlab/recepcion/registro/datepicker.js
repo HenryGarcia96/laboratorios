@@ -12,5 +12,6 @@ $(function() {
       $('#datePickerExample').datepicker('setDate', today);
 
     }
+    
 
    });

@@ -7,10 +7,7 @@
 <link href="{{ asset('public/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
 <link href="{{ asset('public/assets/plugins/prismjs/prism.css') }}" rel="stylesheet" />
 <link href="{{ asset('public/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
-{{--
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" integrity="sha512-3JRrEUwaCkFUBLK1N8HehwQgu8e23jTH4np5NHOmQOobuC4ROQxFwFgBLTnhcnQRMs84muMh0PnnwXlPq5MGjg==" crossorigin="anonymous" />
---}}
-
+<link href="{{ asset('public/assets/plugins/jquery-tags-input/jquery.tagsinput.min.css') }}" rel="stylesheet" />
 @endpush
 
 
@@ -43,23 +40,27 @@ $z=  (random_int(100000000,999999999));
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="row mb-3">
-                                <div class="col-md-4">
+                            <div class="row mb-2">
+                                <div class="col-md-3">
                                     <label class="form-label">Folio:</label>
                                     <input  class="form-control @error('folio') is-invalid @enderror" id='folio' name="folio" type="text" readonly="readonly" value="<?php echo $z;?>">
                                 </div>
                                 
                                 <div class="col-md-4">
-                                    <label class="form-label">No. Orden:</label>
-                                    <input class="form-control @error('numOrden') is-invalid @enderror" id='numOrden' name="numOrden" value="{{old('numOrden')}}" type="number">
-                                    @error('numOrden')
-                                    <span class="invalid-feedback">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                    @enderror
+                                  <label class="form-label">F.Flebotomia:</label>
+                                  <div class="input-group date datepicker" id="datePickerExample">
+                                    <input type="text" class="form-control" id="f_flebotomia" name="f_flebotomia">
+                                    <span class="input-group-text input-group-addon"><i data-feather="calendar"></i></span>
+                                  </div>
+                              </div>
+                              <div class="col-md-3">
+                                <label class="form-label">H.Flebotomia:</label>
+                                <div>
+                                  <input class="form-control" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="H:M tt" name="h_flebotomia"/>
                                 </div>
-                                
-                                <div class="col-md-4">
+                            </div>
+
+                                <div class="col-md-2">
                                     <label class="form-label">No.registro</label>
                                     <input class="form-control @error('numRegistro') is-invalid @enderror" id="numRegistro" name="numRegistro" value="{{old('numRegistro')}}" type="number">
                                     @error('numRegistro')
@@ -179,27 +180,6 @@ $z=  (random_int(100000000,999999999));
                                 </div>
                             </div>
                             
-                            <div class="row mb-3">
-                                <div class="col-md-5">
-                                    <label class="form-label">F. Flebotomia:</label>
-                                    <div class="input-group date datepicker" id="datePickerExample">
-                                      <input type="text" class="form-control" id="f_flebotomia" name="f_flebotomia">
-                                      <span class="input-group-text input-group-addon"><i data-feather="calendar"></i></span>
-                                    </div>
-                                </div>
-                                {{--
-                                <div class="col-md-5">
-                                  <label class="form-label">H. Flebotomia:</label>
-                                    <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker3"/>
-                                    <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-clock-o" data-feather="clock"></i></div>
-                                    </div>
-                                </div>
-                              </div>
-                                  --}}
-  
-                            </div>
 
                             <div class="row mb-3">
                                 <div class="col-md-4">
@@ -635,13 +615,7 @@ $z=  (random_int(100000000,999999999));
 <script src="{{ asset('public/assets/plugins/select2/select2.min.js') }}"></script>
 <script src="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('public/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
-
-{{--
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js" integrity="sha512-k6/Bkb8Fxf/c1Tkyl39yJwcOZ1P4cRrJu77p83zJjN2Z55prbFHxPs9vN7q3l3+tSMGPDdoH51AEU8Vgo1cgAA==" crossorigin="anonymous"></script>
---}}
-
+<script src="{{ asset('public/assets/plugins/inputmask/jquery.inputmask.bundle.min.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
@@ -650,7 +624,6 @@ $z=  (random_int(100000000,999999999));
 <script src="{{ asset('public/stevlab/recepcion/registro/select2.js') }}"></script>
 <script src="{{ asset('public/stevlab/recepcion/registro/functions.js') }}"></script>
 <script src="{{ asset('public/stevlab/recepcion/registro/datepicker.js') }}"></script>
-<script src="{{ asset('public/stevlab/recepcion/registro/timepicker.js') }}"></script>
-
+<script src="{{ asset('public/stevlab/recepcion/registro/inputmask.js') }}"></script>
 @endpush
 
