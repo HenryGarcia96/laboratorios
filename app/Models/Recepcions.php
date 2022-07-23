@@ -9,13 +9,13 @@ class Recepcions extends Model
 {
     use HasFactory;
 
-    public $fillable = ['folio', 'numOrden', 'numRegistro',
+    public $fillable = ['folio', 'numRegistro',
     'id_paciente', 'id_empresa', 'servicio',
     'tipPasiente', 'turno', 'id_doctor',
     'numCama', 'peso', 'talla', 'fur',
     'medicamento', 'diagnostico',
     'observaciones', 'listPrecio', 'num_total',
-    'num_vuelo', 'f_flebotomia', 'pais_destino',
+    'num_vuelo', 'f_flebotomia', 'h_flebotomia', 'pais_destino',
     'aerolinea'];
 
 

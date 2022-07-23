@@ -2,6 +2,7 @@
 
 @push('plugin-styles') 
 <link href="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.css') }}" rel="stylesheet" />
+<link href="{{ asset('public/assets/plugins/select2/select2.min.css') }}" rel="stylesheet" />
 
 @endpush
 
@@ -28,13 +29,14 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <form id='signupForm' class="form-sample" method="post" action="prue_pdf">
+                <form id='recogerDatos' class="form-sample" method="post" action="prue_pdf">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
 
                             <div class="row mb-3">
                                 <div class="col-md-14">
+
                                     <label class="form-label">Nombre de solicitante:</label>
                                     <input  class="form-control @error('nombre') is-invalid @enderror" id='nombre' name="nombre" type="text" value="">
                                 </div>
@@ -43,20 +45,24 @@
                                 <div class="col-md-14">                                   
                                     <div class="col-sm-12">
                                         <label class="form-label">Empresa:</label>
-                                        <select class="js-example-basic-single js-states form-control @error('id_empresa') is-invalid @enderror" id='id_empresa' name="id_empresa">
+                                        
+                                        <select class="js-example-basic-single js-states form-control" id='listEmpresas' name="listEmpresas">
+                                            {{--
                                             <option selected disabled>Seleccione</option>
                                             @forelse ($empresas as $empresa)
-                                            <option value="{{$empresa->descripcion}}">{{$empresa->descripcion}}</option>
+                                            <option  value="{{$empresa->imagen}}">{{$empresa->descripcion}}</option>
                                             @empty
                                             @endforelse
-                                        </select>                                        
+                                             --}}    
+                                        </select> 
+                                                                          
                                     </div>
                                 </div>                      
                             </div>                             
                             <div class="row mb-3">
                                 <div class="col-md-12">
                                     <label for="defaultconfig-4" class="form-label">Observaciones:</label>
-                                    <textarea id="maxlength-textarea" class="form-control" maxlength="500" rows="2" id="observaciones" name="observaciones"></textarea>
+                                    <textarea class="form-control" maxlength="500" rows="2" id="observaciones" name="observaciones"></textarea>
                                 </div>  
                             </div>                                                                                   
                         </div>
@@ -71,7 +77,7 @@
                             <div class="row mb-3">
         
                                 <!------------------------Tabla---------------------------------------------------------------------->
-                                {{--
+                              
                                 <style>
                                     th, td{
                                         text-align: center !important;
@@ -109,6 +115,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="row mb-3">
         
                                 <div class="col-md-12">
@@ -116,10 +123,11 @@
                                     <input disabled class="form-control mb-4 mb-md-0" name="num_total" type="text" placeholder="$00.00" readonly="readonly" id="num_total">
                                 </div> <br>
                             </div>
-                                --}}
+                                
                             <div class="row mb-3">
                                 <div class="col-sm-12">
-                                    <button type="submit" class="btn btn-success">Guardar</button>
+                                    <button type="submit" class="btn btn-success">Imprimir</button>
+   
                                 </div>
                             </div>                            
                         </div>
@@ -140,9 +148,14 @@
 <script src="{{ asset('public/assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
 <script src="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.js') }}"></script>
 <script src="{{ asset('public/assets/js/axios.min.js') }}"></script>
+<script src="{{ asset('public/assets/plugins/select2/select2.min.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
 <script src="{{ asset('public/assets/js/data-table.js') }}"></script>
+
+<script src="{{ asset('public/stevlab/recepcion/cotizacion/select2.js') }}"></script>
+<script src="{{ asset('public/stevlab/recepcion/registro/functions.js') }}"></script>
+<script src="{{ asset('public/stevlab/recepcion/cotizacion/recep-date.js') }}"></script>
 
 @endpush
