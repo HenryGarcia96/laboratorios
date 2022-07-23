@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Doctores;
-use App\Models\Empresas;
 use App\Models\Estudio;
 use App\Models\Historial;
 use App\Models\Pacientes;
-use Illuminate\Support\Facades\DB;
 use App\Models\Recepcions;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Storage;
 
 class RecepcionsController extends Controller{
 
@@ -48,26 +48,26 @@ class RecepcionsController extends Controller{
 
         $recep = new Recepcions;
         $recep->folio           = $data['data'][1]['value'];
-        $recep->numOrden        = $data['data'][2]['value'];
-        $recep->numRegistro     = $data['data'][3]['value'];
-        $recep->id_paciente     = $data['data'][4]['value'];
-        $recep->id_empresa      = $data['data'][5]['value'];
-        $recep->servicio        = $data['data'][6]['value'];
-        $recep->tipPasiente     = $data['data'][7]['value'];
-        $recep->turno           = $data['data'][8]['value'];
-        $recep->id_doctor       = $data['data'][9]['value'];
-        $recep->numCama         = $data['data'][10]['value'];
-        $recep->peso            = $data['data'][11]['value'];
-        $recep->talla           = $data['data'][12]['value'];
-        $recep->fur             = $data['data'][13]['value'];
-        $recep->f_flebotomia    = $data['data'][14]['value'];
-        $recep->num_vuelo       = $data['data'][15]['value'];
-        $recep->pais_destino    = $data['data'][16]['value'];
-        $recep->aerolinea       = $data['data'][17]['value'];
-        $recep->medicamento     = $data['data'][18]['value'];
-        $recep->diagnostico     = $data['data'][19]['value'];
-        $recep->observaciones   = $data['data'][20]['value'];
-        
+
+        $recep->numRegistro     = $data['data'][2]['value'];
+        $recep->id_paciente     = $data['data'][3]['value'];
+        $recep->id_empresa      = $data['data'][4]['value'];
+        $recep->servicio        = $data['data'][5]['value'];
+        $recep->tipPasiente     = $data['data'][6]['value'];
+        $recep->turno           = $data['data'][7]['value'];
+        $recep->id_doctor       = $data['data'][8]['value'];
+        $recep->numCama         = $data['data'][9]['value'];
+        $recep->peso            = $data['data'][10]['value'];
+        $recep->talla           = $data['data'][11]['value'];
+        $recep->fur             = $data['data'][12]['value'];
+        $recep->f_flebotomia    = $data['data'][13]['value'];
+        $recep->num_vuelo       = $data['data'][14]['value'];
+        $recep->pais_destino    = $data['data'][15]['value'];
+        $recep->aerolinea       = $data['data'][16]['value'];
+        $recep->medicamento     = $data['data'][17]['value'];
+        $recep->diagnostico     = $data['data'][18]['value'];
+        $recep->observaciones   = $data['data'][19]['value'];
+        $recep->h_flebotomia    = $data['data'][20]['value'];
         $recep->num_total       = $data['data'][21]['value']; 
 
         $recepcion = Recepcions::where($recep->id)->first();
@@ -77,7 +77,7 @@ class RecepcionsController extends Controller{
         // Guardamos los estudios
         foreach ($estudios as $key => $value) {
             foreach($value as $id => $valor){
-                $estudio = Estudio::where('clave', $valor)->first();
+                $estudio = Estudio::where('clave', $valor)->first(); 
     
                 $recepcion->estudios()->save($estudio);
 
@@ -130,26 +130,33 @@ class RecepcionsController extends Controller{
     public function recover_estudios(Request $request){
         $folio = $request->except('_token');
 
-        $estudios = Recepcions::where('folio', $folio)->first()->estudios()->get()->load('analitos');
+        $estudios = Recepcions::where('folio', $folio)->first()->estudios()->get()->load(['analitos']);
 
         return $estudios;
     }
 
-    public function store_resultados_estudios(Request $request){
+    public function verifica_resultados(Request $request){
+        $data = $request->except('_token');
+        $verifica = Recepcions::where('folio', $data['folio'])->first()->historials()->where('historials.clave', $data['clave'])->first();
+        return $verifica;
+    }
 
+    public function store_resultados_estudios(Request $request){
+        
         $estudios = $request->except('_token');
 
         foreach($estudios as $key=>$estudio){
             $clave = $estudio['codigo'];
-            $estudies = Estudio::where('clave', $clave)->first();
+            $historials = Recepcions::where('folio', $clave)->first();
+            // $estudies = Estudio::where('clave', $clave)->first();
             
-
             foreach($estudio['lista'] as $index=>$analito){
                 $data = $analito;
+                // Revisar
                 $insercion = Historial::create($data);
                 $historial= Historial::latest('id')->first();
 
-                $estudies->historials()->save($historial);
+                $historials->historials()->save($historial);
             }
 
         }
@@ -163,6 +170,99 @@ class RecepcionsController extends Controller{
         header("HTTP/1.1 200 OK");
         header('Content-Type: application/json');
         return json_encode($response);
+    }
+
+    public function valida_resultados(Request $request){
+        
+        $estudios = $request->except('_token');
+
+        foreach($estudios as $key=>$estudio){
+            $clave = $estudio['codigo'];
+            $historials = Recepcions::where('folio', $clave)->first();
+            // $estudies = Estudio::where('clave', $clave)->first();
+            
+            foreach($estudio['lista'] as $index=>$analito){
+                $data = $analito;
+                // Revisar
+                $historials->historials()->where($data)->update(['estatus'=>'validado']);
+                // $insercion = Historial::where($data)->update(['estatus' => 'validado']);
+            }
+
+        }
+
+        if($historials) {
+            $response = true;
+        } else {
+            $response = false;
+        }
+
+        header("HTTP/1.1 200 OK");
+        header('Content-Type: application/json');
+        return json_encode($response);
+    }
+
+    public function invalida_resultados(Request $request){
+        
+        $estudios = $request->except('_token');
+
+        foreach($estudios as $key=>$estudio){
+            $clave = $estudio['codigo'];
+            $historials = Recepcions::where('folio', $clave)->first();
+            // $estudies = Estudio::where('clave', $clave)->first();
+            
+            foreach($estudio['lista'] as $index=>$analito){
+                $data = $analito;
+                // Revisar
+                $historials->historials()->where($data)->update(['estatus'=>'invalidado']);
+                // $insercion = Historial::where($data)->update(['estatus' => 'validado']);
+            }
+
+        }
+
+        if($historials) {
+            $response = true;
+        } else {
+            $response = false;
+        }
+
+        header("HTTP/1.1 200 OK");
+        header('Content-Type: application/json');
+        return json_encode($response);
+    }
+
+    public function genera_documento_resultados(Request $request){
+        $date = Date('dmys');
+        $folio = $request->only('clave');
+
+        // Laboratorio
+        $laboratorio  = User::where('id', Auth::user()->id)->first()->labs()->first();
+        //Sucursal activa
+        $sucursal = User::where('id', Auth::user()->id)->first()->sucs()->where('estatus', 'activa')->first();
+        // Datos del folio
+        $folios = Recepcions::where('folio', $folio)->first();
+        // Paciente
+        $pacientes = Recepcions::where('folio', $folio)->first()->pacientes()->first();
+        
+        // Nombre del estudios
+        $estudios = Recepcions::where('folio', $folio)->first()->estudios()->get()->load(['analitos']);
+        // Resultados
+        $resultados = Recepcions::where('folio', $folio)->first()->historials()->where('estatus', 'validado')->get();
+
+        $pdf = Pdf::loadView('invoices/invoice-resultados', ['laboratorio'  =>$laboratorio, 
+                                                            'sucursal'      => $sucursal, 
+                                                            'paciente'      => $pacientes, 
+                                                            'folios'        => $folios,
+                                                            'estudios'      => $estudios,
+                                                            'resultados'    => $resultados,
+                                                        ]);
+        $pdf->setPaper('A4', 'portrait');
+
+        $path = 'public/resultados/F-'.$folio['clave'].'.pdf';
+        $pathSave = Storage::put($path, $pdf->output());
+
+        $request = ['pdf' => '/public/storage/resultados/F-'.$folio['clave'].'.pdf'];
+
+        return $request;
     }
 
     public function recepcion_editar_index(Request $request){
@@ -251,7 +351,6 @@ class RecepcionsController extends Controller{
                             'usuario' => 'unique:pacientes',
                             'password' => 'unique:pacientes']);
 
-                           
         $recep = new Pacientes;
 
         $recep->nombre = $request->nombre;
@@ -279,12 +378,12 @@ class RecepcionsController extends Controller{
         $laboratorio = User::Where('id', Auth::user()->id)->first()->labs()->first();
   
         $request->validate(['clave' => 'required | unique:doctores',
-                             'nombre' => 'required', 'ap_paterno' => 'required',
-                             'ap_materno' => 'required', 'telefono' => 'unique:doctores',
-                             'celular' => 'unique:doctores', 'email',
-                             'usuario' => 'required | unique:doctores',
-                             'password' => 'required | unique:doctores' 
-                             ]);
+                            'nombre' => 'required', 'ap_paterno' => 'required',
+                            'ap_materno' => 'required', 'telefono' => 'unique:doctores',
+                            'celular' => 'unique:doctores', 'email',
+                            'usuario' => 'required | unique:doctores',
+                            'password' => 'required | unique:doctores' 
+                            ]);
   
         $recep = new  Doctores;
         $recep->clave = $request->clave;
@@ -301,6 +400,6 @@ class RecepcionsController extends Controller{
         $laboratorio->doctores()->save($recep);
         return back();
               
-     }
+    }
 
 }

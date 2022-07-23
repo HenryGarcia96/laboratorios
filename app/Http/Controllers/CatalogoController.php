@@ -55,7 +55,6 @@ class CatalogoController extends Controller
         return $estudio;
     }
 
-
     public function set_analito(Request $request){
         $search = $request->except('_token');
         $analito = User::where('id', Auth::user()->id)->first()->labs()->first()->analitos()->where('analito_id', $search['data'])->first();
@@ -264,7 +263,7 @@ class CatalogoController extends Controller
         //     'file'=>'required|image'
         // ]);
         $analito = request()->except('_token');
-        $id = intval($analito['analito']);
+        $id = intval($analito['analito']); 
 
         if($request->hasFile('imagen')){
             if(Storage::exists($analito['imagen'])){

@@ -10,7 +10,7 @@ class Empresas extends Model
     public $fillable = ['clave','descripcion','calle',
                         'colonia','ciudad','telefono',
                         'rfc','email','contacto',
-                        'descuento','usuario','password'];
+                        'descuento','usuario','password', 'imagen'];
 
 
     public function recepcions(){

@@ -28,8 +28,7 @@ $(function() {
             }
         }
         
-    });
-    $('#listEstudio').on('select2:select', function (e) {
+    }); $('#listEstudio').on('select2:select', function (e) {
         let data= e.params.data.id;
         // Revisame los analitos que ya esten asignados
         axios.post('../catalogo/checkEstudio', {
@@ -40,7 +39,7 @@ $(function() {
             // Para settear los analitos
             let list =`<tr>
                                 <th>${response.data.clave}</th>
-                                <td >${response.data.descripcion}</td>
+                                <td>${response.data.descripcion}</td>
                                 <td>Estudios</td>
                                 <td>
                                     <span>
@@ -64,4 +63,42 @@ $(function() {
             console.log(error);
         });
     });
+
+    var estudio = $('#listEmpresas').select2({
+        placeholder: 'Buscar empresas',
+        ajax:{
+            url: '../catalogo/getEmpresas',
+            type: 'get',
+            delay: '200',
+            data: function(params){
+                return {
+                    _token: CSRF_TOKEN,
+                    q: params.term, 
+                }
+            },
+            processResults: function(data){
+                var listEmpresas = [];
+                data.forEach(function(element, index){
+                    let est_data = {id: element.id, text: `${element.descripcion}`};
+                    listEmpresas.push(est_data);
+                });
+                // Transforms the top-level key of the response object from 'items' to 'results'
+                return {
+                    results: listEmpresas
+                };
+            }
+        }
+        
+    });
+
+    
 });
+
+// Mira estas haciendolo todo mal, el chiste de que te haya roto en recepcion el registro es porque laravel no tiene
+// Como entender que la lista de precios es dinamico, solo se basa en estatico.
+// Para eso ocupe el js, para recoger manualmente la lista de precios, ademas tienes errores en el controlador
+// Que para empezar esta todo mal, no te quieras basar todo en php, aprende a usar jquery o javascript.
+// Haz el js que recoja todos los inputs, los datos de la tabla y mandalos al controlador. 
+// Si de verdad no entiendes, copia y pega, en algo estarás avanzando pero ahi le darás tu toque.
+// No intentes reinventar la rueda.
+// Además ya lo tenias todo hecho hasta cierto punto.

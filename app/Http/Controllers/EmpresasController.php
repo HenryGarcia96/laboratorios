@@ -8,6 +8,8 @@ use App\Models\Empresas;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 
 class EmpresasController extends Controller
 {
@@ -39,7 +41,8 @@ class EmpresasController extends Controller
                             'contacto' => 'required',
                             'descuento' => 'required | integer | max:100',
                             'usuario' => 'required | unique:empresas',
-                            'password' => 'required | unique:empresas'
+                            'password' => 'required | unique:empresas',
+                            'imagen' => 'image|max:2048'
                         ]);
         
         $recep = new  Empresas;
@@ -55,10 +58,14 @@ class EmpresasController extends Controller
         $recep->descuento = $request->descuento;
         $recep->usuario = $request->usuario;
         $recep->password = $request->password;
+        $imagen= $recep->imagen = $request->imagen->storeAs('public/empresas', $recep->descripcion.'.jpg');
+        $img = Storage::url($imagen);
+
 
         //$recep->save();
         $laboratorio->empresas()->save($recep);
-        return back()->with('success', 'Registro completo');
+        return back();
+
     }
 
     public function get_empresa_edit(Request $request){
@@ -106,5 +113,14 @@ class EmpresasController extends Controller
         $id = Empresas::find($id);
         $id->delete();
         return back();
+    }
+
+    public function get_empresas(Request $request){
+        $search = $request->except('_token');
+        // Trae listas de estudios
+        
+        $empresas = User::where('id', Auth::user()->id)->first()->labs()->first()->empresas()->where('clave', 'LIKE', "%{$search['q']}%")->get();
+
+        return $empresas;
     }
 }

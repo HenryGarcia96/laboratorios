@@ -8,9 +8,6 @@ $(function() {
             folio:{
                 required: true,
             },
-            numOrden:{
-                required: true,
-            },
             numRegistro:{
                 required: true,
             },
@@ -65,13 +62,13 @@ $(function() {
             numCama:{
                 required:false,
             },
+            h_flebotomia:{
+                required:false,
+            },
         },
         messages: {
             folio:{
                 required:"Folio es requerido",
-            },
-            numOrden:{
-                required:"Numero de orden es requerido",
             },
             numRegistro:{
                 required:"Numero de registro es requerido",
@@ -120,6 +117,9 @@ $(function() {
             },
             aerolinea:{
                 required:"Aerolinea es requerido"
+            },
+            h_flebotomia:{
+                required:"H.Flebotomia es requerido"
             },
         },
         errorPlacement: function(error, element) {
@@ -201,9 +201,9 @@ function sendingAjax(){
                 title: 'Registro guardado'
                 });
                 // Reload
-                setTimeout(function(){
-                    window.location.reload();
-                }, 2900);
+                // setTimeout(function(){
+                //     window.location.reload();
+                // }, 2900);
             // signupForm
         }            
     });

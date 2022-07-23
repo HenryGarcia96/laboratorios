@@ -3,6 +3,7 @@
 @push('plugin-styles') 
 <link href="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.css') }}" rel="stylesheet" />
 <link href="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
+<link href="{{ asset('public/assets/plugins/dropify/css/dropify.min.css') }}" rel="stylesheet" />
 @endpush
 
 
@@ -27,7 +28,7 @@
       <div class="card">
         <div class="card-body">
 
-            <form method="post" action="empresa_guardar">
+            <form method="post" action="empresa_guardar" enctype="multipart/form-data">
              @csrf 
 
              <div class="row">
@@ -113,7 +114,7 @@
             </div>
 
               <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                   <div class="mb-3">
                     <label class="form-label">Telefono</label>
                     <input type="number" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{old('telefono')}}">
@@ -124,7 +125,7 @@
                     @enderror
                   </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <div class="mb-3">
                       <label class="form-label">Contacto</label>
                       <input type="text" class="form-control @error('contacto') is-invalid @enderror" name="contacto" value="{{old('contacto')}}">
@@ -136,7 +137,7 @@
                     </div>
                   </div>
 
-                  <div class="col-sm-4">
+                  <div class="col-sm-3">
                     <div class="mb-3">
                       <label class="form-label">Descuento</label>
                       <input type="number" class="form-control @error('descuento') is-invalid @enderror" name="descuento" value="{{old('descuento')}}">
@@ -148,6 +149,12 @@
                     </div>
                   </div>
 
+                  <div class="col-sm-3">
+                    <div class="mb-3">
+                      <label class="form-label">Imagen de plantilla</label>
+                      <input type="file" id="myDropify" name="imagen" accept="image/*"/>
+                  </div>
+                  </div>
               </div>
 
               <button type="submit" onclick="showSwal('mixin')" class="btn btn-primary">Guardar</button>
@@ -333,10 +340,12 @@
 <script src="{{ asset('public/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.js') }}"></script>
 <script src="{{ asset('public/assets/js/axios.min.js') }}"></script>
 <script src="{{ asset('public/assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+<script src="{{ asset('public/assets/plugins/dropify/js/dropify.min.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
 <script src="{{ asset('public/assets/js/data-table.js') }}"></script>
 <script src="{{ asset('public/stevlab/catalogo/empresas/functions.js') }}"></script>
 <script src="{{ asset('public/stevlab/catalogo/empresas/swee-alert.js') }}"></script>
+<script src="{{ asset('public/stevlab/catalogo/empresas/dropife.js') }}"></script>
 @endpush
