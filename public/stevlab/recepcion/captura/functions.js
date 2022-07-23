@@ -138,6 +138,30 @@ $(function(){
                         // Añadir entrada
                         $('.asignAnalito'+ id).append(analitos);
                     } else if(tipo == 'texto'){
+                        // Numerico
+                        let analitos = `<div class="row mb-3 listDato listDato${analito.clave}">
+                                            <input type='hidden' class='idAnalito${analito.clave}' id='${analito.clave}' value='${analito.clave}'>
+                                            <div class='col-md-2 '>
+                                                <span class='claveDato'>
+                                                    ${analito.clave}
+                                                </span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class='descripcionDato'>
+                                                    ${analito.descripcion}
+                                                </span>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input type="text" class="form-control storeDato">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <span class='ejemploDato'>
+                                                    ${analito.defecto}
+                                                </span>
+                                            </div>
+                                        </div>`;
+                        // Añadir entrada
+                        $('.asignAnalito'+ id).append(analitos);
                         
                     } else if(tipo == 'numerico'){
                     // Numerico
@@ -191,9 +215,50 @@ $(function(){
                         // Añadir entrada
                         $('.asignAnalito'+ id).append(analitos);
                     }else if(tipo == 'referencia'){
-
+                                    // referencial
+                                    let analitos = `<div class="row mb-3 listDato listDato${analito.clave}">
+                                                        <input type='hidden' class='idAnalito${analito.clave}' id='${analito.clave}' value='${analito.clave}'>
+                                                        <div class='col-md-2 '>
+                                                            <span class='claveDato'>
+                                                                ${analito.clave}
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <span class='descripcionDato'>
+                                                                ${analito.descripcion}
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <input type="number" min='0' class="form-control storeDato">
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <span class='ejemploDato'>
+                                                                datos no habilitados
+                                                            </span>
+                                                        </div>
+                                                    </div>`;
+                                    // Añadir entrada
+                                    $('.asignAnalito'+ id).append(analitos);
                     }else if(tipo == 'imagen'){
-
+                                    // Numerico
+                                    let analitos = `<div class="row mb-3 listDato listDato${analito.clave}">
+                                                        <input type='hidden' class='idAnalito${analito.clave}' id='${analito.clave}' value='${analito.clave}'>
+                                                        <div class='col-md-2 '>
+                                                            <span class='claveDato'>
+                                                                ${analito.clave}
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <span class='descripcionDato'>
+                                                                ${analito.descripcion}
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input type="file" name="" id="">
+                                                        </div>
+                                                    </div>`;
+                                    // Añadir entrada
+                                    $('.asignAnalito'+ id).append(analitos);
                     }
                     
                     const respuesta = axios.post('/recepcion/verify-result', {
