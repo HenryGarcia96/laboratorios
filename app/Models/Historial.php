@@ -9,6 +9,7 @@ class Historial extends Model
 {
     protected $fillable = [
         'clave',
+        'historial_id',
         'descripcion',
         'valor',
         'estatus',
@@ -18,7 +19,7 @@ class Historial extends Model
     use HasFactory;
 
     // historial has estudios
-    public function estudios(){
-        return $this->belongsToMany(Estudio::class, 'historials_has_estudios')->withPivot('analito_id');
+    public function recepcions(){
+        return $this->belongsToMany(Recepcions::class, 'historials_has_recepcions');
     }
 }

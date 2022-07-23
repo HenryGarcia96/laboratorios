@@ -201,9 +201,9 @@ function sendingAjax(){
                 title: 'Registro guardado'
                 });
                 // Reload
-                setTimeout(function(){
-                    window.location.reload();
-                }, 2900);
+                // setTimeout(function(){
+                //     window.location.reload();
+                // }, 2900);
             // signupForm
         }            
     });

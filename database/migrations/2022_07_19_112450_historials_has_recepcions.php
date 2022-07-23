@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class HistorialsHasEstudios extends Migration
+class HistorialsHasRecepcions extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,12 @@ class HistorialsHasEstudios extends Migration
      */
     public function up()
     {
-        Schema::create('historials_has_estudios', function (Blueprint $table) {
+        Schema::create('historials_has_recepcions', function (Blueprint $table) {
             $table->id();
-
-            
-            $table->unsignedBigInteger('recepcion_id');
-            // $table->unsignedBigInteger('analito_id');
+            $table->unsignedBigInteger('recepcions_id');
             $table->unsignedBigInteger('historial_id');
 
-            $table->foreign('recepcion_id')->references('id')->on('recepcions')->onDelete('restrict')->onUpdate('cascade');
-            // $table->foreign('analito_id')->references('id')->on('analitos')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('recepcions_id')->references('id')->on('recepcions')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('historial_id')->references('id')->on('historials')->onDelete('restrict')->onUpdate('cascade');
             $table->timestamps();
         });
@@ -35,6 +31,6 @@ class HistorialsHasEstudios extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('historials_has_estudios');
+        Schema::dropIfExists('historials_has_recepcions');
     }
 }

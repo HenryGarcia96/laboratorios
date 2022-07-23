@@ -66,6 +66,15 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
         Route::post('/consulta-estudios', [RecepcionsController::class, 'recepcion_captura_consulta'])->name('consulta-estudios');
         // Recover estudios
         Route::post('/recover-estudios', [RecepcionsController::class, 'recover_estudios'])->name('recover-estudios');
+        // Verifica datos de estudios
+        Route::post('/verify-result', [RecepcionsController::class, 'verifica_resultados'])->name('verify-result');
+        // Valida los resultados
+        Route::post('/validar-estudios', [RecepcionsController::class, 'valida_resultados'])->name('validar-estudios');
+        // Invalidad resultados
+        Route::post('/invalidar-estudios', [RecepcionsController::class, 'invalida_resultados'])->name('invalidar-estudios');
+        // Genera pdf
+        Route::post('/genera-documento-resultados', [RecepcionsController::class, 'genera_documento_resultados'])->name('genera-documento-resultados');
+
         // Guarda los resultados
         Route::post('/store-resultados-estudios', [RecepcionsController::class, 'store_resultados_estudios'])->name('store-resultados-estudios');
         
