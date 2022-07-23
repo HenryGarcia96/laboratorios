@@ -39,15 +39,21 @@ class CotizacionController extends Controller
 public function prue_pdf(Request $request){
     $empresas = User::where('id', Auth::user()->id)->first()->labs()->first()->empresas()->get();
     
-$recep = new Empresas;
-$recep -> nombre = $request->nombre;
-$recep -> observaciones = $request->observaciones;
-$recep -> listEmpresas = $request->listEmpresas;
-$recep -> listEstudio = $request->listEstudio;
+    $data = [
+        'nombre' => $request->nombre,
+        'data'  => date('d/m/y'),
+        'empresa' => $request->listEmpresas,
+        'observaciones' => $request->observaciones,
+        'listEstudio' => $request->listEstudio //aqui estas llamando a la nada, porque estoy casi seguro que request no tiene listestudio
+    
+    ];
 
+$pdf = PDF::loadView('recepcion.cotizacion.pdf', $data);
+    
+return $pdf->stream();
 
-//return view('recepcion.cotizacion.pdf',$recep);
-return $recep;
+//return view('recepcion.cotizacion.pdf',$request);
+//return $recep;
 
 }
 

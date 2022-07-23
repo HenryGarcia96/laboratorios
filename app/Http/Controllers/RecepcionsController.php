@@ -97,7 +97,7 @@ class RecepcionsController extends Controller{
         header("HTTP/1.1 200 OK");
         header('Content-Type: application/json');
         return json_encode($response);
-        // return redirect()->route('recepcion.index');
+        //return redirect()->route('recepcion.index');
     }
 
     public function recepcion_captura_index(){
