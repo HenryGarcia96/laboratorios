@@ -37,6 +37,10 @@ class Recepcions extends Model
     public function estudios(){
         return $this->belongsToMany(Estudio::class, 'recepcions_has_estudios');
     }
-    // 
+    // // 
+    // historial has recepcions
+    public function historials(){
+        return $this->belongsToMany(Historial::class, 'historials_has_recepcions');
+    }
 }
 

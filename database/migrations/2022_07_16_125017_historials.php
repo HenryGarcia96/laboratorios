@@ -15,6 +15,7 @@ class Historials extends Migration
     {
         Schema::create('historials', function (Blueprint $table) {
             $table->id();
+            // $table->string('historial_id');
             $table->string('clave');
             $table->string('descripcion');
             $table->string('valor');
